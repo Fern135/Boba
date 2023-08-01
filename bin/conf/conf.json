@@ -1,0 +1,11 @@
+{
+    "software-version"  : "0.0.15",
+    "default-data-base" : "MySQL",
+    "php-version"       : "8.2", 
+    "python-version"    : "3.11.0",
+    "node-version"      : "v18.17.0",
+    "npm-version"       : "9.7.2",
+    "time-format"       : "12",
+    "projects-path"     : "../http_serve/",
+    "domains"           : []
+}
