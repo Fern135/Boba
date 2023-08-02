@@ -9,7 +9,7 @@ from .lib.multiprocess.worker import Worker # background worker
         * run back end  -> set up venv, activate, install packages, run
 
     2. * set up and run database: from conf.json -> default-data-base
-    3. *running php. TODO: run tests for this using create_and_write_to_file
+    3. * running php. TODO: run tests for this using create_and_write_to_file
 """
 
 

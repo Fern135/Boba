@@ -38,9 +38,9 @@ class Worker:
         self.kwargs      = kwargs
         self.process     = None
         self.process     = multiprocessing.Process(
-            target=self.target_func, 
-            args=self.args, 
-            kwargs=self.kwargs
+            target = self.target_func, 
+            args   = self.args, 
+            kwargs = self.kwargs
         )
 
     def run(self):
