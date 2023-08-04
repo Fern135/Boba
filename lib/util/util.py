@@ -97,6 +97,22 @@ def modify_json_value(file_path: str, key: str, new_value: any) -> None:
         return
 
 
+def get_absolute_path(path:str):
+    """
+        This function gets the absolute path to a file or directory.
+
+        Args:
+            path: The path to the file or directory.
+
+        Returns:
+            The absolute path to the file or directory.
+    """
+
+    """Gets the absolute path to a file or directory."""
+
+    # return the absolute path to the file or directory.
+    return os.path.realpath(path)
+
 def generate_random_alphanumeric_string(length: int) -> str:
     """
         Generate a random alphanumeric string of a specified length.

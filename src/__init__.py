@@ -3,7 +3,7 @@
 from .php_server.php_svr import *
 
 # tests
-from .tests import test_all
+from .tests.test_all import *
 
 # dns
 from .dns.dns import *

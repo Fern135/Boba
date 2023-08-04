@@ -20,18 +20,31 @@ from lib.multiprocess.worker import Worker # background worker
 from src.php_server.php_svr  import PHP    
 from src.dns.dns             import DNSServer
 
-from src.tests import test_all
+from src.tests.test_all      import *
+
+
+def cli():
+    try:
+        parser = argparse.ArgumentParser(description="******************** Buba Cli ********************")
+        parser.add_argument("--test", help="run the tests using pytest", default="all")
+        parser.add_argument("--run", help="run development server", default="dev")
+        
+        args = parser.parse_args()
+
+        if args.test == "all":
+            test_all() # running all possible test
+
+    except Exception as e:
+        print(f"error cli: {str(e)}")
+        create_and_write_to_file(
+            "./bin/log/", 
+            f"error log - {get_current_date_with_full_month()} - {get_current_time_12()}.log",
+            f"error cli: {str(e)}"
+        )
 
 
 def main():
-    parser = argparse.ArgumentParser(description="A simple CLI")
-    parser.add_argument("--test", help="run the tests using pytest")
-    parser.add_argument("--run", help="run development server")
-    
-    args = parser.parse_args()
-
-    if args.test == "all":
-        test_all() 
+    cli()
     
 
 
@@ -43,6 +56,6 @@ if __name__ == "__main__":
         print(f"error: {str(e)}")
         create_and_write_to_file(
             "./bin/log/", 
-            f"log + {get_current_date_with_full_month()} + {get_current_time_12()}.log",
+            f"error log - {get_current_date_with_full_month()} - {get_current_time_12()}.log",
             f"error main: {str(e)}"
         )

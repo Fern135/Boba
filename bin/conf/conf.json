@@ -11,7 +11,11 @@
     "domains"           : [
         {
             "domain": "boba.local",
-            "route" : "filepath"
+            "route" : "../../src/panel/frontend/"
+        },
+        {
+            "domain": "https://www.google.com/",
+            "route": "8.8.8.8"
         }
     ]
 }

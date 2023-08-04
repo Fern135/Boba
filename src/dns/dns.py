@@ -2,9 +2,14 @@ import json
 import socket
 import webbrowser
 
+from lib.util.util import get_absolute_path
+
 class DNSServer:
     def __init__(self):
-        self.domain_mapping = self.load_domain_mapping("../../bin/conf/conf.json")
+        self.domain_mapping = self.load_domain_mapping(
+            # get_absolute_path("../../bin/conf/conf.json")
+            get_absolute_path("./bin/conf/conf.json")
+        )
         self.udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.server_address = ("127.0.0.1", 53)
 
