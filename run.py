@@ -1,4 +1,5 @@
 import argparse
+import sys
 
 from lib.util.util           import create_and_write_to_file
 from lib.datetime.dt         import get_current_date_with_full_month, get_current_time_12
@@ -28,11 +29,20 @@ def cli():
         parser = argparse.ArgumentParser(description="******************** Buba Cli ********************")
         parser.add_argument("--test", help="run the tests using pytest", default="all")
         parser.add_argument("--run", help="run development server", default="dev")
-        
-        args = parser.parse_args()
+        parser.add_argument("--gitcommit", help="run development server", dest="gitcommit", type=str, default="gitcmmt")
 
-        if args.test == "all":
-            test_all() # running all possible test
+        args = parser.parse_args(sys.argv[1:])
+
+        run_server, gitcommit = args.run, args.gitcommit
+
+        if args.test:
+            test_all()
+
+        if args.run:
+            print(f"dev run server {run_server}")
+
+        if args.gitcommit:
+            print(f"dev {gitcommit}")
 
     except Exception as e:
         print(f"error cli: {str(e)}")
