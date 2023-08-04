@@ -1,5 +1,5 @@
 import os
-from ...lib.util.util import read_json_file, run_terminal_command
+from lib.util.util import read_json_file, run_terminal_command
 
 class PHP:
     def __init__(self):

@@ -1,5 +1,9 @@
 
-from .php_server.php_svr import PHP # for PHPServer class and its methods
-# tests
+# for PHP Server
+from .php_server.php_svr import *
 
-# server
+# tests
+from .tests import test_all
+
+# dns
+from .dns.dns import *
