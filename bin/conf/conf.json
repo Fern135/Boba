@@ -17,5 +17,6 @@
             "domain": "https://www.google.com/",
             "route": "8.8.8.8"
         }
-    ]
+    ],
+    "development": true
 }
