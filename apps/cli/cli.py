@@ -170,7 +170,7 @@ def git_commands(commit_message):
         run_terminal_command(f'git commit -m {commit_message}')
         # time.sleep(500)
         run_terminal_command("git status")
-        time.sleep(5)
+        time.sleep(1)
         run_terminal_command("git push origin")
 
     else:
@@ -203,7 +203,7 @@ async def cli():
         elif args.git:
             git_message = args.git
 
-            asyncio.run(git_commands(git_message))
+            git_commands(git_message)
 
         elif args.gen:
             project_name_normal  = args.gen
