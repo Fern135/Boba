@@ -43,7 +43,7 @@ def read_json_file(file_path:str, key:str):
             print(value)  # Output: None (key not found in the JSON file)
     """
     try:
-        with open(file_path, 'r') as file:
+        with open(get_absolute_path(file_path), 'r') as file:
             data = json.load(file)
 
             if data is not None:
