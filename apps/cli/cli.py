@@ -10,9 +10,10 @@ from src.tests.test_all      import *
 is_dev = read_json_file("./bin/conf/conf.json", "development")
 __default_project_path__ = read_json_file("./bin/conf/conf.json", "projects-path")
 
-def generate_php_files(project_name):
+#TODO: More testing or just scrap
+def generate_basic_php_project(project_name):
     directory   = __default_project_path__
-    project_dir = directory + "/" + project_name
+    project_dir = directory + project_name
 
     css_files = project_dir + "/bin/css/"
     js_files  = project_dir + "/bin/js/"
@@ -184,8 +185,8 @@ async def cli():
 
         parser.add_argument("--test", action="store_true", help="Run all tests.")
         parser.add_argument("--run", action="store_true", help="running development or production server")
-        parser.add_argument("--git", help="will run some git commands", type=str)
-        parser.add_argument("--gen", help=f"generate basic php project at {__default_project_path__}")
+        parser.add_argument("--git", help="will run some git commands automatically. (DO NOT USE YET)", type=str)
+        # parser.add_argument("--gen", help=f"generate basic php project at {__default_project_path__}")
         # parser.add_argument("--laravel", help=f"Generate laravel php project at {__default_project_path__}", default="project_name")
 
         args = parser.parse_args()
@@ -205,9 +206,10 @@ async def cli():
 
             git_commands(git_message)
 
-        elif args.gen:
-            project_name_normal  = args.gen
-            print(f"generating php project at {__default_project_path__} with name {project_name_normal}")
+        # elif args.gen:
+        #     project_name_normal  = args.gen
+        #     print(f"generating php project at {__default_project_path__} with name {project_name_normal}")
+        #     generate_basic_php_project(project_name_normal)
 
         else:
             print("No args passed")
