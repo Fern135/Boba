@@ -3,4 +3,4 @@ __pycache__
 
 # so it's only used localy in development
 # TODO: delete in final production
-.log
+# .log

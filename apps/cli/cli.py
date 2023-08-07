@@ -181,7 +181,7 @@ def git_commands(commit_message):
 
 async def cli():
     try:
-        parser = argparse.ArgumentParser(description="******************** Buba ********************")
+        parser = argparse.ArgumentParser(description="******************** Boba ********************")
 
         parser.add_argument("--test", action="store_true", help="Run all tests.")
         parser.add_argument("--run", action="store_true", help="running development or production server")
