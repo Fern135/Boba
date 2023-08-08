@@ -160,22 +160,30 @@ def generate_basic_php_project(project_name):
     os.chdir("../../../../") # go back out to the default dir path
 
 
-def git_commands(commit_message):    
-    run_terminal_command("git status")
-
-    user_input = str(input("add all (y) or specific 1 manually(n)\n"))
-
-    if user_input.lower() == "y":
-        run_terminal_command('git add .')
-        # time.sleep(500)
-        run_terminal_command(f'git commit -m {commit_message}')
-        # time.sleep(500)
+def git_commands(commit_message):   
+    try: 
         run_terminal_command("git status")
-        time.sleep(1)
-        run_terminal_command("git push origin")
 
-    else:
-        return
+        user_input = str(input("add all (y) or specific 1 manually(n)\n"))
+
+        if user_input.lower() == "y":
+            run_terminal_command('git add .')
+            # time.sleep(500)
+            run_terminal_command(f'git commit -m {commit_message}')
+            # time.sleep(500)
+            run_terminal_command("git status")
+            time.sleep(1)
+            run_terminal_command("git push origin")
+
+        else:
+            return
+        
+    except Exception as e:
+        create_and_write_to_file(
+            "../../bin/log/", 
+            f"git_command function error log - {get_current_date_with_full_month()} - {get_current_time_12()}.log",
+            f"error cli: {str(e)}"
+        )
 
 
 
@@ -186,6 +194,9 @@ async def cli():
         parser.add_argument("--test", action="store_true", help="Run all tests.")
         parser.add_argument("--run", action="store_true", help="running development or production server")
         parser.add_argument("--git", help="will run some git commands automatically. (DO NOT USE YET)", type=str)
+
+        # have it show some way shape or form which process is running
+
         # parser.add_argument("--gen", help=f"generate basic php project at {__default_project_path__}")
         # parser.add_argument("--laravel", help=f"Generate laravel php project at {__default_project_path__}", default="project_name")
 
