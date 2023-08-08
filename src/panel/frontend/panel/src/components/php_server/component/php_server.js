@@ -52,6 +52,18 @@ function PhpServer() {
                     </div>
                 </div>
 
+                <div className="col col-sm col-md border">
+                    <h3>
+                        {/* show drop down of registered projects / domains in http_serve */}
+                        project: {}
+                    </h3>
+                    <h4>
+                        name: {}
+                        <br></br>
+                        path: {}
+                    </h4>
+                </div>
+
                 <div className="col col-sm col-md">
                     <PhpLogs />
                 </div>

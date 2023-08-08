@@ -40,7 +40,11 @@ function Home(){
           <nav>
             {/* Your navigation content goes here */}
               <h1>
-                  Boba
+                Boba
+              </h1>
+
+              <h1>
+                  Ticketing
               </h1>
           </nav>
         </header>
@@ -51,8 +55,8 @@ function Home(){
               <PhpServer />
             </div>
 
-            <div className="col col-sm col-md">
-            </div>
+            {/* <div className="col col-sm col-md">
+            </div> */}
 
           </div>
         </div>
