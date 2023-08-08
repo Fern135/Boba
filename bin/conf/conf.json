@@ -1,6 +1,7 @@
 {
     "software-version"  : "0.0.15",
     "default-data-base" : "MySQL",
+    "development"       : true,
     "php-version"       : [
         "8.2"
     ], 
@@ -13,7 +14,10 @@
     "npm-version"       : [
         "9.7.2"
     ],
-    "time-format"       : "12",
+    "time-format"       : [
+        "12",
+        "24"
+    ],
     "projects-path"     : "../http_serve/",
     "dns-port"          : 56,
     "domains"           : [
@@ -25,6 +29,5 @@
             "domain": "https://www.google.com/",
             "route": "8.8.8.8"
         }
-    ],
-    "development": true
+    ]
 }

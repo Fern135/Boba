@@ -186,7 +186,6 @@ def git_commands(commit_message):
         )
 
 
-
 async def cli():
     try:
         parser = argparse.ArgumentParser(description="******************** Boba ********************")
