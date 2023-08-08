@@ -1,0 +1,36 @@
+@import "../../../Global.scss";
+
+// StickyHeader.scss
+.sticky-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #4d4d4d;
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  
+    &.sticky {
+      /* Additional styles for the sticky header */
+      background-color: #707070;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+  
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+  
+      /* Additional styles for navigation items */
+      // a {
+      //   color: #ffeeee;
+      //   text-decoration: none;
+      //   padding: 10px;
+      // }
+    }
+}
+  
