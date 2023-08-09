@@ -24,7 +24,7 @@ function PhpServer() {
 
     const fetchProjectDetails = async (projectId) => {
         try {
-            const response = await axios.get(`/api/project/${projectId}`); // Replace with your server API endpoint
+            const response = await axios.get(`/api/projects/${projectId}`); // Replace with your server API endpoint
             setProjectDetails(response.data);
         } catch (error) {
             console.error(error);
@@ -81,7 +81,7 @@ function PhpServer() {
                 <div className='row'>
                     <div className="col col-sm col-md border">
                         <h3>Project:</h3>
-                        <select value={selectedProject} onChange={handleProjectChange}>
+                        <select id='project-select-main' value={selectedProject} onChange={handleProjectChange}>
                             <option value="">Select a project</option>
 
                             {projects.map((project, index) => (
@@ -91,6 +91,7 @@ function PhpServer() {
                             ))}
 
                         </select>
+
                         {selectedProject && (
                             <div>
                                 <h4>
@@ -102,6 +103,7 @@ function PhpServer() {
                                 </h4>
                             </div>
                         )}
+
                     </div>
                 </div>
             </div>
