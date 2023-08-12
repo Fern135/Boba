@@ -112,3 +112,42 @@ function PhpServer() {
 }
 
 export default PhpServer;
+
+
+/*
+    real life demo for including students to the university page.
+
+    check apis
+    check controllers
+    check json returns and how it's being rendered.
+
+    interlocutor?
+
+    my duties with this client: Luis Diez.
+
+        1.  Fernando con camila
+        2.  via me on what's app
+
+        TODO:
+            note taking for meetings, 
+
+            git set up 
+            git clone 
+
+            set up php enviroment
+
+    next week thursday at 10 am 
+    
+    then every tuesday? maybe? 
+
+    view if ssh key is generated mac / linux:
+        ls -al ~/.ssh
+
+    view public key: mac / linux
+        cat ~/.ssh/id_rsa.pub
+
+    ssh key for git lab:
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDWQzG42BvNS60vizx64IL0+ClknRtmIP5jyCleIBjT/+zd1ALZU3uO16ko5iSlUIdpFpZqE9dHdrVuT4GKpgBjD0LWxP0EIBp5RMAMZakPY4gdwvXzrvy4SHaxzgQ1kFz7lbkNznmlzEVItuHq4b7OPyl7TKN+W3dTV5mrzgzMpKQp7hNhLdmpdI2vrtCNWNkOp+s4Qt3RRaFYQOngMQpHS8S/CwTNurVW23qJuFAfNI9v/qLv71ExYEKzLq9xBW20/VDXFQQYAt8SG27mYjNX2+D0bLD0lJq9IxbBhmLPWLl1SIFklAhd6TEZ4Egm+srdLPGNs9cbENy7/9OzKymxxkTs5kTOm9cUQBur11XAJuPMIS8ZyGwozdlvLhA4XIZQhrpm8HBoidMdSdCOCX+cxOkAN1qv9RxGimGod/3owGbqxBVBVTbKdCCpKM+/8L/zFRw11qLxeFvlVLlEcwsazG9Fac7Fk+63k30FghOHf+W0NNnp2JUP1j9gJbOfhgU= patriotkeyl.l.c@Fernandos-MBP
+
+    also set up for windows. just in case i'm working from my windows pc
+*/
