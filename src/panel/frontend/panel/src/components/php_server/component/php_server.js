@@ -8,6 +8,7 @@ import '../style/php_server.scss';
 import browser from "../../../lib/browser/browser";
 
 function PhpServer() {
+    // const [phpVersion,            setPhpVersion] = useState("");
     const [isRunning,              setIsRunning] = useState(true);
     const [projects,                setProjects] = useState([]);
     const [selectedProject,  setSelectedProject] = useState('');
@@ -48,8 +49,10 @@ function PhpServer() {
     };
 
     return (
-        <div className="container border">
-            <h1>Php Server</h1>
+        <div className="container php-server-card">
+            <h1>
+                Php server
+            </h1>
             <hr />
 
             <div className='row'>
@@ -57,22 +60,23 @@ function PhpServer() {
                 <div className="col col-sm col-md">
                     <div className="status-container">
                         <button
+                            id="start-stop-php-server"
                             className={`btn btn-block ${isRunning ? 'btn-success' : 'btn-danger'}`}
                             onClick={toggleRunning}
                         >
-                            <h3>{isRunning ? 'Start Server' : 'Stop Server'}</h3>
+                            <h3>{isRunning ? 'Start' : 'Stop'}</h3>
                         </button>
                         
-                        <div className="container">
-                            <h3 id="status">Status</h3>
-                            <div id="circle" className={`circle ${isRunning ? 'red' : 'green'}`} />
+                        <div className="container d-flex flex-row-reverse">
+                            <div id="Circle" className={`circle ${isRunning ? 'red' : 'green'}`} />
+                            <h3 id="status" className='p-2'>Status</h3>
                         </div>
 
                     </div>
                 </div>
 
                 <div className='row'>
-                    <div className="col col-sm col-md border">
+                    <div className="col col-sm col-md border projects-container-php">
                         <h3>Project:</h3>
                         <select id='project-select-main' value={selectedProject} onChange={handleProjectChange}>
                             <option value="">Select a project</option>
@@ -88,6 +92,11 @@ function PhpServer() {
                         {selectedProject && (
                             <div>
                                 <h4>
+                                    <input 
+                                        type="hidden" 
+                                        name="projectDetails.id" 
+                                        value={projectDetails.id} 
+                                    />
                                     Domain name: {projectDetails.domainName}
                                     <br />
                                     Project path: {projectDetails.projectPath}
@@ -107,40 +116,3 @@ function PhpServer() {
 export default PhpServer;
 
 
-/*
-    real life demo for including students to the university page.
-
-    check apis
-    check controllers
-    check json returns and how it's being rendered.
-
-    interlocutor?
-
-    my duties with this client: Luis Diez.
-
-        1.  Fernando con camila
-        2.  via me on what's app
-
-        TODO:
-            note taking for meetings, 
-
-            git set up 
-            git clone 
-
-            set up php enviroment
-
-    next week thursday at 10 am 
-    
-    then every tuesday? maybe? 
-
-    view if ssh key is generated mac / linux:
-        ls -al ~/.ssh
-
-    view public key: mac / linux
-        cat ~/.ssh/id_rsa.pub
-
-    ssh key for git lab:
-    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDWQzG42BvNS60vizx64IL0+ClknRtmIP5jyCleIBjT/+zd1ALZU3uO16ko5iSlUIdpFpZqE9dHdrVuT4GKpgBjD0LWxP0EIBp5RMAMZakPY4gdwvXzrvy4SHaxzgQ1kFz7lbkNznmlzEVItuHq4b7OPyl7TKN+W3dTV5mrzgzMpKQp7hNhLdmpdI2vrtCNWNkOp+s4Qt3RRaFYQOngMQpHS8S/CwTNurVW23qJuFAfNI9v/qLv71ExYEKzLq9xBW20/VDXFQQYAt8SG27mYjNX2+D0bLD0lJq9IxbBhmLPWLl1SIFklAhd6TEZ4Egm+srdLPGNs9cbENy7/9OzKymxxkTs5kTOm9cUQBur11XAJuPMIS8ZyGwozdlvLhA4XIZQhrpm8HBoidMdSdCOCX+cxOkAN1qv9RxGimGod/3owGbqxBVBVTbKdCCpKM+/8L/zFRw11qLxeFvlVLlEcwsazG9Fac7Fk+63k30FghOHf+W0NNnp2JUP1j9gJbOfhgU= patriotkeyl.l.c@Fernandos-MBP
-
-    also set up for windows. just in case i'm working from my windows pc
-*/

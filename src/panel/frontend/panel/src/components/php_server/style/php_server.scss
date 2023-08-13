@@ -11,13 +11,35 @@
 }
 
 // the status id in the php_server to align better
-#status {
-    margin-left: 730px;
-}
+// #status {
+//     margin-left: 630px;
+//     margin-right: 12px;
+// }
 
 // the circle id in the php_server to align better
-#circle {
+#Circle {
     margin-left: 10px;
+}
+
+// the button for starting and stopping the php server
+#start-stop-php-server{
+    margin-bottom: 10px;
+}
+
+// the container holding the card with all the possible functionalities
+.projects-container-php{
+    margin-top: 10px;
+    margin-bottom: 15px;
+    margin-left: 15px;
+}
+
+// TODO: it's supposed to show a shadow
+.php-server-card {
+    width: 100%;
+    height: auto;
+    position: relative;
+    // background-color: #000;
+    box-shadow: inset -10px -10px 5px 0 black;
 }
 
 // color for when the server is active or not
@@ -50,20 +72,14 @@
     margin-bottom: 10px;
 }
 
+
+// TODO: work on this later
+
 /* For screens with a max width of 600px */
 @media (max-width: 600px) {
-    // .container {
-    //   width: 90%;
-    // }
-
-    #status{
-        width: 100%;
-        height: auto;
-    }
-
-    #circle{
-        width: 100%;
-        height: auto;
+    .php-server-card {
+        width: 50%;
+        height: 50%;
     }
 }
   
@@ -73,15 +89,11 @@
     //   width: 70%;
     // }
 
-    #status{
-        width: 100%;
-        height: auto;
-    }
-
-    #circle{
-        width: 100%;
-        height: auto;
-    }
+    // #status,
+    // #Circle{
+    //     width: 50%;
+    //     height: auto;
+    // }
 }
   
   /* For screens with a min width of 1025px */
@@ -90,13 +102,13 @@
     //   width: 80%;
     // }
 
-    #status{
-        width: 100%;
-        height: auto;
-    }
+    // #status{
+    //     width: 100%;
+    //     height: auto;
+    // }
 
-    #circle{
-        width: 50%;
-        height: auto;
-    }
+    // #Circle{
+    //     width: 50%;
+    //     height: auto;
+    // }
 }
