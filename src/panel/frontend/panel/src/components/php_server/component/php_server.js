@@ -38,7 +38,7 @@ function PhpServer() {
     useEffect(() => {
         // fetchProjects();
 
-        console.log(browser.getFullDebugInfo());
+        console.log(browser.getFullDebugInfo()); // ! debugging
     }, []);
 
     const handleProjectChange = (event) => {
