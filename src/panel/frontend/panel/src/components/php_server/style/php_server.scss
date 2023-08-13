@@ -7,6 +7,17 @@
     border-radius: 50%;
     margin-right: 10px;
     margin-bottom: 10px;
+
+}
+
+// the status id in the php_server to align better
+#status {
+    margin-left: 730px;
+}
+
+// the circle id in the php_server to align better
+#circle {
+    margin-left: 10px;
 }
 
 // color for when the server is active or not
@@ -37,4 +48,55 @@
 // styling the select project option
 #project-select-main{
     margin-bottom: 10px;
+}
+
+/* For screens with a max width of 600px */
+@media (max-width: 600px) {
+    // .container {
+    //   width: 90%;
+    // }
+
+    #status{
+        width: 100%;
+        height: auto;
+    }
+
+    #circle{
+        width: 100%;
+        height: auto;
+    }
+}
+  
+/* For screens with a min width of 601px and max width of 1024px */
+@media (min-width: 601px) and (max-width: 1024px) {
+    // .container {
+    //   width: 70%;
+    // }
+
+    #status{
+        width: 100%;
+        height: auto;
+    }
+
+    #circle{
+        width: 100%;
+        height: auto;
+    }
+}
+  
+  /* For screens with a min width of 1025px */
+@media (min-width: 1025px) {
+    // .container {
+    //   width: 80%;
+    // }
+
+    #status{
+        width: 100%;
+        height: auto;
+    }
+
+    #circle{
+        width: 50%;
+        height: auto;
+    }
 }

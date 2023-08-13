@@ -43,9 +43,9 @@ function Home(){
                 Boba
               </h1>
 
-              <h1>
+              {/* <h1>
                   Ticketing
-              </h1>
+              </h1> */}
           </nav>
         </header>
 

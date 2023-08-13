@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 import '../style/php_server.scss';
+
+import browser from "../../../lib/browser/browser";
 
 function PhpServer() {
     const [isRunning,              setIsRunning] = useState(true);
@@ -32,7 +36,9 @@ function PhpServer() {
     };
 
     useEffect(() => {
-        fetchProjects();
+        // fetchProjects();
+
+        console.log(browser.getFullDebugInfo());
     }, []);
 
     const handleProjectChange = (event) => {
@@ -41,41 +47,28 @@ function PhpServer() {
         fetchProjectDetails(selectedValue);
     };
 
-    const PhpLogs = () => {
-        return (
-            <div className='border PhpLogs'>
-                <p className='green'>
-                    {isRunning}
-                    {/* {console.log(isRunning)} */}
-                </p>
-            </div>
-        );
-    };
-
     return (
         <div className="container border">
             <h1>Php Server</h1>
             <hr />
 
             <div className='row'>
+                
                 <div className="col col-sm col-md">
-                    <button
-                        className={`btn btn-block ${isRunning ? 'btn-success' : 'btn-danger'}`}
-                        onClick={toggleRunning}
-                    >
-                        <h3>{isRunning ? 'Start Server' : 'Stop Server'}</h3>
-                    </button>
-
-                    <hr />
-
                     <div className="status-container">
-                        <div className={`circle ${isRunning ? 'red' : 'green'}`} />
-                        <h3>Status</h3>
-                    </div>
-                </div>
+                        <button
+                            className={`btn btn-block ${isRunning ? 'btn-success' : 'btn-danger'}`}
+                            onClick={toggleRunning}
+                        >
+                            <h3>{isRunning ? 'Start Server' : 'Stop Server'}</h3>
+                        </button>
+                        
+                        <div className="container">
+                            <h3 id="status">Status</h3>
+                            <div id="circle" className={`circle ${isRunning ? 'red' : 'green'}`} />
+                        </div>
 
-                <div className="col col-sm col-md">
-                    <PhpLogs />
+                    </div>
                 </div>
 
                 <div className='row'>
