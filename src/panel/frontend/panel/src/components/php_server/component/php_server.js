@@ -49,13 +49,14 @@ function PhpServer() {
     };
 
     return (
-        <div className="container php-server-card">
-            <h1>
-                Php server
+        <div className="container card bg-secondary">
+            <h1 className="mx-auto php-server-card-title">
+                PHP server
             </h1>
+            
             <hr />
 
-            <div className='row'>
+            <div className='row card-body'>
                 
                 <div className="col col-sm col-md">
                     <div className="status-container">
