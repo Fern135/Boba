@@ -1,0 +1,10 @@
+django
+pip-check #<======================== for checking which packages needs installing
+pip-review #<======================= for auto updating all packages
+requests #<========================= in order to make the connection for the external website
+python-dotenv
+colorama
+charset-normalizer
+faker
+PyJWT
+django-smtp-ssl

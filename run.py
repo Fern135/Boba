@@ -16,9 +16,10 @@ from apps.cli.cli        import cli
     3. * running php. TODO: run tests for this using create_and_write_to_file
     4. * dns server (local)
 """
-from lib.multiprocess.worker import Worker # background worker
-from src.php_server.php_svr  import PHP    
-from src.dns.dns             import DNSServer
+from lib.multiprocess.worker import Worker #<=================> background worker
+from src.php_server.php_svr  import PHP #<====================> php server   
+from src.dns.dns             import DNSServer #<==============> dns server for domain mapping
+
 
 
 

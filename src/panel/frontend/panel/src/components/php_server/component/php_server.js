@@ -50,9 +50,11 @@ function PhpServer() {
 
     return (
         <div className="container card bg-secondary">
-            <h1 className="mx-auto php-server-card-title">
-                PHP server
-            </h1>
+            <div className="mx-auto php-server-card-title card-header">
+                <h1>
+                    PHP server
+                </h1>
+            </div>
             
             <hr />
 

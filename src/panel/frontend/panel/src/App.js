@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 /********** used components **********/
 import Home from './components/home/component/home';
+import Docs from './components/docs/component/docs';
 /********** used components **********/
 
 /********** styling **********/
@@ -19,8 +20,8 @@ function App() {
     <Router>
       <div className="App-header">
         <Routes>
-          <Route path="/" element={<Home />} />
-
+          <Route path="/"     element={<Home />} />
+          {/* <Route path="/docs" element={<Docs />} /> */}
         </Routes>
       </div>
     </Router>
