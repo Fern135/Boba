@@ -20,11 +20,28 @@ from lib.multiprocess.worker import Worker #<=================> background worke
 from src.php_server.php_svr  import PHP #<====================> php server   
 from src.dns.dns             import DNSServer #<==============> dns server for domain mapping
 
+#################### dns server ####################
+dns = DNSServer()
+dns.load_domain_mapping()
+#################### dns server ####################
 
+#################### php ####################
+php = PHP()
+#################### php ####################
+
+#################### worker ####################
+dns_server = Worker(target_func=dns.start_server)
+#################### worker ####################
+
+
+def start():
+    dns_server.run()
 
 
 def main():
-    asyncio.run(cli())
+    # asyncio.run(cli())
+
+    asyncio.run(start())
 
 
 

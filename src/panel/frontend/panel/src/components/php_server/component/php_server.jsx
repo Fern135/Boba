@@ -36,7 +36,7 @@ function PhpServer() {
         }
     };
 
-    useEffect(() => {
+    useEffect(() => { // as soon as the page loads
         // fetchProjects();
 
         console.log(browser.getFullDebugInfo()); // ! debugging

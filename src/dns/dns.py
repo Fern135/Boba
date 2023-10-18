@@ -1,6 +1,6 @@
 import json
 import socket
-import webbrowser
+import webbrowser # todo; research if still needed or not
 
 from lib.util.util import get_absolute_path
 
@@ -13,11 +13,11 @@ class DNSServer:
         self.udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.server_address = ("127.0.0.1", 53)
 
-    def load_domain_mapping(self, file_path):
-        with open(file_path, "r") as file:
+    def load_domain_mapping(self):
+        with open(self.domain_mapping, "r") as file:
             return json.load(file)
 
-    def dns_response(self, query_domain):
+    def dns_response(self, query_domain): # todo: research how to do this one
         for entry in self.domain_mapping["domains"]:
 
             if entry["domain"] == query_domain:

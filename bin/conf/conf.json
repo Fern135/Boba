@@ -1,5 +1,5 @@
 {
-    "software-version"  : "0.0.15",
+    "software-version"  : "0.1.0",
     "default-data-base" : "MySQL",
     "development"       : true,
     "php-version"       : [
