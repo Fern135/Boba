@@ -6,6 +6,8 @@ import random
 import os
 import platform
 import re
+import sys
+import time
 
 
 CHARACTERS = string.ascii_uppercase + string.digits + \
@@ -174,12 +176,20 @@ def run_terminal_command(command:str) -> None:
             run_terminal_command('dir')  # For Windows
             run_terminal_command('ls -l')  # For Unix-like systems
     """
-    if sys.platform.startswith('win'):
-        # Windows OS
-        subprocess.run(['cmd', '/C'] + command, shell=True)
-    else:
-        # Unix-like OS (Linux, macOS, etc.)
-        subprocess.run(['sh', '-c', command])
+    try:
+        system = platform.system().lower()
+        if system == 'darwin' or system == 'linux':
+            # On macOS or Linux
+            subprocess.run(command, shell=True)
+
+        elif system == 'windows':
+            # On Windows
+            subprocess.run(command, shell=True, text=True)
+
+        else:
+            print(f"Unsupported OS: {system}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 def create_and_write_to_file(folder_path: str, file_name: str, data: str) -> None:
     """
@@ -214,6 +224,10 @@ def create_and_write_to_file(folder_path: str, file_name: str, data: str) -> Non
     except OSError as e:
         # Handle any errors that occur during file creation or writing
         raise OSError(f"Error creating or writing to the file: {e}")
+
+
+def make_dir(dir) -> None:
+    os.makedirs(dir)
 
 #endregion
 
@@ -592,3 +606,93 @@ def search(Search, In) -> bool:
     """
     return Search in In
 
+def simple_loader(iterations, delay=0.1):
+    for _ in range(iterations):
+        sys.stdout.write('\rLoading |')
+        sys.stdout.flush()
+        time.sleep(delay)
+
+        sys.stdout.write('\rLoading /')
+        sys.stdout.flush()
+        time.sleep(delay)
+
+        sys.stdout.write('\rLoading -')
+        sys.stdout.flush()
+        time.sleep(delay)
+
+        sys.stdout.write('\rLoading \\')
+        sys.stdout.flush()
+        time.sleep(delay)
+
+    sys.stdout.write('\r')
+    sys.stdout.flush()
+
+
+def is_homebrew_installed():
+    try:
+        subprocess.check_output(["brew", "--version"])
+        return True
+    except subprocess.CalledProcessError:
+        return False
+    
+def install_homebrew():
+    try:
+        system = platform.system().lower()
+        if system == 'darwin':
+            # macOS
+            subprocess.run('/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"', shell=True)
+
+        elif system == 'linux':
+            # Linux
+            subprocess.run('/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"', shell=True)
+
+        else:
+            print(f"Unsupported OS: {system}")
+
+            return
+
+        print("Homebrew is installed.")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+
+def is_mongodb_installed(install_path):
+    mongodb_binaries = ['mongod', 'mongo']  # List of MongoDB executable files
+    for binary in mongodb_binaries:
+        binary_path = os.path.join(install_path, 'bin', binary)
+        if not os.path.exists(binary_path):
+            return False
+    return True
+
+
+def install_latest_mongodb(install_path):
+    # Check if MongoDB is installed using Homebrew
+    installed = False
+    try:
+        result = subprocess.run(['brew', 'ls', '--versions', 'mongodb'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        if "mongodb" in result.stdout:
+            installed = True
+    except Exception as e:
+        print(f"An error occurred while checking for MongoDB: {e}")
+
+    if not installed:
+        try:
+            # Install the latest version of MongoDB using Homebrew to the specified install_path
+            install_command = f'brew install mongodb --prefix={install_path}'
+            subprocess.run(install_command, shell=True)
+            print(f"MongoDB is installed in {install_path}.")
+        except Exception as e:
+            print(f"An error occurred while installing MongoDB: {e}")
+    else:
+        print("MongoDB is already installed.")
+
+
+def is_mysql_installed(install_path):
+    #* the installation of mysql is done in the main run.py
+    mysql_binaries = ['mysql', 'mysqld', 'mysqladmin']  # List of MySQL executable files
+    for binary in mysql_binaries:
+        binary_path = os.path.join(install_path, 'bin', binary)
+        if not os.path.exists(binary_path):
+            return False
+    return True
