@@ -2,3 +2,5 @@ requests
 pytest
 pip-check
 pip-review
+
+django

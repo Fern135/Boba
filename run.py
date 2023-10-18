@@ -16,6 +16,8 @@ from lib.datetime.dt     import get_current_date_with_full_month, get_current_ti
     3. * running php. TODO: run tests for this using create_and_write_to_file
     4. * dns server (local)
 """
+
+# TODO: delete. will call via django panel
 # from lib.multiprocess.worker import Worker #<=================> background worker
 # from src.php_server.php_svr  import PHP #<====================> php server   
 # from src.dns.dns             import DNSServer #<==============> dns server for domain mapping
