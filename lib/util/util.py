@@ -627,14 +627,15 @@ def simple_loader(iterations, delay=0.1):
     sys.stdout.write('\r')
     sys.stdout.flush()
 
-
+#region installation
 def is_homebrew_installed():
     try:
         subprocess.check_output(["brew", "--version"])
         return True
     except subprocess.CalledProcessError:
         return False
-    
+
+
 def install_homebrew():
     try:
         system = platform.system().lower()
@@ -779,3 +780,5 @@ def install_mongo_win(install_path):
         print(f"MongoDB is installed in {install_path}.")
     except Exception as e:
         print(f"An error occurred while installing MongoDB: {e}")
+
+#endregion
