@@ -38,7 +38,7 @@ from lib.datetime.dt     import get_current_date_with_full_month, get_current_ti
 
 async def start():
     # Replace '/path/to/install' with your desired installation path
-    install_paths = ['/bin/databases/mysql', '/bin/databases/mongodb']
+    install_paths = ['./bin/databases/mysql', './bin/databases/mongodb']
     mysql_command_linux_mac = f'brew install mysql --prefix={install_paths[0]}'
 
     # make the directory
@@ -74,6 +74,7 @@ async def start():
 
     
     elif getPcDevOs() == "Windows":
+        
         if is_choco_installed_win():
             print("Chocolatey is installed.")
 
@@ -87,7 +88,6 @@ async def start():
                 print("installing mysql")
                 await install_mysql_win()
 
-
             # mongo 
             if is_mongodb_installed(install_paths[1]):
                 print("MongoDB is installed")
@@ -95,7 +95,6 @@ async def start():
             else:
                 print("MongoDB is not installed in the specified path.")
                 await install_mongo_win(install_paths[1])
-
 
         else:
             print("Chocolatey is not installed.")

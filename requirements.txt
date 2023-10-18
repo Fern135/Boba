@@ -4,3 +4,4 @@ pip-check
 pip-review
 
 django
+asyncio
