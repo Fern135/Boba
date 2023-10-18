@@ -696,3 +696,86 @@ def is_mysql_installed(install_path):
         if not os.path.exists(binary_path):
             return False
     return True
+
+
+def is_choco_installed_win():
+    # Check if Chocolatey executable exists in the PATH
+    for directory in os.environ['PATH'].split(os.pathsep):
+        chocolatey_executable = os.path.join(directory, 'chocolatey.exe')
+        if os.path.exists(chocolatey_executable):
+            return True
+    return False
+
+
+def install_choco_win():
+    # Check if Chocolatey is already installed
+    if platform.system().lower() == "windows":
+        try:
+            result = subprocess.run(['choco', '--version'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            if "Chocolatey" in result.stdout:
+                print("Chocolatey is already installed.")
+                return
+        except FileNotFoundError:
+            pass  # Chocolatey is not found, proceed with the installation
+
+    # Download and install Chocolatey
+    try:
+        powershell_script = '''
+        Set-ExecutionPolicy Bypass -Scope Process -Force;
+        [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072;
+        iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'));
+        '''
+        subprocess.run(['powershell', '-Command', powershell_script], shell=True)
+        print("Chocolatey is installed.")
+    except Exception as e:
+        print(f"An error occurred while installing Chocolatey: {e}")
+
+
+def is_mysql_installed_win(install_path):
+    mysql_binaries = ['mysql', 'mysqldump']  # List of MySQL executable files
+    for binary in mysql_binaries:
+        binary_path = os.path.join(install_path, 'bin', binary)
+        if not os.path.exists(binary_path):
+            return False
+    return True
+
+
+def install_mysql_win():
+    try:
+        # Check if MySQL is already installed
+        result = subprocess.run(['choco', 'list', '--local-only', 'mysql'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        if "mysql" in result.stdout:
+            print("MySQL is already installed.")
+            return
+
+        # Install MySQL using Chocolatey
+        subprocess.run(['choco', 'install', 'mysql', '--yes'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        print("MySQL is installed using Chocolatey.")
+    except Exception as e:
+        print(f"An error occurred while installing MySQL: {e}")
+
+
+
+def is_mongo_installed_win(install_path):
+    mongodb_binaries = ['mongod', 'mongo']  # List of MongoDB executable files
+    for binary in mongodb_binaries:
+        binary_path = os.path.join(install_path, 'bin', binary)
+        if not os.path.exists(binary_path):
+            return False
+    return True
+
+
+def install_mongo_win(install_path):
+    try:
+        # Check if MongoDB is already installed
+        result = subprocess.run(['choco', 'list', '--local-only', 'mongodb'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        if "mongodb" in result.stdout:
+            print("MongoDB is already installed.")
+            return
+
+        # Install MongoDB using Chocolatey with the specified install path
+        install_command = f'choco install mongodb --yes --params "installdir={install_path}"'
+        subprocess.run(install_command, shell=True)
+        print(f"MongoDB is installed in {install_path}.")
+    except Exception as e:
+        print(f"An error occurred while installing MongoDB: {e}")
