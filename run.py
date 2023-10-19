@@ -8,7 +8,7 @@ from lib.datetime.dt     import get_current_date_with_full_month, get_current_ti
 
 """
     * separate process 
-    1. run panel. 
+    1. run panel.  run these first 
         * run front-end -> install and run npm run
         * run back end  -> set up venv, activate, install packages, run
 
@@ -37,27 +37,26 @@ from lib.datetime.dt     import get_current_date_with_full_month, get_current_ti
 
 
 async def start():
-    # Replace '/path/to/install' with your desired installation path
-    install_paths = ['./bin/databases/mysql', './bin/databases/mongodb']
+    install_paths = ['/bin/databases/mysql', '/bin/databases/mongodb']
     mysql_command_linux_mac = f'brew install mysql --prefix={install_paths[0]}'
 
     # make the directory
-    await make_dir(install_paths[0])
-    await make_dir(install_paths[1])
+    await make_dir(install_paths[0]) # [√, √]
+    await make_dir(install_paths[1]) # [√, √]
 
     # Windows Linux Darwin
     if getPcDevOs() == "Linux" or getPcDevOs() == "Darwin":
 
         if is_homebrew_installed(): 
-            await simple_loader(5)
+            await simple_loader(5) # [√, √]
             
             # mysql 
-            if is_mysql_installed():
+            if is_mysql_installed(install_paths[0]):
                 print("mysql installed")
 
             else:
                 #* installing mysql in file path
-                await run_terminal_command(mysql_command_linux_mac) 
+                await run_terminal_command(mysql_command_linux_mac) # [√, √]
 
             # mongo
             if is_mongodb_installed(install_paths[1]):
@@ -65,11 +64,11 @@ async def start():
 
             else:
                 print("MongoDB is not installed in the specified path.")
-                await install_latest_mongodb(install_paths[1])
+                await install_latest_mongodb(install_paths[1]) # [√, √]
 
 
         else:
-            await install_homebrew()
+            await install_homebrew() # [√, √]
             start() # re run the start function
 
     
@@ -78,7 +77,7 @@ async def start():
         if is_choco_installed_win():
             print("Chocolatey is installed.")
 
-            await simple_loader(5)
+            await simple_loader(5) # [√, √]
 
             # mysql
             if is_mysql_installed_win(install_paths[0]):
@@ -86,7 +85,7 @@ async def start():
 
             else:
                 print("installing mysql")
-                await install_mysql_win()
+                await install_mysql_win() # [√, √]
 
             # mongo 
             if is_mongodb_installed(install_paths[1]):
@@ -94,11 +93,11 @@ async def start():
 
             else:
                 print("MongoDB is not installed in the specified path.")
-                await install_mongo_win(install_paths[1])
+                await install_mongo_win(install_paths[1]) # [√, √]
 
         else:
             print("Chocolatey is not installed.")
-            await install_choco_win()
+            await install_choco_win() # [√, √]
             start() # re run the start function
 
 
@@ -107,14 +106,15 @@ async def start():
         time.sleep(1000)
 
 
-def main():
-    asyncio.run(start())
-
+async def main():
+    await asyncio.gather(
+        start()
+    )
 
 
 if __name__ == "__main__":
     try:
-        main()
+        asyncio.run(start())
 
     except Exception as e:
         print(f"error: {str(e)}")

@@ -8,6 +8,7 @@ import platform
 import re
 import sys
 import time
+import asyncio
 
 
 CHARACTERS = string.ascii_uppercase + string.digits + \
@@ -191,6 +192,43 @@ def run_terminal_command(command:str) -> None:
     except Exception as e:
         print(f"An error occurred: {e}")
 
+# in case async is needed for this 
+async def run_terminal_command(command:str) -> None:
+    """
+        Execute a terminal command on Windows or Unix-like systems.
+
+        Parameters:
+            command (str): The terminal command to be executed.
+
+        Returns:
+            None: This function does not return any value.
+            
+        Notes:
+            - The function uses the `subprocess.run()` method to run the command in a
+            new subprocess and wait for it to complete.
+            - On Windows, the command is executed in the Command Prompt (cmd) using the '/C' flag.
+            - On Unix-like systems (Linux, macOS, etc.), the command is executed in a shell ('sh').
+
+        Example:
+            run_terminal_command('echo Hello, World!')
+            run_terminal_command('dir')  # For Windows
+            run_terminal_command('ls -l')  # For Unix-like systems
+    """
+    try:
+        system = platform.system().lower()
+        if system == 'darwin' or system == 'linux':
+            # On macOS or Linux
+            subprocess.run(command, shell=True)
+
+        elif system == 'windows':
+            # On Windows
+            subprocess.run(command, shell=True, text=True)
+
+        else:
+            print(f"Unsupported OS: {system}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
 def create_and_write_to_file(folder_path: str, file_name: str, data: str) -> None:
     """
         Create a file and write data to a specific folder path.
@@ -226,8 +264,21 @@ def create_and_write_to_file(folder_path: str, file_name: str, data: str) -> Non
         raise OSError(f"Error creating or writing to the file: {e}")
 
 
-def make_dir(dir) -> None:
-    os.makedirs(dir)
+async def make_dir(dir:str) -> None:
+    if not os.path.exists(dir):
+        os.makedirs(dir)
+    else:
+        print(f"Directory '{dir}' already exists and was not created.")
+
+
+# for some reason this was giving a problem
+# def make_dir(dir:str) -> None: 
+#     if not os.path.exists(dir):
+#         os.makedirs(dir)
+
+#     else:
+#         print(f"Directory '{dir}' already exists and was not created.")
+
 
 #endregion
 
@@ -606,7 +657,7 @@ def search(Search, In) -> bool:
     """
     return Search in In
 
-def simple_loader(iterations, delay=0.1):
+async def simple_loader(iterations, delay=0.1):
     for _ in range(iterations):
         sys.stdout.write('\rLoading |')
         sys.stdout.flush()
@@ -636,7 +687,7 @@ def is_homebrew_installed():
         return False
 
 
-def install_homebrew():
+async def install_homebrew():
     try:
         system = platform.system().lower()
         if system == 'darwin':
@@ -667,7 +718,7 @@ def is_mongodb_installed(install_path):
     return True
 
 
-def install_latest_mongodb(install_path):
+async def install_latest_mongodb(install_path):
     # Check if MongoDB is installed using Homebrew
     installed = False
     try:
@@ -708,7 +759,7 @@ def is_choco_installed_win():
     return False
 
 
-def install_choco_win():
+async def install_choco_win():
     # Check if Chocolatey is already installed
     if platform.system().lower() == "windows":
         try:
@@ -741,7 +792,7 @@ def is_mysql_installed_win(install_path):
     return True
 
 
-def install_mysql_win():
+async def install_mysql_win():
     try:
         # Check if MySQL is already installed
         result = subprocess.run(['choco', 'list', '--local-only', 'mysql'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
@@ -766,7 +817,7 @@ def is_mongo_installed_win(install_path):
     return True
 
 
-def install_mongo_win(install_path):
+async def install_mongo_win(install_path):
     try:
         # Check if MongoDB is already installed
         result = subprocess.run(['choco', 'list', '--local-only', 'mongodb'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
