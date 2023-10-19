@@ -1,9 +1,11 @@
 import os
+import datetime
+import click
 import time
-import argparse
 import asyncio
 
-from lib.util.util           import create_and_write_to_file, read_json_file, run_terminal_command
+
+from lib.util.util           import create_and_write_to_file, read_json_file, getPcDevOs
 from lib.datetime.dt         import get_current_date_with_full_month, get_current_time_12
 from src.tests.test_all      import *
 
@@ -159,73 +161,27 @@ def generate_basic_php_project(project_name):
 
     os.chdir("../../../../") # go back out to the default dir path
 
-
-def git_commands(commit_message):   
-    try: 
-        run_terminal_command("git status")
-
-        user_input = str(input("add all (y) or specific 1 manually(n)\n"))
-
-        if user_input.lower() == "y":
-            run_terminal_command('git add .')
-            # time.sleep(500)
-            run_terminal_command(f'git commit -m {commit_message}')
-            # time.sleep(500)
-            run_terminal_command("git status")
-            time.sleep(1)
-            run_terminal_command("git push origin")
-
-        else:
-            return
-        
-    except Exception as e:
-        create_and_write_to_file(
-            "../../bin/log/", 
-            f"git_command function error log - {get_current_date_with_full_month()} - {get_current_time_12()}.log",
-            f"error cli: {str(e)}"
-        )
-
-
+@click.group()
 async def cli():
+    pass
+
+@cli.command()
+@click.option('--date', '-d', is_flag=True, help='Return the current date')
+def date(date):
+    if date:
+        current_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        click.echo(f'Current date and time: {current_date}')
+        
+
+@cli.command()
+@click.option("--os", "-os", is_flag=True, help='Return the working operating system')
+def get_ps_os(os):
+    if os:
+        print(f"\npc operating system: {getPcDevOs()}\n")
+
+if __name__ == "__main__":
     try:
-        parser = argparse.ArgumentParser(description="******************** Boba ********************")
-
-        parser.add_argument("--test", action="store_true", help="Run all tests.")
-        parser.add_argument("--run", action="store_true", help="running development or production server")
-        parser.add_argument("--git", help="will run some git commands automatically. (DO NOT USE YET)", type=str)
-
-        # have it show some way shape or form which process is running
-
-        # parser.add_argument("--gen", help=f"generate basic php project at {__default_project_path__}")
-        # parser.add_argument("--laravel", help=f"Generate laravel php project at {__default_project_path__}", default="project_name")
-
-        args = parser.parse_args()
-
-        if args.test:
-            asyncio.run(test_all())
-
-        elif args.run:
-            if is_dev is True:
-                print("running development server")
-
-            else:
-                print("running normal server")
-
-        elif args.git:
-            git_message = args.git
-
-            git_commands(git_message)
-
-        # elif args.gen:
-        #     project_name_normal  = args.gen
-        #     print(f"generating php project at {__default_project_path__} with name {project_name_normal}")
-        #     generate_basic_php_project(project_name_normal)
-
-        else:
-            print("No args passed")
-
-
-        return 
+        cli() 
 
     except Exception as e:
         print(f"error cli: {str(e)}")
@@ -234,4 +190,3 @@ async def cli():
             f"error log - {get_current_date_with_full_month()} - {get_current_time_12()}.log",
             f"error cli: {str(e)}"
         )
-

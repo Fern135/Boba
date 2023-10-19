@@ -5,3 +5,4 @@ pip-review
 
 django
 asyncio
+click
