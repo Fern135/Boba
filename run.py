@@ -2,6 +2,7 @@
 # import sys
 
 import asyncio
+import os
 from lib.util.util       import *
 from lib.datetime.dt     import get_current_date_with_full_month, get_current_time_12
 # from apps.cli.cli        import cli
@@ -41,33 +42,27 @@ async def start():
     mysql_command_linux_mac = f'brew install mysql --prefix={install_paths[0]}'
 
     # making it so that databases can be installed in the dir
-    await run_terminal_command("chmod u+rwx /bin/databases")
+    await run_terminal_command("cd ./bin/databases")
+    await run_terminal_command("sudo chmod u+rwx /bin/databases")
 
     # make the directory
     await make_dir(install_paths[0]) # [√, √]
     await make_dir(install_paths[1]) # [√, √]
 
     # Windows Linux Darwin
-    if getPcDevOs() == "Linux" or getPcDevOs() == "Darwin":
+    if getPcDevOs() == "Linux" or getPcDevOs() == "Darwin": # Darwin aka Mac
 
         if is_homebrew_installed(): 
             await simple_loader(5) # [√, √]
             
             # mysql 
-            if is_mysql_installed(install_paths[0]):
-                print("mysql installed")
+            if is_mysql_installed(install_paths[0]) and is_mongodb_installed(install_paths[1]):
+                print("mysql and mongoDB installed")
 
             else:
-                #* installing mysql in file path
+                print("installing mysql and mongoDB")
                 await run_terminal_command(mysql_command_linux_mac) # [√, √]
-
-            # mongo
-            if is_mongodb_installed(install_paths[1]):
-                print("MongoDB is installed in the specified path.")
-
-            else:
-                print("MongoDB is not installed in the specified path.")
-                await install_latest_mongodb(install_paths[1]) # [√, √]
+                await install_latest_mongodb(install_paths[1])      # [√, √]
 
 
         else:
@@ -79,23 +74,14 @@ async def start():
         
         if is_choco_installed_win():
             print("Chocolatey is installed.")
-
             await simple_loader(5) # [√, √]
 
-            # mysql
-            if is_mysql_installed_win(install_paths[0]):
-                print("mysql installed")
+            if is_mysql_installed_win(install_paths[0]) and is_mongodb_installed(install_paths[1]):
+                print("mysql and mongoDB installed")
 
             else:
-                print("installing mysql")
+                print("installing mysql and mongoDB")
                 await install_mysql_win() # [√, √]
-
-            # mongo 
-            if is_mongodb_installed(install_paths[1]):
-                print("MongoDB is installed")
-
-            else:
-                print("MongoDB is not installed in the specified path.")
                 await install_mongo_win(install_paths[1]) # [√, √]
 
         else:
@@ -123,7 +109,7 @@ async def main():
 
 if __name__ == "__main__":
     try:
-        asyncio.run(start())
+        asyncio.run(main())
 
     except Exception as e:
         print(f"error: {str(e)}")

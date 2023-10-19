@@ -804,7 +804,7 @@ async def install_mysql_win():
         subprocess.run(['choco', 'install', 'mysql', '--yes'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         print("MySQL is installed using Chocolatey.")
     except Exception as e:
-        print(f"An error occurred while installing MySQL: {e}")
+        print(f"An error occurred while installing MySQL for windows: {e}")
 
 
 
