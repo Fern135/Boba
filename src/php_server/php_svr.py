@@ -17,6 +17,8 @@ class PHP:
         if self.php_file is None:
             self.php_file = php_file
 
+        return self
+
 
     def get_php_version(self):
         return self.version
@@ -30,5 +32,6 @@ class PHP:
             command = f"php{self.version} {self.php_file}"
             run_terminal_command(command)
 
+            return self
         except Exception as e:
             print(f"Error: {e}")

@@ -50,7 +50,7 @@ async def start():
     await make_dir(install_paths[1]) # [√, √]
 
     # Windows Linux Darwin
-    if getPcDevOs() == "Linux" or getPcDevOs() == "Darwin": # Darwin aka Mac
+    if getPcDevOs() == "Linux" or getPcDevOs() == "Darwin": # Darwin = Mac
 
         if is_homebrew_installed(): 
             await simple_loader(5) # [√, √]
