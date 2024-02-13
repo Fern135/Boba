@@ -94,16 +94,10 @@ async def start():
         print("Unkown or unsupported os")
         time.sleep(1000)
 
-async def cli_main():
-    # pip install -e .
-    await run_terminal_command("cd ./apps/cli")
-    await run_terminal_command("pip install -e .")
-
 
 async def main():
     await asyncio.gather(
         start(),
-        cli_main()
     )
 
 

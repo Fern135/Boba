@@ -193,7 +193,7 @@ def run_terminal_command(command:str) -> None:
         print(f"An error occurred: {e}")
 
 # in case async is needed for this 
-async def run_terminal_command(command:str) -> None:
+def run_terminal_command(command:str) -> None:
     """
         Execute a terminal command on Windows or Unix-like systems.
 
@@ -264,7 +264,7 @@ def create_and_write_to_file(folder_path: str, file_name: str, data: str) -> Non
         raise OSError(f"Error creating or writing to the file: {e}")
 
 
-async def make_dir(dir:str) -> None:
+def make_dir(dir:str) -> None:
     if not os.path.exists(dir):
         os.makedirs(dir)
     else:
