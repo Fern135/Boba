@@ -58,12 +58,10 @@ async def start():
             # mysql 
             if is_mysql_installed(install_paths[0]) and is_mongodb_installed(install_paths[1]):
                 print("mysql and mongoDB installed")
-
             else:
                 print("installing mysql and mongoDB")
                 await run_terminal_command(mysql_command_linux_mac) # [√, √]
                 await install_latest_mongodb(install_paths[1])      # [√, √]
-
 
         else:
             await install_homebrew() # [√, √]
@@ -78,7 +76,6 @@ async def start():
 
             if is_mysql_installed_win(install_paths[0]) and is_mongodb_installed(install_paths[1]):
                 print("mysql and mongoDB installed")
-
             else:
                 print("installing mysql and mongoDB")
                 await install_mysql_win() # [√, √]
@@ -88,7 +85,6 @@ async def start():
             print("Chocolatey is not installed.")
             await install_choco_win() # [√, √]
             start() # re run the start function
-
 
     else:
         print("Unkown or unsupported os")

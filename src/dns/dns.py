@@ -16,6 +16,7 @@ class DNSServer:
     def load_domain_mapping(self):
         with open(self.domain_mapping, "r") as file:
             return json.load(file)
+        
 
     def dns_response(self, query_domain): # todo: research how to do this one
         for entry in self.domain_mapping["domains"]:
