@@ -55,7 +55,7 @@ async def start(): #todo: check for already installation. if not already done
         if is_homebrew_installed(): 
             await simple_loader(5) # [√, √]
             
-            # mysql 
+            # mysql and mongoDb
             if is_mysql_installed(install_paths[0]) and is_mongodb_installed(install_paths[1]):
                 print("mysql and mongoDB installed")
             else:

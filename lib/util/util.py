@@ -217,17 +217,14 @@ def run_terminal_command(command:str) -> None:
     try:
         system = platform.system().lower()
         if system == 'darwin' or system == 'linux':
-            # On macOS or Linux
             subprocess.run(command, shell=True)
-
         elif system == 'windows':
-            # On Windows
             subprocess.run(command, shell=True, text=True)
-
         else:
             print(f"Unsupported OS: {system}")
     except Exception as e:
         print(f"An error occurred: {e}")
+
 
 def create_and_write_to_file(folder_path: str, file_name: str, data: str) -> None:
     """
@@ -249,8 +246,7 @@ def create_and_write_to_file(folder_path: str, file_name: str, data: str) -> Non
     """
     try:
         # Check if the folder path exists, create it if it doesn't
-        if not os.path.exists(folder_path):
-            os.makedirs(folder_path)
+        make_dir(folder_path)
         
         # Combine the folder path and file name to create the full file path
         file_path = os.path.join(folder_path, file_name)
