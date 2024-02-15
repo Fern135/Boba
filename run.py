@@ -37,7 +37,7 @@ from lib.datetime.dt     import get_current_date_with_full_month, get_current_ti
 #################### worker ####################
 
 
-async def start():
+async def start(): #todo: check for already installation. if not already done
     install_paths = ['/bin/databases/mysql', '/bin/databases/mongodb']
     mysql_command_linux_mac = f'brew install mysql --prefix={install_paths[0]}'
 
@@ -90,6 +90,9 @@ async def start():
         print("Unkown or unsupported os")
         time.sleep(1000)
 
+
+async def runMain():
+    pass
 
 async def main():
     await asyncio.gather(
