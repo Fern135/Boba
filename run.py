@@ -65,7 +65,7 @@ async def start(): #todo: check for already installation. if not already done
 
         else:
             await install_homebrew() # [√, √]
-            start() # re run the start function
+            start() 
 
     
     elif getPcDevOs() == "Windows":
@@ -84,7 +84,7 @@ async def start(): #todo: check for already installation. if not already done
         else:
             print("Chocolatey is not installed.")
             await install_choco_win() # [√, √]
-            start() # re run the start function
+            start() 
 
     else:
         print("Unkown or unsupported os")
