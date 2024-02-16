@@ -1,6 +1,6 @@
 import json
 import socket
-import webbrowser # todo; research if still needed or not
+# import webbrowser # todo; research if still needed or not
 
 from lib.util.util import get_absolute_path
 
