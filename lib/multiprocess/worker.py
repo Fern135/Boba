@@ -52,12 +52,16 @@ class Worker:
         # Register an exit handler to join the process on shutdown
         atexit.register(self.join)
 
+        return self
+
     def join(self):
         """
             Join the worker process if it is still running.
         """
         if self.process is not None and self.process.is_alive():
             self.process.join()
+
+        return self
 
     def stop(self):
         """
