@@ -13,6 +13,8 @@ class DNSServer:
         self.udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.server_address = ("127.0.0.1", 53)
 
+        self.load_domain_mapping()
+
     def load_domain_mapping(self):
         with open(self.domain_mapping, "r") as file:
             return json.load(file)

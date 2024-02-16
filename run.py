@@ -24,7 +24,6 @@ from src.dns.dns             import DNSServer #<==============> dns server for d
 
 #################### dns server ####################
 dns = DNSServer()
-dns.load_domain_mapping()
 #################### dns server ####################
 
 #################### php ####################
@@ -120,18 +119,23 @@ async def set_up_enviroment():
 
 
 async def runMain():
-    run_panel_w =  Worker(target_func=run_panel)
+    panel_worker =  Worker(target_func=run_panel)
+    api_worker   =  Worker(target_func=run_panel_api)
     try:
         await dns_server.run().join()
-        await run_panel_w.run().join()
+        await panel_worker.run().join()
+        await api_worker.run().join()
 
     except KeyboardInterrupt:
         await dns_server.stop()
-        await run_panel_w.stop()
+        await panel_worker.stop()
+        await api_worker.stop()
 
     except Exception as e:
         await dns_server.stop()
-        await run_panel_w.stop()
+        await panel_worker.stop()
+        await api_worker.stop()
+        
         print(f"error: {str(e)}")
         create_and_write_to_file(
             "./bin/log/", 
