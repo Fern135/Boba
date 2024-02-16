@@ -1,3 +1,5 @@
+# todo: work on transfering over to rust. eventually
+
 requests
 pytest
 pip-check
