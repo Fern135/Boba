@@ -5,7 +5,6 @@ import asyncio
 import os
 from lib.util.util       import *
 from lib.datetime.dt     import get_current_date_with_full_month, get_current_time_12
-# from apps.cli.cli        import cli
 
 """
     * separate process 
@@ -19,13 +18,13 @@ from lib.datetime.dt     import get_current_date_with_full_month, get_current_ti
 """
 
 # TODO: delete. will call via django panel
-# from lib.multiprocess.worker import Worker #<=================> background worker
+from lib.multiprocess.worker import Worker #<=================> background worker
 # from src.php_server.php_svr  import PHP #<====================> php server   
-# from src.dns.dns             import DNSServer #<==============> dns server for domain mapping
+from src.dns.dns             import DNSServer #<==============> dns server for domain mapping
 
 #################### dns server ####################
-# dns = DNSServer()
-# dns.load_domain_mapping()
+dns = DNSServer()
+dns.load_domain_mapping()
 #################### dns server ####################
 
 #################### php ####################
@@ -33,11 +32,28 @@ from lib.datetime.dt     import get_current_date_with_full_month, get_current_ti
 #################### php ####################
 
 #################### worker ####################
-# dns_server = Worker(target_func=dns.start_server)
+dns_server  = Worker(target_func=dns.start_server)
+# php_server = Worker(target_func=php.set_Php_File().run_php_file()) # todo: make this run in the panel
 #################### worker ####################
 
+async def run_panel():
+    try:
+        await run_terminal_command("cd ./src/panel/frontend/panel/")
+        await run_terminal_command("npm start")        
 
-async def start(): #todo: check for already installation. if not already done
+    except KeyboardInterrupt:
+        pass
+
+    except Exception as e:
+        await dns_server.stop()
+        print(f"error: {str(e)}")
+        create_and_write_to_file(
+            "./bin/log/", 
+            f"error log - {get_current_date_with_full_month()} - {get_current_time_12()}.log",
+            f"error running panel: {str(e)}"
+        )
+
+async def start():
     install_paths = ['/bin/databases/mysql', '/bin/databases/mongodb']
     mysql_command_linux_mac = f'brew install mysql --prefix={install_paths[0]}'
 
@@ -92,11 +108,29 @@ async def start(): #todo: check for already installation. if not already done
 
 
 async def runMain():
-    pass
+    run_panel_w =  Worker(target_func=run_panel)
+    try:
+        await dns_server.run().join()
+        await run_panel_w.run().join()
+
+    except KeyboardInterrupt:
+        await dns_server.stop()
+        await run_panel_w.stop()
+        
+    except Exception as e:
+        await dns_server.stop()
+        await run_panel_w.stop()
+        print(f"error: {str(e)}")
+        create_and_write_to_file(
+            "./bin/log/", 
+            f"error log - {get_current_date_with_full_month()} - {get_current_time_12()}.log",
+            f"error running app: {str(e)}"
+        )
 
 async def main():
     await asyncio.gather(
         start(),
+        runMain()
     )
 
 
