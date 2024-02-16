@@ -1,5 +1,5 @@
 {
-    "software-version"  : "0.1.0",
+    "software-version"  : "0.5.0",
     "default-data-base" : "MySQL",
     "development"       : true,
     "php-version"       : [
@@ -23,7 +23,7 @@
     "domains"           : [
         {
             "domain": "boba.local",
-            "route" : "../../src/panel/frontend/"
+            "route" : "../../src/panel/frontend/panel/"
         },
         {
             "domain": "https://www.google.com/",
