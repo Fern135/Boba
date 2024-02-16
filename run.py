@@ -53,7 +53,25 @@ async def run_panel():
             f"error running panel: {str(e)}"
         )
 
-async def start():
+async def run_panel_api():
+    try:
+        await run_terminal_command("cd ./src/panel/server/")     
+
+    except KeyboardInterrupt:
+        pass
+
+    except Exception as e:
+        await dns_server.stop()
+        print(f"error: {str(e)}")
+        create_and_write_to_file(
+            "./bin/log/", 
+            f"error log - {get_current_date_with_full_month()} - {get_current_time_12()}.log",
+            f"error running panel: {str(e)}"
+        )
+
+
+
+async def set_up_enviroment():
     install_paths = ['/bin/databases/mysql', '/bin/databases/mongodb']
     mysql_command_linux_mac = f'brew install mysql --prefix={install_paths[0]}'
 
@@ -81,7 +99,7 @@ async def start():
 
         else:
             await install_homebrew() # [√, √]
-            start() 
+            set_up_enviroment() 
 
     
     elif getPcDevOs() == "Windows":
@@ -100,7 +118,7 @@ async def start():
         else:
             print("Chocolatey is not installed.")
             await install_choco_win() # [√, √]
-            start() 
+            set_up_enviroment() 
 
     else:
         print("Unkown or unsupported os")
@@ -116,7 +134,7 @@ async def runMain():
     except KeyboardInterrupt:
         await dns_server.stop()
         await run_panel_w.stop()
-        
+
     except Exception as e:
         await dns_server.stop()
         await run_panel_w.stop()
@@ -129,7 +147,7 @@ async def runMain():
 
 async def main():
     await asyncio.gather(
-        start(),
+        set_up_enviroment(),
         runMain()
     )
 
