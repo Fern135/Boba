@@ -41,9 +41,6 @@ async def run_panel():
         await run_terminal_command("cd ./src/panel/frontend/panel/")
         await run_terminal_command("npm start")        
 
-    except KeyboardInterrupt:
-        pass
-
     except Exception as e:
         await dns_server.stop()
         print(f"error: {str(e)}")
@@ -56,9 +53,6 @@ async def run_panel():
 async def run_panel_api():
     try:
         await run_terminal_command("cd ./src/panel/server/")     
-
-    except KeyboardInterrupt:
-        pass
 
     except Exception as e:
         await dns_server.stop()
