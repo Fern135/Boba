@@ -31,9 +31,14 @@ dns = DNSServer()
 #################### php ####################
 
 #################### worker ####################
-dns_server  = Worker(target_func=dns.start_server)
+# dns_server  = Worker(target_func=dns.start_server)
 # php_server = Worker(target_func=php.set_Php_File().run_php_file()) # todo: make this run in the panel
 #################### worker ####################
+
+#################### keeping track of the workers ####################
+workers_running = []
+#################### keeping track of the workers ####################
+
 
 async def run_panel():
     try:
@@ -41,7 +46,8 @@ async def run_panel():
         await run_terminal_command("npm start")        
 
     except Exception as e:
-        await dns_server.stop()
+        await asyncio.gather( *[worker.run() for worker in workers_running] )
+
         print(f"error: {str(e)}")
         create_and_write_to_file(
             "./bin/log/", 
@@ -49,20 +55,29 @@ async def run_panel():
             f"error running panel: {str(e)}"
         )
 
-async def run_panel_api():
+async def run_panel_api(): # todo: make api work
     try:
-        await run_terminal_command("cd ./src/panel/server/")     
+        await run_terminal_command("cd ./src/panel/server/")
+
+        if getPcDevOs() == "Linux" or getPcDevOs() == "Darwin": # Darwin = Mac
+            pass
+
+        elif getPcDevOs() == "Windows":
+            pass
+        
+        else:
+            print("unkown os")
+
 
     except Exception as e:
-        await dns_server.stop()
+        await asyncio.gather( *[worker.run() for worker in workers_running] )
+
         print(f"error: {str(e)}")
         create_and_write_to_file(
             "./bin/log/", 
             f"error log - {get_current_date_with_full_month()} - {get_current_time_12()}.log",
             f"error running panel: {str(e)}"
         )
-
-
 
 async def set_up_enviroment():
     install_paths = ['/bin/databases/mysql', '/bin/databases/mongodb']
@@ -119,22 +134,23 @@ async def set_up_enviroment():
 
 
 async def runMain():
-    panel_worker =  Worker(target_func=run_panel)
-    api_worker   =  Worker(target_func=run_panel_api)
+    # panel_worker =  Worker(target_func=run_panel)
+    # api_worker   =  Worker(target_func=run_panel_api)
+    workers_running.append( Worker(target_func=run_panel)           )
+    workers_running.append( Worker(target_func=run_panel_api)       )
+    workers_running.append( Worker(target_func=dns.start_server)    )
     try:
-        await dns_server.run().join()
-        await panel_worker.run().join()
-        await api_worker.run().join()
+        # await dns_server.run().join()
+        # await panel_worker.run().join()
+        # await api_worker.run().join()
+
+        await asyncio.gather( *[worker.run() for worker in workers_running] )
 
     except KeyboardInterrupt:
-        await dns_server.stop()
-        await panel_worker.stop()
-        await api_worker.stop()
+        await asyncio.gather( *[worker.stop() for worker in workers_running] )
 
     except Exception as e:
-        await dns_server.stop()
-        await panel_worker.stop()
-        await api_worker.stop()
+        await asyncio.gather( *[worker.stop() for worker in workers_running] )
         
         print(f"error: {str(e)}")
         create_and_write_to_file(
