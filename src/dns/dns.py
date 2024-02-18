@@ -22,7 +22,6 @@ class DNSServer:
 
     def dns_response(self, query_domain): # todo: research how to do this one
         for entry in self.domain_mapping["domains"]:
-
             if entry["domain"] == query_domain:
                 return entry["route"].encode()
 
