@@ -156,43 +156,7 @@ def is_valid_email(email: str) -> bool:
     
     return False
 
-def run_terminal_command(command:str) -> None:
-    """
-        Execute a terminal command on Windows or Unix-like systems.
 
-        Parameters:
-            command (str): The terminal command to be executed.
-
-        Returns:
-            None: This function does not return any value.
-            
-        Notes:
-            - The function uses the `subprocess.run()` method to run the command in a
-            new subprocess and wait for it to complete.
-            - On Windows, the command is executed in the Command Prompt (cmd) using the '/C' flag.
-            - On Unix-like systems (Linux, macOS, etc.), the command is executed in a shell ('sh').
-
-        Example:
-            run_terminal_command('echo Hello, World!')
-            run_terminal_command('dir')  # For Windows
-            run_terminal_command('ls -l')  # For Unix-like systems
-    """
-    try:
-        system = platform.system().lower()
-        if system == 'darwin' or system == 'linux':
-            # On macOS or Linux
-            subprocess.run(command, shell=True)
-
-        elif system == 'windows':
-            # On Windows
-            subprocess.run(command, shell=True, text=True)
-
-        else:
-            print(f"Unsupported OS: {system}")
-    except Exception as e:
-        print(f"An error occurred: {e}")
-
-# in case async is needed for this 
 def run_terminal_command(command:str) -> None:
     """
         Execute a terminal command on Windows or Unix-like systems.

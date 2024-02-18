@@ -43,6 +43,7 @@ workers_running = []
 async def run_panel():
     try:
         await run_terminal_command("cd ./src/panel/frontend/panel/")
+        await run_terminal_command("npm install")        
         await run_terminal_command("npm start")        
 
     except Exception as e:
@@ -59,14 +60,18 @@ async def run_panel_api(): # todo: make api work
     try:
         await run_terminal_command("cd ./src/panel/server/")
 
-        if getPcDevOs() == "Linux" or getPcDevOs() == "Darwin": # Darwin = Mac
-            pass
+        if getPcDevOs() == "Linux" or getPcDevOs() == "Darwin": 
+            await run_terminal_command("python3 -m venv venv")
+            await run_terminal_command("source venv/bin/activate")
 
         elif getPcDevOs() == "Windows":
-            pass
-        
+            await run_terminal_command("python -m venv venv")
+            await run_terminal_command(".\venv\Scripts\activate")
+            
         else:
             print("unkown os")
+        
+        await run_terminal_command("pip install -r requirements.txt")
 
 
     except Exception as e:
@@ -76,7 +81,7 @@ async def run_panel_api(): # todo: make api work
         create_and_write_to_file(
             "./bin/log/", 
             f"error log - {get_current_date_with_full_month()} - {get_current_time_12()}.log",
-            f"error running panel: {str(e)}"
+            f"error running panel api: {str(e)}"
         )
 
 async def set_up_enviroment():
@@ -92,16 +97,27 @@ async def set_up_enviroment():
     await make_dir(install_paths[1]) # [√, √]
 
     # Windows Linux Darwin
-    if getPcDevOs() == "Linux" or getPcDevOs() == "Darwin": # Darwin = Mac
+    if getPcDevOs() == "Linux": 
+        await simple_loader(5) # [√, √]
+            
+        # mysql and mongoDb
+        if is_mysql_installed(install_paths[0]) and is_mongodb_installed(install_paths[1]):
+            print("MYSQL and mongoDB installed")
+        else:
+            print("installing MYSQL")
+            await run_terminal_command(mysql_command_linux_mac) # [√, √]
+            await install_latest_mongodb(install_paths[1])      # [√, √]
 
+
+    elif getPcDevOs() == "Darwin":
         if is_homebrew_installed(): 
             await simple_loader(5) # [√, √]
             
             # mysql and mongoDb
             if is_mysql_installed(install_paths[0]) and is_mongodb_installed(install_paths[1]):
-                print("mysql and mongoDB installed")
+                print("MYSQL and mongoDB installed")
             else:
-                print("installing mysql and mongoDB")
+                print("installing MYSQL and mongoDB")
                 await run_terminal_command(mysql_command_linux_mac) # [√, √]
                 await install_latest_mongodb(install_paths[1])      # [√, √]
 
@@ -140,6 +156,7 @@ async def runMain():
     workers_running.append( Worker(target_func=run_panel_api)       )
     workers_running.append( Worker(target_func=dns.start_server)    )
     try:
+        # todo: delete this
         # await dns_server.run().join()
         # await panel_worker.run().join()
         # await api_worker.run().join()
