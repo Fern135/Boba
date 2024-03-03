@@ -1,19 +1,21 @@
 {
-    "software-version"  : "0.5.0",
+    "software-version"  : "0.6.0",
     "default-data-base" : "MySQL",
     "development"       : true,
-    "php-version"       : [
-        "8.2"
-    ], 
-    "python-version"    : [
-        "3.11.0"
-    ],
-    "node-version"      : [
-        "v18.17.0"
-    ],
-    "npm-version"       : [
-        "9.7.2"
-    ],
+    "language-versions" : {
+        "php-version"       : [
+            "8.2"
+        ], 
+        "python-version"    : [
+            "3.12.0"
+        ],
+        "node-version"      : [
+            "v18.17.0"
+        ],
+        "npm-version"       : [
+            "9.7.2"
+        ]
+    },
     "time-format"       : [
         "12",
         "24"
@@ -24,6 +26,10 @@
         {
             "domain": "boba.local",
             "route" : "../../src/panel/frontend/panel/"
+        },
+        {
+            "domain" : "api.boba.local",
+            "route" : "../../src/panel/server/"
         },
         {
             "domain": "https://www.google.com/",

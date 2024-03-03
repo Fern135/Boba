@@ -60,6 +60,7 @@ function PhpServer() {
 
             <div className='row card-body'>
                 
+                {/* php server */}
                 <div className="col col-sm col-md">
                     <div className="status-container">
                         <button
@@ -77,7 +78,9 @@ function PhpServer() {
 
                     </div>
                 </div>
+                {/* php server */}
 
+                {/* projects */}
                 <div className='row'>
                     <div className="col col-sm col-md border projects-container-php">
                         <h3>Project:</h3>
@@ -93,7 +96,7 @@ function PhpServer() {
                         </select>
 
                         {selectedProject && (
-                            <div>
+                            <div className='container border'>
                                 <h4>
                                     <input 
                                         type="hidden" 
@@ -111,6 +114,8 @@ function PhpServer() {
 
                     </div>
                 </div>
+                {/* projects */}
+
             </div>
         </div>
     );

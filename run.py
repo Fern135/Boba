@@ -47,7 +47,7 @@ async def run_panel():
         await run_terminal_command("npm start")        
 
     except Exception as e:
-        await asyncio.gather( *[worker.run() for worker in workers_running] )
+        # await asyncio.gather( *[worker.run() for worker in workers_running] )
 
         print(f"error: {str(e)}")
         create_and_write_to_file(
@@ -75,7 +75,7 @@ async def run_panel_api(): # todo: make api work
 
 
     except Exception as e:
-        await asyncio.gather( *[worker.run() for worker in workers_running] )
+        # await asyncio.gather( *[worker.run() for worker in workers_running] )
 
         print(f"error: {str(e)}")
         create_and_write_to_file(
