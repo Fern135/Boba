@@ -19,15 +19,15 @@
             [] - use more threads for mysql server if needed
 
         make panel front-end (react): thread will run as soon as program starts
-            - run on a thread
-            - button for toggling php server (on / off)
-            - button for toggling DNS server (on / off)
-            - button for toggling mysql server (on / off)
+            [] - run on a thread
+            [] - button for toggling php server (on / off)
+            [] - button for toggling DNS server (on / off)
+            [] - button for toggling mysql server (on / off)
 
         make panel backend (django): thread will run as soon as program starts 
-            - run on a thread
-            - activate / deactivate php, dns, and mysql server. make rust api connect with django? 
-            - database will save per user config. dns domains will be saved in conf.json unless it reaches a certain limit
+            [] - run on a thread
+            [] - activate / deactivate php, dns, and mysql server. make rust api connect with django? 
+            [] - database will save per user config. dns domains will be saved in conf.json unless it reaches a certain limit
                 then i'll save it on the .db django database
 */
 
