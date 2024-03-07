@@ -6,3 +6,11 @@ __pycache__
 .log
 
 .env
+
+# debugging
+.fingerprint
+deps
+incremental
+
+# so the compiled isn't save in the repo
+*.exe
