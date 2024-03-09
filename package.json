@@ -1,0 +1,11 @@
+{
+  "name": "boba",
+  "version": "1.0.0",
+  "description": "A local php development server with custom built panel.",
+  "scripts": {
+    "compile": "clear && cd ./boba/src/ && cargo build && cargo run && cd ../../"
+  },
+  "keywords": [],
+  "author": "Fernando Camblor",
+  "license": "ISC"
+}
