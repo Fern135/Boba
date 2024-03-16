@@ -5,6 +5,9 @@
 
 /*
     todo:
+        make Threads "class": []
+            - add method to search for a string in
+            
         make DNS server:
             [] - run on a thread
             [] - use more threads for dns server if needed

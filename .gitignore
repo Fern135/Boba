@@ -9,9 +9,12 @@ __pycache__
 
 # debugging
 .fingerprint
-./deps/*.o
-incremental
+deps
+*.o
+*.d
 boba.d
+boba.pdb
+incremental
 
 # so the compiled isn't save in the repo
 *.exe
