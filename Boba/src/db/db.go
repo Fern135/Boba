@@ -8,6 +8,9 @@ import (
 
 var db *sql.DB
 
+// todo: make an sql regarding the structure of the program. make it load from a file
+//  and then use that to create the database, tables etc...
+
 // InitDB initializes the SQLite database and sets the global db variable.
 func InitDB() error {
 	// Open the SQLite database file
