@@ -33,12 +33,30 @@ package main
 		endregion
 */
 
-import "fmt"
+import (
+	"fmt",
+	"src/util/util.go"
+)
 
 const (
-	conf = "./bin/conf/conf.json"
+	CONF = "./bin/conf/conf.json"
+	ENV = getEnv()
 )
 
 func main() {
+	conf, err := LoadConfiguration(CONF)
+	if err != nil {
+		log.Fatalf("Error loading configuration: %v", err)
+	}
+
+	// Access configuration values using nested keys
+	// phpVersion := conf.LanguageVersions.PHPVersion[0]
+	// fmt.Println("PHP Version:", phpVersion)
+
+	// Accessing nested arrays or objects
+	// firstDomain := conf.Domains[0]
+	// fmt.Println("First Domain:", firstDomain.Domain)
+
+	
 	fmt.Println("hello world")
 }
