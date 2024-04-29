@@ -1,5 +1,5 @@
 {
-    "software-version"  : "0.6.0",
+    "software-version"  : "0.10.1",
     "default-data-base" : "MySQL",
     "development"       : true,
     "language-versions" : {

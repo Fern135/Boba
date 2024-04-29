@@ -3,9 +3,9 @@ package util
 import (
 	"bufio"
 	"encoding/json"
-	"io/ioutil"
 	"log"
 	"os"
+	"regexp"
 	"strings"
 )
 
@@ -28,12 +28,22 @@ type Configuration struct {
 	} `json:"domains"`
 }
 
-// LoadConfiguration loads the configuration from the JSON file
+func IsValidEmail(email string) bool {
+	// Regular expression for validating email addresses
+	pattern := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`
+
+	// Compile the regular expression
+	regex := regexp.MustCompile(pattern)
+
+	// Use the compiled regular expression to match the email address
+	return regex.MatchString(email)
+}
+
 func LoadConfiguration(filename string) (Configuration, error) {
 	var conf Configuration
 
 	// Read JSON file
-	data, err := ioutil.ReadFile(filename)
+	data, err := os.ReadFile(filename)
 	if err != nil {
 		return Configuration{}, err
 	}
