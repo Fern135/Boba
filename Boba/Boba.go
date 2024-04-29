@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 /*
 	make DNS server:
 		[] - run on a thread
@@ -20,20 +18,26 @@ import "fmt"
 		[] - run on a thread
 		[] - use more threads for mysql server if needed
 
-	#region thread will run as soon as program starts
+	region thread will run as soon as program starts
 	make panel front-end (react):
-			[] - run on a thread
-			[] - button for toggling php server (on / off)
-			[] - button for toggling DNS server (on / off)
-			[] - button for toggling mysql server (on / off)
+		[] - run on a thread
+		[] - button for toggling php server (on / off)
+		[] - button for toggling DNS server (on / off)
+		[] - button for toggling mysql server (on / off)
 
 	make panel backend (django):
-			[] - run on a thread
-			[] - activate / deactivate php, dns, and mysql server. make rust api connect with django?
-			[] - database will save per user config. dns domains will be saved in conf.json unless it reaches a certain limit
-				then i'll save it on the .db django database
-	#endregion
+		[] - run on a thread
+		[] - activate / deactivate php, dns, and mysql server. make rust api connect with django?
+		[] - database will save per user config. dns domains will be saved in conf.json unless it reaches a certain limit
+			then i'll save it on the .db django database
+		endregion
 */
+
+import "fmt"
+
+const (
+	conf = "./bin/conf/conf.json"
+)
 
 func main() {
 	fmt.Println("hello world")
