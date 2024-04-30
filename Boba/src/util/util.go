@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log"
 	"os"
+	"os/exec"
 	"regexp"
 	"strings"
 )
@@ -44,6 +45,34 @@ func LoadConfiguration(filename string) (Configuration, error) {
 	}
 
 	return conf, nil
+}
+
+func RunCommandInDir(command, directory string) error {
+	// Change to the specified directory
+	if err := os.Chdir(directory); err != nil {
+		return err
+	}
+
+	// Execute the command
+	cmd := exec.Command("bash", "-c", command)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	if err := cmd.Run(); err != nil {
+		return err
+	}
+
+	return nil
+
+	/*
+		example: usage
+		command := "ls -l" // Example command
+		directory := "/path/to/directory" // Example directory
+
+		if err := RunCommandInDir(command, directory); err != nil {
+			fmt.Println("Error:", err)
+			return
+		}
+	*/
 }
 
 func IsValidEmail(email string) bool {
