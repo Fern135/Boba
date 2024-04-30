@@ -5,17 +5,22 @@ __pycache__
 # TODO: delete in final production
 .log
 
+# in case i'm using any apis or something
 .env
 
-# debugging
+# debugging. old in rust
+# todo: delete in production
 .fingerprint
 deps
 *.o
 *.d
 boba.d
-boba.pdb
 incremental
+boba.pdb
 
 # so the compiled isn't save in the repo
 *.exe
 *.dmg
+
+# mac only 
+.DS_Store

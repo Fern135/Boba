@@ -12,7 +12,11 @@ import (
 	"time"
 )
 
-const TimeFormat = "01/02/2006 - 03:04 PM"
+const (
+	TimeFormat   = "01/02/2006 - 03:04 PM"
+	UrgentDir    = "../../../bin/log/urgent"
+	NonUrgentDir = "../../../bin/log/Non_urgent"
+)
 
 type Configuration struct {
 	SoftwareVersion  string `json:"software-version"`
@@ -51,64 +55,59 @@ func LoadConfiguration(filename string) (Configuration, error) {
 	return conf, nil
 }
 
-func LoggerErr(title string, data error) bool {
-	// Generate the current timestamp for the log file name
+func LoggerErr(title, data string) bool {
 	timestamp := time.Now().Format(TimeFormat)
-	directory := "../../../bin/log/urgent"
+	logFileName := fmt.Sprintf("%s/%s.log", UrgentDir, timestamp)
 
-	// Construct the log file name with the timestamp
-	logFileName := fmt.Sprintf("%s/%s.log", directory, timestamp)
+	if err := os.MkdirAll(UrgentDir, os.ModePerm); err != nil {
+		fmt.Printf("Error creating log directory (%s): %v\n", UrgentDir, err)
+		return false
+	}
 
-	// Create or open the log file
 	logFile, err := os.OpenFile(logFileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
-		fmt.Println("Error opening log file:", err)
+		fmt.Printf("Error opening log file (%s): %v\n", logFileName, err)
 		return false
 	}
 	defer logFile.Close()
 
-	// Write the title and data to the log file
 	logEntry := fmt.Sprintf("[%s] %s\n%s\n", timestamp, title, data)
-	_, err = logFile.WriteString(logEntry)
-	if err != nil {
-		fmt.Println("Error writing to log file:", err)
+	if _, err := logFile.WriteString(logEntry); err != nil {
+		fmt.Printf("Error writing to log file (%s): %v\n", logFileName, err)
 		return false
 	}
 
-	fmt.Println("Log file written successfully:", logFileName) // todo: delete in production
+	fmt.Println("Log file written successfully:", logFileName)
 	return true
 }
 
 func Logger(title, data string) bool {
-	// Generate the current timestamp for the log file name
 	timestamp := time.Now().Format(TimeFormat)
-	directory := "../../../bin/log/Non_urgent"
+	logFileName := fmt.Sprintf("%s/%s.log", NonUrgentDir, timestamp)
 
-	// Construct the log file name with the timestamp
-	logFileName := fmt.Sprintf("%s/%s.log", directory, timestamp)
+	if err := os.MkdirAll(NonUrgentDir, os.ModePerm); err != nil {
+		fmt.Printf("Error creating log directory (%s): %v\n", NonUrgentDir, err)
+		return false
+	}
 
-	// Create or open the log file
 	logFile, err := os.OpenFile(logFileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
-		fmt.Println("Error opening log file:", err)
+		fmt.Printf("Error opening log file (%s): %v\n", logFileName, err)
 		return false
 	}
 	defer logFile.Close()
 
-	// Write the title and data to the log file
 	logEntry := fmt.Sprintf("[%s] %s\n%s\n", timestamp, title, data)
-	_, err = logFile.WriteString(logEntry)
-	if err != nil {
-		fmt.Println("Error writing to log file:", err)
+	if _, err := logFile.WriteString(logEntry); err != nil {
+		fmt.Printf("Error writing to log file (%s): %v\n", logFileName, err)
 		return false
 	}
 
-	fmt.Println("Log file written successfully:", logFileName) // todo: delete in production
+	fmt.Println("Log file written successfully:", logFileName)
 	return true
 }
 
 func RunCommandInDir(command, directory string) error {
-	// Change to the specified directory
 	if err := os.Chdir(directory); err != nil {
 		return err
 	}

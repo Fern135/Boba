@@ -23,7 +23,7 @@ func main() {
 	config, err := util.LoadConfiguration(conf)
 	if err != nil {
 		// log.Fatalf("Error loading configuration: %v", err)
-		util.LoggerErr("Error in config", err)
+		util.LoggerErr("Error in config", err.Error())
 	}
 
 	fmt.Println("App version ", config.SoftwareVersion)
