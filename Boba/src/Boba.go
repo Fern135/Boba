@@ -1,14 +1,13 @@
 package main
 
 import (
-	"fmt"
-	"log"
-
 	"boba/util"
+	"fmt"
 )
 
 const (
-	conf = "./bin/conf/conf.json"
+	conf  = "./bin/conf/conf.json"
+	panel = "" // todo: add panel once it's working.
 	// ENV  = util.getEnv()
 )
 
@@ -21,12 +20,13 @@ const (
 // fmt.Println("First Domain:", firstDomain.Domain)
 
 func main() {
-	conf, err := util.LoadConfiguration(conf)
+	config, err := util.LoadConfiguration(conf)
 	if err != nil {
-		log.Fatalf("Error loading configuration: %v", err)
+		// log.Fatalf("Error loading configuration: %v", err)
+		util.LoggerErr("Error in config", err)
 	}
 
-	fmt.Println("App version ", conf.SoftwareVersion)
+	fmt.Println("App version ", config.SoftwareVersion)
 
 	// fmt.Println("hello world")
 }

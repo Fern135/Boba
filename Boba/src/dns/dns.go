@@ -20,7 +20,7 @@ func serverStart() {
 	}
 }
 
-func startDNSServer(conf Configuration) error {
+func startDNSServer(conf util.Configuration) error {
 	// Create a UDP address for the server
 	serverAddr := &net.UDPAddr{IP: net.ParseIP("127.0.0.1"), Port: conf.DNSPort}
 
@@ -39,7 +39,7 @@ func startDNSServer(conf Configuration) error {
 	}
 }
 
-func handleDNSRequest(conn *net.UDPConn, conf Configuration) {
+func handleDNSRequest(conn *net.UDPConn, conf util.Configuration) {
 	// Create a buffer to read incoming DNS requests
 	buffer := make([]byte, 1024)
 
