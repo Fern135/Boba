@@ -1,7 +1,7 @@
 package main
 
 import (
-	"boba/util"
+	"boba/src/util"
 	"fmt"
 	"net"
 )

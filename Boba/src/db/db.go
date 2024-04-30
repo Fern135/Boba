@@ -1,10 +1,15 @@
 package db
 
 import (
+	"bufio"
 	"database/sql"
 	"fmt"
 	"log"
+	"os"
+	"strings"
 )
+
+const filePath = "Boba.sql"
 
 var db *sql.DB
 
@@ -23,16 +28,30 @@ func InitDB() error {
 	// Assign the database connection to the global db variable
 	db = conn
 
-	// Create tables if they don't exist
-	_, err = db.Exec(`
-		CREATE TABLE IF NOT EXISTS users (
-			id INTEGER PRIMARY KEY,
-			name TEXT,
-			email TEXT
-		)
-	`)
+	commands, err := ReadSQLFile(filePath)
 	if err != nil {
+		fmt.Println("Error reading SQL file:", err) // todo: use LoggerErr from util
 		return err
+	}
+
+	// Process each SQL command
+	for _, cmd := range commands {
+		fmt.Println("Executing SQL command:", cmd) // todo: delete in production
+
+		_, err = db.Exec(cmd) // run sql commands. once
+	}
+
+	// todo: delete if top works
+	// _, err = db.Exec(`
+	// 	CREATE TABLE IF NOT EXISTS users (
+	// 		id INTEGER PRIMARY KEY,
+	// 		name TEXT,
+	// 		email TEXT
+	// 	)
+	// `)
+
+	if err != nil {
+		return err // todo: use LoggerErr from util
 	}
 
 	return nil
@@ -46,7 +65,7 @@ func InsertUser(name, email string) error {
 
 // QueryUsers retrieves all users from the users table and prints them.
 func QueryUsers() error {
-	rows, err := db.Query("SELECT id, name, email FROM users")
+	rows, err := db.Query("SELECT * FROM users")
 	if err != nil {
 		return err
 	}
@@ -63,6 +82,45 @@ func QueryUsers() error {
 	}
 
 	return nil
+}
+
+func ReadSQLFile(filePath string) ([]string, error) {
+	file, err := os.Open(filePath)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	var commands []string
+	var currentCommand strings.Builder
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		line = strings.TrimSpace(line)
+		if line == "" {
+			continue // Skip empty lines
+		}
+
+		if strings.HasSuffix(line, ";") {
+			// Append the line to the current command
+			currentCommand.WriteString(line)
+			commands = append(commands, currentCommand.String())
+
+			// Reset the current command
+			currentCommand.Reset()
+		} else {
+			// Append the line to the current command
+			currentCommand.WriteString(line)
+			currentCommand.WriteString(" ")
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		return nil, err
+	}
+
+	return commands, nil
 }
 
 func usage() {

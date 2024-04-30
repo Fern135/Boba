@@ -55,6 +55,7 @@ func LoadConfiguration(filename string) (Configuration, error) {
 	return conf, nil
 }
 
+// todo: debug why it's not logging
 func LoggerErr(title, data string) bool {
 	timestamp := time.Now().Format(TimeFormat)
 	logFileName := fmt.Sprintf("%s/%s.log", UrgentDir, timestamp)
@@ -81,6 +82,7 @@ func LoggerErr(title, data string) bool {
 	return true
 }
 
+// todo: debug why it's not logging
 func Logger(title, data string) bool {
 	timestamp := time.Now().Format(TimeFormat)
 	logFileName := fmt.Sprintf("%s/%s.log", NonUrgentDir, timestamp)
