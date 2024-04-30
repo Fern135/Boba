@@ -1,0 +1,68 @@
+package main
+
+import (
+	"boba/util"
+	"fmt"
+	"net"
+)
+
+func serverStart() {
+	// Load DNS server configuration from JSON file
+	conf, err := util.LoadConfiguration("../..//bin/conf/sconfig.json")
+	if err != nil {
+		fmt.Println("Error loading configuration:", err)
+		return
+	}
+
+	// Start the DNS server
+	if err := startDNSServer(conf); err != nil {
+		fmt.Println("Error starting DNS server:", err)
+	}
+}
+
+func startDNSServer(conf Configuration) error {
+	// Create a UDP address for the server
+	serverAddr := &net.UDPAddr{IP: net.ParseIP("127.0.0.1"), Port: conf.DNSPort}
+
+	// Create a UDP connection for the server
+	conn, err := net.ListenUDP("udp", serverAddr)
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
+
+	fmt.Printf("DNS server listening on %s:%d\n", serverAddr.IP, serverAddr.Port)
+
+	// Handle incoming DNS requests
+	for {
+		handleDNSRequest(conn, conf)
+	}
+}
+
+func handleDNSRequest(conn *net.UDPConn, conf Configuration) {
+	// Create a buffer to read incoming DNS requests
+	buffer := make([]byte, 1024)
+
+	// Read incoming DNS request from the client
+	n, addr, err := conn.ReadFromUDP(buffer)
+	if err != nil {
+		fmt.Println("Error reading from UDP connection:", err)
+		return
+	}
+
+	fmt.Printf("Received DNS request from %s\n", addr)
+
+	// Parse the incoming DNS request and formulate a response
+	// For simplicity, we'll just print the received data and respond with a dummy message
+	domain := "example.com"
+	for _, d := range conf.Domains {
+		if d.Domain == string(buffer[:n]) {
+			domain = d.Domain
+			break
+		}
+	}
+
+	// Send a response back to the client
+	response := []byte(fmt.Sprintf("Resolved IP address for %s is 127.0.0.1", domain))
+	conn.WriteToUDP(response, addr)
+}

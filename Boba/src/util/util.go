@@ -28,17 +28,6 @@ type Configuration struct {
 	} `json:"domains"`
 }
 
-func IsValidEmail(email string) bool {
-	// Regular expression for validating email addresses
-	pattern := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`
-
-	// Compile the regular expression
-	regex := regexp.MustCompile(pattern)
-
-	// Use the compiled regular expression to match the email address
-	return regex.MatchString(email)
-}
-
 func LoadConfiguration(filename string) (Configuration, error) {
 	var conf Configuration
 
@@ -55,6 +44,17 @@ func LoadConfiguration(filename string) (Configuration, error) {
 	}
 
 	return conf, nil
+}
+
+func IsValidEmail(email string) bool {
+	// Regular expression for validating email addresses
+	pattern := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`
+
+	// Compile the regular expression
+	regex := regexp.MustCompile(pattern)
+
+	// Use the compiled regular expression to match the email address
+	return regex.MatchString(email)
 }
 
 func getEnv() map[string]string {
