@@ -8,11 +8,13 @@ import (
 	"os"
 	"os/exec"
 	"regexp"
+	"runtime"
 	"strings"
 	"time"
 )
 
 const (
+	conf         = "../bin/conf/conf.json"
 	TimeFormat   = "01/02/2006 - 03:04 PM"
 	UrgentDir    = "../../../bin/log/urgent"
 	NonUrgentDir = "../../../bin/log/Non_urgent"
@@ -173,4 +175,127 @@ func getEnv() map[string]string {
 	}
 
 	return env
+}
+
+// ==================== installing languages ====================
+func InstallLanguages() {
+	// Check the operating system
+	switch runtime.GOOS {
+	case "darwin", "linux":
+		unixInstall()
+	case "windows":
+		WindowsInstall()
+	default:
+		fmt.Println("Unsupported operating system.")
+	}
+}
+
+// Check if a command is installed
+func isInstalled(command string) bool {
+	_, err := exec.LookPath(command)
+	return err == nil
+}
+
+// Install a command using the appropriate package manager
+func installCmdUnix(command string) {
+	var installCmd *exec.Cmd
+
+	switch runtime.GOOS {
+	case "darwin", "linux":
+		installCmd = exec.Command("sudo", "apt", "install", "-y", command)
+	default:
+		fmt.Println("Installation not supported on this operating system.")
+		return
+	}
+
+	output, err := installCmd.CombinedOutput()
+	if err != nil {
+		fmt.Printf("Error installing %s: %s\n", command, err)
+		return
+	}
+
+	fmt.Printf("Installation of %s successful:\n%s\n", command, string(output))
+}
+
+func unixInstall() {
+	// Check if PHP is installed
+	if !isInstalled("php") {
+		fmt.Println("Installing PHP...")
+		installCmdUnix("php")
+	} else {
+		fmt.Println("PHP is already installed.")
+	}
+
+	// Check if Python is installed
+	if !isInstalled("python3") {
+		fmt.Println("Installing Python...")
+		installCmdUnix("python3")
+	} else {
+		fmt.Println("Python is already installed.")
+	}
+
+	// Check if Node.js is installed
+	if !isInstalled("node") {
+		fmt.Println("Installing Node.js...")
+		installCmdUnix("node")
+	} else {
+		fmt.Println("Node.js is already installed.")
+	}
+
+	// Check if npm is installed
+	if !isInstalled("npm") {
+		fmt.Println("Installing npm...")
+		installCmdUnix("npm")
+	} else {
+		fmt.Println("npm is already installed.")
+	}
+}
+
+func WindowsInstall() {
+	// Install Chocolatey
+	fmt.Println("Installing Chocolatey (choco)...")
+	if err := installChocolatey(); err != nil {
+		fmt.Println("Error installing Chocolatey:", err)
+		return
+	}
+
+	// Install PHP
+	fmt.Println("Installing PHP...")
+	if err := installPkgWindows("php"); err != nil {
+		fmt.Println("Error installing PHP:", err)
+	}
+
+	// Install Python
+	fmt.Println("Installing Python...")
+	if err := installPkgWindows("python"); err != nil {
+		fmt.Println("Error installing Python:", err)
+	}
+
+	// Install Node.js
+	fmt.Println("Installing Node.js...")
+	if err := installPkgWindows("nodejs"); err != nil {
+		fmt.Println("Error installing Node.js:", err)
+	}
+}
+
+// Install a package using Chocolatey
+func installPkgWindows(packageName string) error {
+	cmd := exec.Command("choco", "install", packageName, "-y")
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("error installing %s: %s", packageName, err)
+	}
+	fmt.Printf("Installation of %s successful:\n%s\n", packageName, string(output))
+	return nil
+}
+
+// Install Chocolatey on Windows
+func installChocolatey() error {
+	cmd := exec.Command("powershell", "-Command", "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))")
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("error installing Chocolatey: %s", err)
+	}
+	fmt.Println("Chocolatey installed successfully:\n", string(output))
+	return nil
 }

@@ -3,11 +3,12 @@ package main
 import (
 	"boba/src/util"
 	"fmt"
+	"log"
 )
 
 const (
-	conf  = "./bin/conf/conf.json"
-	panel = "" // todo: add panel once it's working.
+	conf  = "../bin/conf/conf.json"
+	panel = "" // todo: add panel directory once it's working.
 	// ENV  = util.getEnv()
 )
 
@@ -20,13 +21,21 @@ const (
 // fmt.Println("First Domain:", firstDomain.Domain)
 
 func main() {
+
+	loadMessages()
+
+}
+
+func loadMessages() {
 	config, err := util.LoadConfiguration(conf)
 	if err != nil {
-		// log.Fatalf("Error loading configuration: %v", err)
-		util.LoggerErr("Error in config", err.Error())
+		log.Fatalf("Error loading configuration: %v", err)
+		// util.LoggerErr("Error in config", err.Error())
 	}
+	fmt.Println("App version 	 \t", config.SoftwareVersion)
+	fmt.Println("Php Version 	 \t", config.LanguageVersions.PHPVersion)
+	fmt.Println("Python Version  \t", config.LanguageVersions.PythonVersion)
+	fmt.Println("Node.js Version \t", config.LanguageVersions.NodeVersion)
+	fmt.Println("NPM Version 	 \t", config.LanguageVersions.NPMVersion)
 
-	fmt.Println("App version ", config.SoftwareVersion)
-
-	// fmt.Println("hello world")
 }
