@@ -4,7 +4,8 @@
   "description": "A local php development server with custom built panel.",
   "scripts": {
     "compile": "cd ./Boba/ && go build && go build Boba.go && go run Boba.go && cd ../",
-    "deploy" : "deploy to a static page to download as an executeable for linux, mac and windows"
+    "set-up" : "cls && cd ./scripts/ && node cli.js -env && cd ../",
+    "deploy" : "cls && cd ./scripts/ && node cli.js -d && cd ../"
   },
   "keywords": [],
   "author": "Fernando Camblor",

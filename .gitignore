@@ -23,6 +23,7 @@ boba.pdb
 # so the compiled isn't save in the repo
 *.exe
 *.dmg
+*.MOD
 
 # mac only 
 .DS_Store

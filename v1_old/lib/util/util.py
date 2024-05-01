@@ -130,8 +130,8 @@ def generate_random_alphanumeric_string(length: int) -> str:
             random_string = generate_random_alphanumeric_string(10)
             print(random_string)  # Output: "AbCdEfGhIj"
     """
-    random_string = ''.join(random.choice(CHARACTERS) for _ in range(length))
-    return random_string
+    return ''.join(random.choice(CHARACTERS) for _ in range(length))
+
 
 def is_valid_email(email: str) -> bool:
     """
