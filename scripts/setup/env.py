@@ -21,6 +21,7 @@ def generate_random_alphanumeric_string(length: int) -> str:
     return ''.join(random.choice(CHARACTERS) for _ in range(length))
 
 def write_env_file():
+    # todo: debug why this keeps running in the terminal. 
     env_data = {
         "secret_key": generate_random_alphanumeric_string(random.randint(1, 250)) + "\n",
         "db_user_name": "",
