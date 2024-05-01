@@ -1,17 +1,6 @@
 const readline = require('readline');
 const { exec } = require('child_process');
 
-/*
-  todo: replace in deploy if it doesn't work with async.
-  exec(command, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`exec error: ${error}`);
-      return;
-    }
-    console.log(stdout);
-    if (stderr) console.error(`stderr: ${stderr}`);
-  });
-*/
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -44,7 +33,7 @@ function setUpEnv(){
   });
 }
 
-async function deploy(){
+function deploy(){
   let command;
   switch (process.platform) {
   case 'win32':
@@ -60,16 +49,21 @@ async function deploy(){
     process.exit(1);
   }
 
-  const { stdout, stderr } = await exec(command);
-  console.log(stdout);
-  if (stderr) console.error(`stderr: ${stderr}`);
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`exec error: ${error}`);
+      return;
+    }
+    console.log(stdout);
+    if (stderr) console.error(`stderr: ${stderr}`);
+  });
 }
 
 const args = process.argv.slice(2);
 if (args.includes('-env')) {
   setUpEnv();
 } else if (args.includes('-d')) {
-  deploy().catch(error => console.error(`Error: ${error}`));
+  deploy();
 } else {
   // Ask user for their name if no flag is provided
   rl.question('Enter your name: ', (name) => {
