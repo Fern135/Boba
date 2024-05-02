@@ -223,7 +223,7 @@ func unixInstall() {
 		fmt.Println("Installing PHP...")
 		installCmdUnix("php")
 	} else {
-		fmt.Println("PHP:\t\tIs already installed.")
+		fmt.Println("PHP:\t\t\t Is already installed.")
 	}
 
 	// Check if Python is installed
@@ -231,7 +231,7 @@ func unixInstall() {
 		fmt.Println("Installing Python...")
 		installCmdUnix("python3")
 	} else {
-		fmt.Println("Python3:\t\tIs already installed.")
+		fmt.Println("Python3:\t\t Is already installed.")
 	}
 
 	// Check if Node.js is installed
@@ -239,7 +239,7 @@ func unixInstall() {
 		fmt.Println("Installing Node.js...")
 		installCmdUnix("node")
 	} else {
-		fmt.Println("Node.js:\t\tIs already installed.")
+		fmt.Println("Node.js:\t\t Is already installed.")
 	}
 
 	// Check if npm is installed
@@ -247,7 +247,7 @@ func unixInstall() {
 		fmt.Println("Installing npm...")
 		installCmdUnix("npm")
 	} else {
-		fmt.Println("npm:\t\tIs already installed.")
+		fmt.Println("npm:\t\t\t Is already installed.")
 	}
 }
 
