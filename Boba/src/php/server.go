@@ -1,12 +1,14 @@
 package php
 
 import (
+	"boba/src/util"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strconv"
 	"strings"
 )
 
@@ -43,14 +45,20 @@ func servePHPFiles(w http.ResponseWriter, r *http.Request) {
 	w.Write(output)
 }
 
-func server() {
+func Server() {
+	config, err := util.LoadConfiguration("../bin/conf/conf.json")
+	if err != nil {
+		log.Fatalf("Error loading configuration: %v", err)
+		// util.LoggerErr("Error in config", err.Error())
+	}
 	// Define the HTTP server address and port
-	addr := ":8080"
+	addr := config.PHPPort
 
 	// Register the handler function for serving PHP files
+	// todo: make route dynamic to domain
 	http.HandleFunc("/", servePHPFiles)
 
 	// Start the HTTP server
-	fmt.Printf("PHP server listening on %s\n", addr)
-	log.Fatal(http.ListenAndServe(addr, nil))
+	fmt.Println("PHP server listening on ", addr)
+	log.Fatal(http.ListenAndServe(strconv.Itoa(addr), nil))
 }
