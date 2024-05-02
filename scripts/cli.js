@@ -68,15 +68,7 @@ function deploy(){
 const args = process.argv.slice(2);
 if (args.includes('-env')) {
   setUpEnv();
-} else if (args.includes('-d')) {
+} 
+if (args.includes('-d')) {
   deploy();
-} else {
-  // Ask user for their name if no flag is provided
-  rl.question('Enter your name: ', (name) => {
-    // Call greet function with the provided name
-    greet(name);
-  
-    // Close the readline interface
-    rl.close();
-  });
-}
+} 

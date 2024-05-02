@@ -22,6 +22,7 @@
     ],
     "projects-path"     : "../http_serve/",
     "dns-port"          : 56,
+    "php-server-domain" : 8080,
     "domains"           : [
         {
             "domain": "boba.local",
