@@ -33,6 +33,7 @@ type Configuration struct {
 	TimeFormat   []string `json:"time-format"`
 	ProjectsPath string   `json:"projects-path"`
 	DNSPort      int      `json:"dns-port"`
+	PHPPort      int      `json:"php-server-domain"`
 	Domains      []struct {
 		Domain string `json:"domain"`
 		Route  string `json:"route"`
