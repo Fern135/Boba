@@ -149,7 +149,7 @@ func IsValidEmail(email string) bool {
 	return regex.MatchString(email)
 }
 
-func getEnv() map[string]string {
+func GetEnv() map[string]string {
 	file, err := os.Open("../../../.env")
 	if err != nil {
 		log.Fatalf("Error opening .env file: %v", err)
@@ -177,46 +177,104 @@ func getEnv() map[string]string {
 	return env
 }
 
-// ==================== installing languages ====================
-func InstallLanguages() {
-	// Check the operating system
+// ==================== mysql and mongoDB windows ====================
+func InstallPackages() {
 	switch runtime.GOOS {
-	case "darwin", "linux":
+	case "darwin":
+		macInstall()
+	case "linux":
 		unixInstall()
 	case "windows":
-		WindowsInstall()
+		windowsInstall()
 	default:
 		fmt.Println("Unsupported operating system.")
 	}
 }
 
-// Check if a command is installed
+// ==================== installing databases ====================
+func InstallDatabases() {
+	switch runtime.GOOS {
+	case "darwin":
+		macDbInstall()
+	case "linux":
+		unixDbInstall()
+	case "windows":
+		windowsDbInstall()
+	default:
+		fmt.Println("Unsupported operating system.")
+	}
+}
+
+// ==================== mysql and mongoDB unix ====================
+func unixDbInstall() {
+	if !isInstalled("mysql") || !isInstalled("mongodb-community") {
+		if !isInstalled("mysql") && !isInstalled("mongodb-community") {
+			// installing databases concurrently
+			go func() {
+				// brewTap("mongodb/brew")
+				installCmdUnix("mysql")
+				installCmdUnix("mongodb-community")
+			}()
+		}
+
+		// installing databases concurrently
+		go func() {
+			// brewTap("mongodb/brew")
+			installCmdUnix("mysql")
+			installCmdUnix("mongodb-community")
+		}()
+	}
+}
+
+// ==================== mysql and mongoDB unix ====================
+func macDbInstall() {
+	if !isInstalled("mysql") || !isInstalled("mongodb/brew") || !isInstalled("mongodb-community") {
+		if !isInstalled("mysql") && !isInstalled("mongodb/brew") && !isInstalled("mongodb-community") {
+			// installing databases concurrently
+			go func() {
+				installCmdBrew("mysql")
+				brewTap("mongodb/brew")
+				installCmdBrew("mongodb-community")
+			}()
+		}
+
+		// installing databases concurrently
+		go func() {
+			installCmdBrew("mysql")
+			brewTap("mongodb/brew")
+			installCmdBrew("mongodb-community")
+		}()
+	}
+}
+
+// ==================== mysql and mongoDB windows ====================
+func windowsDbInstall() {
+	if !isInstalled("mysql") || !isInstalled("mongodb-community") {
+		if !isInstalled("mysql") && !isInstalled("mongodb-community") {
+			// installing databases concurrently
+			go func() {
+				// brewTap("mongodb/brew")
+				installPkgWindows("mysql")
+				installPkgWindows("mongodb")
+			}()
+		}
+
+		// installing databases concurrently
+		go func() {
+			// brewTap("mongodb/brew")
+			installPkgWindows("mysql")
+			installPkgWindows("mongodb")
+		}()
+	}
+}
+
+// ==================== Check if a command is installed ====================
 func isInstalled(command string) bool {
 	_, err := exec.LookPath(command)
 	return err == nil
 }
 
-// Install a command using the appropriate package manager
-func installCmdUnix(command string) {
-	var installCmd *exec.Cmd
-
-	switch runtime.GOOS {
-	case "darwin", "linux":
-		installCmd = exec.Command("sudo", "apt", "install", "-y", command)
-	default:
-		fmt.Println("Installation not supported on this operating system.")
-		return
-	}
-
-	output, err := installCmd.CombinedOutput()
-	if err != nil {
-		fmt.Printf("Error installing %s: %s\n", command, err)
-		return
-	}
-
-	fmt.Printf("Installation of %s successful:\n%s\n", command, string(output))
-}
-
+// ==================== installing languages for unix aka linux ====================
 func unixInstall() {
 	// Check if PHP is installed
 	if !isInstalled("php") {
@@ -251,8 +309,48 @@ func unixInstall() {
 	}
 }
 
+// ==================== installing on mac using brew ====================
+func macInstall() {
+	fmt.Println("Installing HomeBrew (brew)...")
+	if err := installBrew(); err != nil {
+		fmt.Println("Error installing HomeBrew:", err)
+		return
+	}
+	// Check if PHP is installed
+	if !isInstalled("php") {
+		fmt.Println("Installing PHP...")
+		installCmdBrew("php")
+	} else {
+		fmt.Println("PHP:\t\t\t Is already installed.")
+	}
+
+	// Check if Python is installed
+	if !isInstalled("python3") {
+		fmt.Println("Installing Python...")
+		installCmdBrew("python3")
+	} else {
+		fmt.Println("Python3:\t\t Is already installed.")
+	}
+
+	// Check if Node.js is installed
+	if !isInstalled("node") {
+		fmt.Println("Installing Node.js...")
+		installCmdBrew("node")
+	} else {
+		fmt.Println("Node.js:\t\t Is already installed.")
+	}
+
+	// Check if npm is installed
+	if !isInstalled("npm") {
+		fmt.Println("Installing npm...")
+		installCmdBrew("npm")
+	} else {
+		fmt.Println("npm:\t\t\t Is already installed.")
+	}
+}
+
 // todo: debug for windows. unix installation works.
-func WindowsInstall() {
+func windowsInstall() {
 	// Install Chocolatey
 	fmt.Println("Installing Chocolatey (choco)...")
 	if err := installChocolatey(); err != nil {
@@ -279,7 +377,43 @@ func WindowsInstall() {
 	}
 }
 
-// Install a package using Chocolatey
+// ==================== install commands for unix system aka linux ====================
+func installCmdUnix(command string) {
+	// var installCmd *exec.Cmd //todo: delete
+	installCmd := exec.Command("sudo", "apt", "install", "-y", command)
+	output, err := installCmd.CombinedOutput()
+	if err != nil {
+		fmt.Printf("Error installing %s: %s\n", command, err)
+		return
+	}
+	fmt.Printf("Installation of %s successful:\n%s\n", command, string(output))
+}
+
+// ==================== install packages using homebrew ====================
+func installCmdBrew(packageName string) {
+	// var installCmd *exec.Cmd //todo: delete
+	installCmd := exec.Command("brew", "install", packageName)
+	output, err := installCmd.CombinedOutput()
+	if err != nil {
+		fmt.Printf("Error installing %s: %s\n", packageName, err)
+		return
+	}
+	fmt.Printf("Installation of %s successful:\n%s\n", packageName, string(output))
+}
+
+// ==================== adding to homebrew installation ====================
+func brewTap(packageName string) {
+	// var installCmd *exec.Cmd //todo: delete
+	installCmd := exec.Command("brew", "tap", packageName)
+	output, err := installCmd.CombinedOutput()
+	if err != nil {
+		fmt.Printf("Error installing %s: %s\n", packageName, err)
+		return
+	}
+	fmt.Printf("Installation of %s successful:\n%s\n", packageName, string(output))
+}
+
+// ==================== Install a package using Chocolatey ====================
 func installPkgWindows(packageName string) error {
 	cmd := exec.Command("choco", "install", packageName, "-y")
 	output, err := cmd.CombinedOutput()
@@ -290,7 +424,18 @@ func installPkgWindows(packageName string) error {
 	return nil
 }
 
-// Install Chocolatey on Windows
+// ==================== install homebrew ====================
+func installBrew() error {
+	cmd := exec.Command("/bin/bash -c '$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)'")
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("error installing homeBrew: %s", err)
+	}
+	fmt.Println("homeBrew installed successfully:\n", string(output))
+	return nil
+}
+
+// ==================== install chocolatey (windows) ====================
 func installChocolatey() error {
 	cmd := exec.Command("powershell", "-Command", "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))")
 	output, err := cmd.CombinedOutput()

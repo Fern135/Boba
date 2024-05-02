@@ -24,7 +24,7 @@ def write_env_file():
         db_password=\n
         db_ip=localhost\n
         db_name=Boba\n
-        debugging=True\n
+        debugging=true\n
     """
 
     file_path = "../../.env"
