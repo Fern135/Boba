@@ -27,7 +27,6 @@ func main() {
 	} else {
 		runApp()
 	}
-
 }
 
 // installing languages and more.
