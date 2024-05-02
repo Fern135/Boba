@@ -14,9 +14,8 @@ function setUpEnv(){
       case 'win32':
         command = 'python ./setup/env.py';
         break;
-        
     case 'darwin':
-      case 'linux':
+    case 'linux':
         command = 'python3 ./setup/env.py';
         break;
     default:
@@ -44,9 +43,8 @@ function deploy(){
     case 'win32':
           command = 'python ./deploy/deploy.py';
       break;
-      
       case 'darwin':
-        case 'linux':
+      case 'linux':
           command = 'python3 ./deploy/deploy.py';
       break;
     default:
