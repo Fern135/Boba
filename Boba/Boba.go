@@ -22,7 +22,7 @@ var ENV = util.GetEnv()
 // fmt.Println("First Domain:", firstDomain.Domain)
 
 func main() {
-	if ENV["debugging"] == "true" {
+	if ENV["debugging"] == true {
 		defer loadMessages()
 	} else {
 		runApp()

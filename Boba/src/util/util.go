@@ -150,7 +150,7 @@ func IsValidEmail(email string) bool {
 	return regex.MatchString(email)
 }
 
-func GetEnv() map[string]string {
+func GetEnv() map[string]interface{} {
 	file, err := os.Open("../../../.env")
 	if err != nil {
 		log.Fatalf("Error opening .env file: %v", err)
@@ -158,7 +158,7 @@ func GetEnv() map[string]string {
 	defer file.Close()
 
 	// Create a map to store environment variables
-	env := make(map[string]string)
+	env := make(map[string]interface{})
 
 	// Read .env file line by line
 	scanner := bufio.NewScanner(file)
@@ -166,7 +166,14 @@ func GetEnv() map[string]string {
 		line := scanner.Text()
 		parts := strings.Split(line, "=")
 		if len(parts) == 2 {
-			env[parts[0]] = parts[1]
+			// Check if the value is "true" or "false"
+			if parts[1] == "true" {
+				env[parts[0]] = true
+			} else if parts[1] == "false" {
+				env[parts[0]] = false
+			} else {
+				env[parts[0]] = parts[1]
+			}
 		}
 	}
 
