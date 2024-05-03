@@ -405,6 +405,7 @@ func macInstall() {
 }
 
 // todo: debug for windows. unix installation works.
+// todo: test for mac
 func windowsInstall() {
 	// Install Chocolatey
 	fmt.Println("Installing Chocolatey (choco)...")
