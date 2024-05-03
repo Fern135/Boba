@@ -35,7 +35,7 @@ func merge(left, right []int) []int {
 }
 
 // ==================== quick ====================
-func quick(arr []int) []int {
+func Quick(arr []int) []int {
 	if len(arr) <= 1 {
 		return arr
 	}
@@ -51,14 +51,14 @@ func quick(arr []int) []int {
 		}
 	}
 
-	left = quick(left)
-	right = quick(right)
+	left = Quick(left)
+	right = Quick(right)
 
 	return append(append(left, pivot), right...)
 }
 
 // ==================== heap ====================
-func heap(arr []int) {
+func Heap(arr []int) {
 	n := len(arr)
 
 	for i := n/2 - 1; i >= 0; i-- {
@@ -91,7 +91,7 @@ func heapify(arr []int, n, i int) {
 }
 
 // ==================== bubble ====================
-func bubble(arr []int) {
+func Bubble(arr []int) {
 	n := len(arr)
 	for i := 0; i < n-1; i++ {
 		for j := 0; j < n-i-1; j++ {
@@ -103,7 +103,7 @@ func bubble(arr []int) {
 }
 
 // ==================== insertion ====================
-func insertion(arr []int) {
+func Insertion(arr []int) {
 	n := len(arr)
 	for i := 1; i < n; i++ {
 		key := arr[i]

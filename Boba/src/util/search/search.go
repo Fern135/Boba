@@ -3,7 +3,7 @@ package search
 import "math"
 
 // ==================== Linear Search ====================
-func linearSearch(arr []int, target int) int {
+func LinearSearch(arr []int, target int) int {
 	for i, val := range arr {
 		if val == target {
 			return i
@@ -13,7 +13,7 @@ func linearSearch(arr []int, target int) int {
 }
 
 // ==================== Binary Search ====================
-func binarySearch(arr []int, target int) int {
+func BinarySearch(arr []int, target int) int {
 	low, high := 0, len(arr)-1
 
 	for low <= high {
@@ -32,7 +32,7 @@ func binarySearch(arr []int, target int) int {
 }
 
 // ==================== Jump Search ====================
-func jumpSearch(arr []int, target int) int {
+func JumpSearch(arr []int, target int) int {
 	n := len(arr)
 	step := int(math.Sqrt(float64(n)))
 	prev := 0
@@ -60,7 +60,7 @@ func jumpSearch(arr []int, target int) int {
 }
 
 // ==================== Interpolation Search ====================
-func interpolationSearch(arr []int, target int) int {
+func InterpolationSearch(arr []int, target int) int {
 	low, high := 0, len(arr)-1
 
 	for low <= high && target >= arr[low] && target <= arr[high] {
