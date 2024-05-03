@@ -33,7 +33,10 @@ func main() {
 func runApp() {
 	go func() {
 		util.InstallPackages()
+		util.ProgressBar(util.InstallPackages()) // loading bar based on how long packages take
+
 		util.InstallDatabases()
+		util.ProgressBar(util.InstallDatabases()) // loading bar based on how long database take
 	}()
 }
 
