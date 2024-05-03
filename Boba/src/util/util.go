@@ -139,6 +139,7 @@ func RunCommandInDir(command, directory string) error {
 	*/
 }
 
+// ==================== checking if email is valid format ====================
 func IsValidEmail(email string) bool {
 	// Regular expression for validating email addresses
 	pattern := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`
@@ -150,6 +151,7 @@ func IsValidEmail(email string) bool {
 	return regex.MatchString(email)
 }
 
+// ==================== getting enviroment variables ====================
 func GetEnv() map[string]interface{} {
 	file, err := os.Open("../../../.env")
 	if err != nil {
@@ -166,13 +168,20 @@ func GetEnv() map[string]interface{} {
 		line := scanner.Text()
 		parts := strings.Split(line, "=")
 		if len(parts) == 2 {
-			// Check if the value is "true" or "false"
-			if parts[1] == "true" {
-				env[parts[0]] = true
-			} else if parts[1] == "false" {
-				env[parts[0]] = false
+			// Check if the key is "debugging" or "debug"
+			key := strings.TrimSpace(parts[0])
+			value := strings.TrimSpace(parts[1])
+			if key == "debugging" || key == "debug" {
+				// Check if the value is "true" or "false"
+				if value == "true" {
+					env[key] = true
+				} else if value == "false" {
+					env[key] = false
+				} else {
+					env[key] = value
+				}
 			} else {
-				env[parts[0]] = parts[1]
+				env[key] = value
 			}
 		}
 	}
@@ -185,8 +194,53 @@ func GetEnv() map[string]interface{} {
 	return env
 }
 
+// ==================== loading bar ====================
+func MeasureTime(f func()) int {
+	start := time.Now()
+	f() // Call the function
+	elapsed := time.Since(start)
+	// fmt.Printf("Function execution time: %s\n", elapsed)
+	return int(elapsed)
+}
+
+// ==================== loading bar ====================
+// func printProgressBar(iteration, total int, fill string) {
+func ProgressBar(total int) {
+	prefix := "%"        // prefix string
+	suffix := "Complete" // suffix string
+	length := total - 5  // length
+	iteration := 1       // to initialize the iteration
+	fill := "="          // fill string
+	percent := float64(iteration) / float64(total)
+	filledLength := int(length * iteration / total)
+	end := ">"
+
+	if iteration == total {
+		end = "="
+	}
+	bar := strings.Repeat(fill, filledLength) + end + strings.Repeat("-", (length-filledLength))
+
+	// Calculate elapsed time
+	// elapsed := time.Since(startTime)
+
+	for init := 0; init < total; init++ {
+		fmt.Printf("\r%s [%s] %f%% - Elapsed time: %s", prefix, bar, percent, suffix)
+	}
+	if iteration == total {
+		fmt.Println()
+	}
+}
+
+// func main() {
+// 	for i := 0; i < 30; i++ {
+// 		time.Sleep(500 * time.Millisecond) // mimics work
+// 		printProgressBar(i+1, 30, "Progress", "Complete", 25, "=")
+// 	}
+// }
+
 // ==================== mysql and mongoDB windows ====================
-func InstallPackages() {
+func InstallPackages() int {
+	start := time.Now()
 	switch runtime.GOOS {
 	case "darwin":
 		macInstall()
@@ -197,10 +251,12 @@ func InstallPackages() {
 	default:
 		fmt.Println("Unsupported operating system.")
 	}
+	return int(time.Since(start))
 }
 
 // ==================== installing databases ====================
-func InstallDatabases() {
+func InstallDatabases() int {
+	start := time.Now()
 	switch runtime.GOOS {
 	case "darwin":
 		macDbInstall()
@@ -211,6 +267,7 @@ func InstallDatabases() {
 	default:
 		fmt.Println("Unsupported operating system.")
 	}
+	return int(time.Since(start))
 }
 
 // ==================== mysql and mongoDB unix ====================
@@ -218,40 +275,33 @@ func unixDbInstall() {
 	if !isInstalled("mysql") || !isInstalled("mongodb-community") {
 		if !isInstalled("mysql") && !isInstalled("mongodb-community") {
 			// installing databases concurrently
-			go func() {
-				// brewTap("mongodb/brew")
-				installCmdUnix("mysql")
-				installCmdUnix("mongodb-community")
-			}()
+			// brewTap("mongodb/brew")
+			go installCmdUnix("mysql")
+			go installCmdUnix("mongodb-community")
 		}
 
 		// installing databases concurrently
-		go func() {
-			// brewTap("mongodb/brew")
-			installCmdUnix("mysql")
-			installCmdUnix("mongodb-community")
-		}()
+		// brewTap("mongodb/brew")
+		go installCmdUnix("mysql")
+		go installCmdUnix("mongodb-community")
 	}
 }
 
-// ==================== mysql and mongoDB unix ====================
+// ==================== mysql and mongoDB mac ====================
 func macDbInstall() {
 	if !isInstalled("mysql") || !isInstalled("mongodb/brew") || !isInstalled("mongodb-community") {
 		if !isInstalled("mysql") && !isInstalled("mongodb/brew") && !isInstalled("mongodb-community") {
 			// installing databases concurrently
-			go func() {
-				installCmdBrew("mysql")
-				brewTap("mongodb/brew")
-				installCmdBrew("mongodb-community")
-			}()
+			go installCmdBrew("mysql")
+			go brewTap("mongodb/brew")
+			go installCmdBrew("mongodb-community")
 		}
 
 		// installing databases concurrently
-		go func() {
-			installCmdBrew("mysql")
-			brewTap("mongodb/brew")
-			installCmdBrew("mongodb-community")
-		}()
+		go installCmdBrew("mysql")
+		go brewTap("mongodb/brew")
+		go installCmdBrew("mongodb-community")
+
 	}
 }
 
@@ -260,23 +310,20 @@ func windowsDbInstall() {
 	if !isInstalled("mysql") || !isInstalled("mongodb-community") {
 		if !isInstalled("mysql") && !isInstalled("mongodb-community") {
 			// installing databases concurrently
-			go func() {
-				// brewTap("mongodb/brew")
-				installPkgWindows("mysql")
-				installPkgWindows("mongodb")
-			}()
+
+			// brewTap("mongodb/brew")
+			go installPkgWindows("mysql")
+			go installPkgWindows("mongodb")
 		}
 
 		// installing databases concurrently
-		go func() {
-			// brewTap("mongodb/brew")
-			installPkgWindows("mysql")
-			installPkgWindows("mongodb")
-		}()
+		// brewTap("mongodb/brew")
+		go installPkgWindows("mysql")
+		go installPkgWindows("mongodb")
 	}
 }
 
-// ==================== Check if a command is installed ====================
+// ==================== Check if command is installed ====================
 func isInstalled(command string) bool {
 	_, err := exec.LookPath(command)
 	return err == nil
@@ -284,7 +331,7 @@ func isInstalled(command string) bool {
 
 // ==================== installing languages for unix aka linux ====================
 func unixInstall() {
-	// Check if PHP is installed
+	// PHP
 	if !isInstalled("php") {
 		fmt.Println("Installing PHP...")
 		installCmdUnix("php")
@@ -292,7 +339,7 @@ func unixInstall() {
 		fmt.Println("PHP:\t\t\t Is already installed.")
 	}
 
-	// Check if Python is installed
+	// Python
 	if !isInstalled("python3") {
 		fmt.Println("Installing Python...")
 		installCmdUnix("python3")
@@ -300,7 +347,7 @@ func unixInstall() {
 		fmt.Println("Python3:\t\t Is already installed.")
 	}
 
-	// Check if Node.js is installed
+	// Node.js
 	if !isInstalled("node") {
 		fmt.Println("Installing Node.js...")
 		installCmdUnix("node")
@@ -308,7 +355,7 @@ func unixInstall() {
 		fmt.Println("Node.js:\t\t Is already installed.")
 	}
 
-	// Check if npm is installed
+	// NPM
 	if !isInstalled("npm") {
 		fmt.Println("Installing npm...")
 		installCmdUnix("npm")
@@ -324,7 +371,7 @@ func macInstall() {
 		fmt.Println("Error installing HomeBrew:", err)
 		return
 	}
-	// Check if PHP is installed
+	// PHP
 	if !isInstalled("php") {
 		fmt.Println("Installing PHP...")
 		installCmdBrew("php")
@@ -332,7 +379,7 @@ func macInstall() {
 		fmt.Println("PHP:\t\t\t Is already installed.")
 	}
 
-	// Check if Python is installed
+	// Python
 	if !isInstalled("python3") {
 		fmt.Println("Installing Python...")
 		installCmdBrew("python3")
@@ -340,7 +387,7 @@ func macInstall() {
 		fmt.Println("Python3:\t\t Is already installed.")
 	}
 
-	// Check if Node.js is installed
+	// Node.js
 	if !isInstalled("node") {
 		fmt.Println("Installing Node.js...")
 		installCmdBrew("node")
@@ -348,7 +395,7 @@ func macInstall() {
 		fmt.Println("Node.js:\t\t Is already installed.")
 	}
 
-	// Check if npm is installed
+	// NPM
 	if !isInstalled("npm") {
 		fmt.Println("Installing npm...")
 		installCmdBrew("npm")
@@ -366,19 +413,19 @@ func windowsInstall() {
 		return
 	}
 
-	// Install PHP
+	// PHP
 	fmt.Println("Installing PHP...")
 	if err := installPkgWindows("php"); err != nil {
 		fmt.Println("Error installing PHP:", err)
 	}
 
-	// Install Python
+	// Python
 	fmt.Println("Installing Python...")
 	if err := installPkgWindows("python"); err != nil {
 		fmt.Println("Error installing Python:", err)
 	}
 
-	// Install Node.js
+	// Node.js
 	fmt.Println("Installing Node.js...")
 	if err := installPkgWindows("nodejs"); err != nil {
 		fmt.Println("Error installing Node.js:", err)
