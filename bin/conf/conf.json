@@ -3,7 +3,7 @@
     "default-data-base" : "MySQL",
     "language-versions" : {
         "go-version"        : [
-            "Go version go1.22.2 linux/amd64",
+            "go version go1.22.2 linux/amd64",
             "go version go1.22.2 windows/amd64"
         ],
         "php-version"       : [

@@ -74,6 +74,7 @@ func UpdateConfig(configFile string, domain string, route string) error {
 		return err
 	}
 
+	//todo: figure out how to update individual parts of the conf.json
 	// Append the new domain and route
 	conf.Domains = append(conf.Domains, struct {
 		Domain string `json:"domain"`
