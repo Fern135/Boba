@@ -8,10 +8,11 @@ import (
 
 const (
 	conf  = "../bin/conf/conf.json"
+	env   = "../.env"
 	panel = "" // todo: add panel directory once it's working.
 )
 
-var ENV = util.GetEnv()
+var ENV = util.GetEnv(env)
 
 // Access configuration values using nested keys
 // phpVersion := conf.LanguageVersions.PHPVersion[0]
@@ -23,7 +24,7 @@ var ENV = util.GetEnv()
 
 func main() {
 	if ENV["debugging"] == true {
-		defer loadMessages()
+		loadMessages()
 	} else {
 		runApp()
 	}

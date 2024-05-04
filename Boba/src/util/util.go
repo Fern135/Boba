@@ -23,8 +23,8 @@ const (
 type Configuration struct {
 	SoftwareVersion  string `json:"software-version"`
 	DefaultDatabase  string `json:"default-data-base"`
-	Development      bool   `json:"development"`
 	LanguageVersions struct {
+		GoVersion     []string `json:"go-version"`
 		PHPVersion    []string `json:"php-version"`
 		PythonVersion []string `json:"python-version"`
 		NodeVersion   []string `json:"node-version"`
@@ -40,6 +40,7 @@ type Configuration struct {
 	} `json:"domains"`
 }
 
+// ==================== loadingConfiguration from conf.json ====================
 func LoadConfiguration(filename string) (Configuration, error) {
 	var conf Configuration
 
@@ -56,6 +57,48 @@ func LoadConfiguration(filename string) (Configuration, error) {
 	}
 
 	return conf, nil
+}
+
+// ==================== updates the configuration file with the new data ====================
+func UpdateConfig(configFile string, domain string, route string) error {
+	// Read existing configuration file
+	data, err := os.ReadFile(configFile)
+	if err != nil {
+		return err
+	}
+
+	// Unmarshal JSON data into Configuration struct
+	var conf Configuration
+	err = json.Unmarshal(data, &conf)
+	if err != nil {
+		return err
+	}
+
+	// Append the new domain and route
+	conf.Domains = append(conf.Domains, struct {
+		Domain string `json:"domain"`
+		Route  string `json:"route"`
+	}{Domain: domain, Route: route})
+
+	// Marshal the updated configuration back to JSON
+	updatedData, err := json.MarshalIndent(conf, "", "    ")
+	if err != nil {
+		return err
+	}
+
+	// Write the updated configuration back to the file
+	err = os.WriteFile(configFile, updatedData, 0644)
+	if err != nil {
+		return err
+	}
+
+	return nil
+
+	// err := UpdateConfig("config.json", "example.com", "/path/to/route")
+	// if err != nil {
+	// 	fmt.Println("Error:", err)
+	// 	return
+	// }
 }
 
 // todo: debug why it's not logging
@@ -112,6 +155,7 @@ func Logger(title, data string) bool {
 	return true
 }
 
+// ==================== run specific command in directory ====================
 func RunCommandInDir(command, directory string) error {
 	if err := os.Chdir(directory); err != nil {
 		return err
@@ -152,8 +196,8 @@ func IsValidEmail(email string) bool {
 }
 
 // ==================== getting enviroment variables ====================
-func GetEnv() map[string]interface{} {
-	file, err := os.Open("../../../.env")
+func GetEnv(filePath string) map[string]interface{} {
+	file, err := os.Open(filePath)
 	if err != nil {
 		log.Fatalf("Error opening .env file: %v", err)
 	}
