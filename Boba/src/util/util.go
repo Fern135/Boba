@@ -283,6 +283,19 @@ func ProgressBar(total int) {
 // 	}
 // }
 
+func GetPcDevOs() string {
+	switch runtime.GOOS {
+	case "darwin":
+		return "Mac"
+	case "linux":
+		return "Linux"
+	case "windows":
+		return "Windows"
+	default:
+		return "Unkown Os"
+	}
+}
+
 // ==================== mysql and mongoDB windows ====================
 func InstallPackages() int {
 	start := time.Now()
@@ -376,6 +389,15 @@ func isInstalled(command string) bool {
 
 // ==================== installing languages for unix aka linux ====================
 func unixInstall() {
+
+	// go
+	if !isInstalled("go version") {
+		fmt.Println("Installing Go")
+		installCmdUnix("go")
+	} else {
+		fmt.Printf("\nGo:\t\t Is already installed.\n\n")
+	}
+
 	// PHP
 	if !isInstalled("php") {
 		fmt.Println("Installing PHP...")
