@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-const filePath = "Boba.sql"
+const filePath = "./sql/Boba.sql"
 
 var db *sql.DB
 
