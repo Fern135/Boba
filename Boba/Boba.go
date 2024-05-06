@@ -49,6 +49,14 @@ func loadMessages() {
 	}
 
 	fmt.Println("App version 	 \t", config.SoftwareVersion)
+	switch util.GetPcDevOs() {
+	case "Linux":
+		fmt.Println("Go Version\t\t", config.LanguageVersions.GoVersion[0])
+	case "Mac":
+		fmt.Println("Go Version\t\t", config.LanguageVersions.GoVersion[1])
+	case "Windows":
+		fmt.Println("Go Version\t\t", config.LanguageVersions.GoVersion[2])
+	}
 	fmt.Println("Php Version 	 \t", config.LanguageVersions.PHPVersion)
 	fmt.Println("Python Version  \t", config.LanguageVersions.PythonVersion)
 	fmt.Println("Node.js Version \t", config.LanguageVersions.NodeVersion)
