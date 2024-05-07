@@ -2,6 +2,7 @@
     "software-version"  : "0.10.1",
     "default-data-base" : "MySQL",
     "language-versions" : {
+        "Is-Installed"  : false,
         "go-version"        : [
             "go version go1.22.2 linux/amd64",
             "go version go1.22.2 darwin/amd64",
