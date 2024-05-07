@@ -1,6 +1,6 @@
 {
     "software-version"  : "0.10.1",
-    "default-data-base" : "MySQL",
+    "default-database" : "MySQL",
     "language-versions" : {
         "Is-Installed"  : false,
         "go-version"        : [

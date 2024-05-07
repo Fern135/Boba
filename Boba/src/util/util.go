@@ -22,7 +22,7 @@ const (
 
 type Configuration struct {
 	SoftwareVersion  string `json:"software-version"`
-	DefaultDatabase  string `json:"default-data-base"`
+	DefaultDatabase  string `json:"default-database"`
 	LanguageVersions struct {
 		IsInstalled   bool     `json:"Is-Installed"`
 		GoVersion     []string `json:"go-version"`
