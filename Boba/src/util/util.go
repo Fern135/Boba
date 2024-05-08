@@ -161,7 +161,6 @@ func RunCommandInDir(command, directory string) error {
 		return err
 	}
 
-	// Execute the command
 	cmd := exec.Command("bash", "-c", command)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
