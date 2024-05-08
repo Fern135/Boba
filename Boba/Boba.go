@@ -61,5 +61,4 @@ func loadMessages() {
 	fmt.Println("Python Version  \t", config.LanguageVersions.PythonVersion)
 	fmt.Println("Node.js Version \t", config.LanguageVersions.NodeVersion)
 	fmt.Println("NPM Version 	 \t", config.LanguageVersions.NPMVersion)
-
 }
