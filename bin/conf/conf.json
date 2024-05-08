@@ -9,7 +9,7 @@
             "go version go1.22.2 windows/amd64"
         ],
         "php-version"       : [
-            "8.2"
+            "8.2.10"
         ], 
         "python-version"    : [
             "3.12.3"
