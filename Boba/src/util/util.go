@@ -61,46 +61,45 @@ func LoadConfiguration(filename string) (Configuration, error) {
 }
 
 // ==================== updates the configuration file with the new data ====================
-func update() { // todo: figure out how to run only when there's an update.
-	// Example usage: create a Configuration instance
-	config := Configuration{
-		SoftwareVersion: "1.0",
-		DefaultDatabase: "MySQL",
-		LanguageVersions: struct {
-			IsInstalled   bool     `json:"Is-Installed"`
-			GoVersion     []string `json:"go-version"`
-			PHPVersion    []string `json:"php-version"`
-			PythonVersion []string `json:"python-version"`
-			NodeVersion   []string `json:"node-version"`
-			NPMVersion    []string `json:"npm-version"`
-		}{
-			GoVersion:     []string{"1.16"},
-			PHPVersion:    []string{"8.0"},
-			PythonVersion: []string{"3.9"},
-			NodeVersion:   []string{"14.0"},
-			NPMVersion:    []string{"7.0"},
-		},
-		TimeFormat:   []string{"12", "24"},
-		ProjectsPath: "../projects/",
-		DNSPort:      56,
-		PHPPort:      8000,
-		Domains: []struct {
-			Domain string `json:"domain"`
-			Route  string `json:"route"`
-		}{
-			{Domain: "example.com", Route: "/var/www/html"},
-		},
-	}
+// func update() { // todo: figure out how to run only when there's an update.
+// 	config := Configuration{
+// 		SoftwareVersion: "1.0",
+// 		DefaultDatabase: "MySQL",
+// 		LanguageVersions: struct {
+// 			IsInstalled   bool     `json:"Is-Installed"`
+// 			GoVersion     []string `json:"go-version"`
+// 			PHPVersion    []string `json:"php-version"`
+// 			PythonVersion []string `json:"python-version"`
+// 			NodeVersion   []string `json:"node-version"`
+// 			NPMVersion    []string `json:"npm-version"`
+// 		}{
+// 			GoVersion:     []string{"1.16"},
+// 			PHPVersion:    []string{"8.0"},
+// 			PythonVersion: []string{"3.9"},
+// 			NodeVersion:   []string{"14.0"},
+// 			NPMVersion:    []string{"7.0"},
+// 		},
+// 		TimeFormat: []string{"12", "24"},
+// 		// ProjectsPath: "../projects/",
+// 		DNSPort: 56,
+// 		PHPPort: 8000,
+// 		Domains: []struct {
+// 			Domain string `json:"domain"`
+// 			Route  string `json:"route"`
+// 		}{
+// 			{Domain: "example.com", Route: "/var/www/html"},
+// 		},
+// 	}
 
-	// Convert Configuration struct to JSON
-	configJSON, err := json.MarshalIndent(config, "", "    ")
-	if err != nil {
-		fmt.Println("Error marshalling JSON:", err)
-		return
-	}
+// 	// Convert Configuration struct to JSON
+// 	configJSON, err := json.MarshalIndent(config, "", "    ")
+// 	if err != nil {
+// 		fmt.Println("Error marshalling JSON:", err)
+// 		return
+// 	}
 
-	fmt.Println(string(configJSON))
-}
+// 	fmt.Println(string(configJSON))
+// }
 
 // todo: debug why it's not logging
 func LoggerErr(title, data string) bool {
