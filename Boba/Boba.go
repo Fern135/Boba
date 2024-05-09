@@ -12,7 +12,10 @@ const (
 	panel = "" // todo: add panel directory once it's working.
 )
 
-var ENV = util.GetEnv(env)
+var (
+	ENV                 = util.GetEnv(env)
+	config, configError = util.LoadConfiguration(conf)
+)
 
 // Access configuration values using nested keys
 // phpVersion := conf.LanguageVersions.PHPVersion[0]
@@ -23,6 +26,11 @@ var ENV = util.GetEnv(env)
 // fmt.Println("First Domain:", firstDomain.Domain)
 
 func main() {
+	if configError != nil {
+		log.Fatalf("Error loading configuration: %v", configError)
+		// util.LoggerErr("Error in config", err.Error())
+	}
+
 	if ENV["debugging"] == true {
 		loadMessages()
 	} else {
@@ -32,21 +40,15 @@ func main() {
 
 // installing languages and more.
 func runApp() {
-	go func() {
-		util.InstallPackages()
-		util.ProgressBar(util.InstallPackages()) // loading bar based on how long packages take
+	// go func() { }()
+	go util.InstallPackages()
+	go util.ProgressBar(util.InstallPackages()) // loading bar based on how long packages take
 
-		util.InstallDatabases()
-		util.ProgressBar(util.InstallDatabases()) // loading bar based on how long database take
-	}()
+	go util.InstallDatabases()
+	go util.ProgressBar(util.InstallDatabases()) // loading bar based on how long database take
 }
 
 func loadMessages() {
-	config, err := util.LoadConfiguration(conf)
-	if err != nil {
-		log.Fatalf("Error loading configuration: %v", err)
-		// util.LoggerErr("Error in config", err.Error())
-	}
 
 	fmt.Println("App version 	 \t", config.SoftwareVersion)
 	switch util.GetPcDevOs() {
