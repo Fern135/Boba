@@ -143,13 +143,9 @@ func RunCommandInDir(command, directory string) error {
 
 // ==================== checking if email is valid format ====================
 func IsValidEmail(email string) bool {
-	// Regular expression for validating email addresses
 	pattern := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`
-
-	// Compile the regular expression
 	regex := regexp.MustCompile(pattern)
 
-	// Use the compiled regular expression to match the email address
 	return regex.MatchString(email)
 }
 
@@ -161,7 +157,6 @@ func GetEnv(filePath string) map[string]interface{} {
 	}
 	defer file.Close()
 
-	// Create a map to store environment variables
 	env := make(map[string]interface{})
 
 	// Read .env file line by line
