@@ -19,7 +19,7 @@ var db *sql.DB
 // InitDB initializes the SQLite database and sets the global db variable.
 func InitDB() error {
 	// Open the SQLite database file
-	dbFile := "mydatabase.db"
+	dbFile := "./database/Boba.db"
 	conn, err := sql.Open("sqlite3", dbFile)
 	if err != nil {
 		return err
