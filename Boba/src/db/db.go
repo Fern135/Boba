@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"database/sql"
 	"fmt"
-	"log"
 	"os"
 	"strings"
 )
@@ -94,15 +93,16 @@ func ReadSQLFile(filePath string) ([]string, error) {
 	var commands []string
 	var currentCommand strings.Builder
 
+	// scan line by line
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
-		line := scanner.Text()
-		line = strings.TrimSpace(line)
-		if line == "" {
-			continue // Skip empty lines
+		line := scanner.Text()         // turn to text
+		line = strings.TrimSpace(line) // tim empty spaces
+		if line == "" {                // Skip empty lines
+			continue
 		}
 
-		if strings.HasSuffix(line, ";") {
+		if strings.HasSuffix(line, ";") { // check if the command is done
 			// Append the line to the current command
 			currentCommand.WriteString(line)
 			commands = append(commands, currentCommand.String())
@@ -123,27 +123,27 @@ func ReadSQLFile(filePath string) ([]string, error) {
 	return commands, nil
 }
 
-func usage() {
-	// Initialize the SQLite database
-	err := InitDB()
-	if err != nil {
-		log.Fatal("Error initializing database:", err)
-	}
+// func usage() {
+// Initialize the SQLite database
+// err := InitDB()
+// if err != nil {
+// 	log.Fatal("Error initializing database:", err)
+// }
 
-	// Insert some sample data
-	err = InsertUser("Alice", "alice@example.com")
-	if err != nil {
-		log.Fatal("Error inserting user:", err)
-	}
+// Insert some sample data
+// err = InsertUser("Alice", "alice@example.com")
+// if err != nil {
+// 	log.Fatal("Error inserting user:", err)
+// }
 
-	err = InsertUser("Bob", "bob@example.com")
-	if err != nil {
-		log.Fatal("Error inserting user:", err)
-	}
+// err = InsertUser("Bob", "bob@example.com")
+// if err != nil {
+// 	log.Fatal("Error inserting user:", err)
+// }
 
-	// Query and print all users
-	err = QueryUsers()
-	if err != nil {
-		log.Fatal("Error querying users:", err)
-	}
-}
+// Query and print all users
+// 	err = QueryUsers()
+// 	if err != nil {
+// 		log.Fatal("Error querying users:", err)
+// 	}
+// }
