@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A local php development server with custom built panel.",
   "scripts": {
+    "build"  : "cd ./Boba/ && go build && cd ../",
     "compile": "cd ./Boba/ && go build && go build Boba.go && go run Boba.go && cd ../",
     "set-up" : "cd ./scripts/ && node cli.js -env && cd ../",
     "deploy" : "cd ./scripts/ && node cli.js -d && cd ../",
