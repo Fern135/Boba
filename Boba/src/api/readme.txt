@@ -3,33 +3,33 @@ api.go
 
 src\
     routes/
-        php/
+        php/ <======================= []
             - PhpRoutes.go
 
-        dns/
+        dns/ <======================= []
             - DnsRoutes.go
 
-        config/
+        config/ <==================== []
             - ConfigRoutes.go
 
         
     controllers/ 
-        php/
+        php/ <======================= []
             - PhpControllers.go
 
-        dns/
+        config/ <==================== []
             - DnsController.go
 
-        config/
+        config/ <==================== []
             - ConfigController.go
 
 
     models/
-        php/
+        php/ <======================= []
             - PhpModel.go
 
-        dns/
+        dns/ <======================= []
             - DnsModel.go
 
-        config/
+        config/ <==================== []
             - ConfigModel.go
