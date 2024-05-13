@@ -1,5 +1,7 @@
 
-CREATE DATABASE Boba_Config;
+-- for local sqlite3 it's not needed
+-- CREATE DATABASE Boba_Config;
+-- USE Boba_Config;
 
 -- Create Software Table
 CREATE TABLE software (
