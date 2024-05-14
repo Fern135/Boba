@@ -27,3 +27,5 @@ boba.pdb
 
 # mac only 
 .DS_Store
+
+node_modules
