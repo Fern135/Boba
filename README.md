@@ -14,7 +14,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 branch rulling
-    <!-- short description must be separated by _ -->
+    <!-- short description must be separated by _  and remove the < >-->
     feature:
         f/month/dd/yyy/<short_description_of_feature>
 
