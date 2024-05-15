@@ -31,6 +31,9 @@ git config --global push.default current
 
 # Step 2: Create and switch to a new branch
 git checkout -b <your_new_branch_name>
+or
+<!-- delete <branch_name> -->
+git branch -d <branch_name>
 
 # Step 3: Make changes, stage, and commit them with a message
 git add . or git add <file_name>
