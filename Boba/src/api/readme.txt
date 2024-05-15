@@ -1,35 +1,35 @@
 
 api.go 
 
-src\
-    routes/
-        php/ <======================= []
-            - PhpRoutes.go
 
-        dns/ <======================= []
-            - DnsRoutes.go
+routes/
+    php/ 
+        [] - PhpRoutes.go
 
-        config/ <==================== []
-            - ConfigRoutes.go
+    dns/ 
+        [] - DnsRoutes.go
 
-        
-    controllers/ 
-        php/ <======================= []
-            - PhpControllers.go
+    config/ 
+        [√] - ConfigRoutes.go
 
-        config/ <==================== []
-            - DnsController.go
+    
+controllers/ 
+    php/ 
+        [] - PhpControllers.go
 
-        config/ <==================== []
-            - ConfigController.go
+    config/ 
+        [] - DnsController.go
+
+    config/ 
+        [√] - ConfigController.go
 
 
-    models/
-        php/ <======================= []
-            - PhpModel.go
+models/
+    php/ 
+        [] - PhpModel.go
 
-        dns/ <======================= []
-            - DnsModel.go
+    dns/ 
+        [] - DnsModel.go
 
-        config/ <==================== []
-            - ConfigModel.go
+    config/ 
+        [] - ConfigModel.go

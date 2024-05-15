@@ -16,13 +16,13 @@ pip install -r requirements.txt
 branch rulling
     <!-- short description must be separated by _  and remove the < >-->
     feature:
-        f/month/dd/yyy/<short_description_of_feature>
+        feat/month/dd/yyyy/<short_description_of_feature>
 
     bug/
-        b/month/dd/yyy/<short_description_of_bug>
+        bug/month/dd/yyyy/<short_description_of_bug>
 
     file_change/
-        fs/month/day/yyy/<short_description_of_change>
+        fs/month/day/yyyy/<short_description_of_change>
 
 
 <!-- using git -->

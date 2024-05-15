@@ -1,5 +1,10 @@
 package api
 
+import (
+	"fmt"
+	"net/http"
+)
+
 /*
 	api for handling the front end work.
 */
@@ -9,5 +14,8 @@ func SetUpApi() {
 }
 
 func Start() {
-	println("Start the server")
+	fmt.Println("Server starting at :8080")
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		fmt.Println(err)
+	}
 }
