@@ -40,12 +40,16 @@ func main() {
 
 // installing languages and more.
 func runApp() {
-	// go func() { }()
-	go util.InstallPackages()
-	go util.ProgressBar(util.InstallPackages()) // loading bar based on how long packages take
+	go func() {
+		//#region install packages and databases needed
+		util.InstallPackages()
+		util.ProgressBar(util.InstallPackages()) // loading bar based on how long packages take
 
-	go util.InstallDatabases()
-	go util.ProgressBar(util.InstallDatabases()) // loading bar based on how long database take
+		util.InstallDatabases()
+		util.ProgressBar(util.InstallDatabases()) // loading bar based on how long database take
+		//#endregion
+
+	}()
 }
 
 func loadMessages() {
