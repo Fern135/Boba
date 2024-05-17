@@ -4,10 +4,10 @@ api.go
 
 routes/
     php/ 
-        [] - PhpRoutes.go
+        [√] - PhpRoutes.go
 
     dns/ 
-        [] - DnsRoutes.go
+        [√] - DnsRoutes.go
 
     config/ 
         [√] - ConfigRoutes.go
@@ -15,10 +15,10 @@ routes/
     
 controllers/ 
     php/ 
-        [] - PhpControllers.go
+        [√] - PhpControllers.go
 
     config/ 
-        [] - DnsController.go
+        [√] - DnsController.go
 
     config/ 
         [√] - ConfigController.go

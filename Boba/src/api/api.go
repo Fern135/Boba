@@ -1,6 +1,8 @@
 package api
 
 import (
+	"boba/src/db"
+	"boba/src/util"
 	"fmt"
 	"net/http"
 )
@@ -9,8 +11,30 @@ import (
 	api for handling the front end work.
 */
 
+func setUp() {
+	filePath := "./st.txt"
+	data := []byte("Done")
+	exists, err := util.Exists("./st.txt")
+
+	if err != nil {
+		fmt.Println(err)
+	} else if !exists {
+		fmt.Println("File does not exist, creating it now.")
+		err = util.WriteToFile(filePath, data)
+		if err != nil {
+			fmt.Println("Error writing to file:", err)
+		} else {
+			fmt.Println("File created and data written successfully!")
+		}
+	} else {
+		fmt.Println("File already exists, not writing data.")
+	}
+}
+
 func SetUpApi() {
-	println("Set up api before running. should run only once")
+	db.InitDB()
+
+	defer setUp()
 }
 
 func Start() {

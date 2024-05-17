@@ -60,6 +60,55 @@ func LoadConfiguration(filename string) (Configuration, error) {
 	return conf, nil
 }
 
+// ==================== write data to specific file directory ====================
+func WriteToFile(filepath string, data []byte) error {
+	// Open the file for writing with create and truncate permissions
+	f, err := os.OpenFile(filepath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	// Write the data to the file
+	_, err = f.Write(data)
+	return err
+}
+
+/*
+	top and bottom function usage
+	data := []byte("This is some data to write to the file.")
+	filePath := "path/to/your/file.txt"
+
+	Check if file exists
+	exists, err := Exists(filePath)
+	if err != nil {
+	Handle error
+	fmt.Println("Error checking file existence:", err)
+	} else if !exists {
+	fmt.Println("File does not exist, creating it now.")
+	err = WriteToFile(filePath, data)
+	if err != nil {
+		Handle error writing to file
+		fmt.Println("Error writing to file:", err)
+	} else {
+		fmt.Println("File created and data written successfully!")
+	}
+	} else {
+	fmt.Println("File already exists, not writing data.")
+	}
+*/
+// ==================== checks if specific file in directory exists ====================
+func Exists(filepath string) (bool, error) {
+	_, err := os.Stat(filepath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return false, nil // File doesn't exist
+		}
+		return false, err // Other errors
+	}
+	return true, nil // File exists
+}
+
 // todo: debug why it's not logging
 func LoggerErr(title, data string) bool {
 	timestamp := time.Now().Format(TimeFormat)
