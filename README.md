@@ -28,6 +28,7 @@ branch rulling
 <!-- using git -->
 # step 1: Configuring Git to Automatically Set Upstream Branches
 git config --global push.default current
+<!-- git branch --set-upstream-to origin/main -->
 
 # Step 2: Create and switch to a new branch
 git checkout -b <your_new_branch_name>
