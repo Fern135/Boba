@@ -33,10 +33,12 @@ async def main():
             4. print("New version successfully deployed")
     """
     await delete_api_tmp()
-    repo_url = "https://github.com/Fern135/Boba-landing-page.git"
-    directory = "your_download_directory"
-    files_to_replace = ["file1.txt", "file2.py"]  # List of files to download from repo
-    replacements = {"file3.txt": "This is the new content for file3.txt"}  # Dictionary of replacements
+    data = {
+        "repo_url" : "https://github.com/Fern135/Boba-landing-page.git",
+        "directory" : "your_download_directory", 
+        "files_to_replace" : ["file1.txt", "file2.py"],   # List of files to download from repo
+        "replacements" : {"file3.txt": "This is the new content for file3.txt"}  # Dictionary of replacements
+    }
 
 
 
