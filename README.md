@@ -2,7 +2,8 @@
 
 A local php development server with custom built panel. 
 
-<!-- dev -->
+#
+# development
 windows
 python -m venv venv
 .\venv\Scripts\activate
@@ -27,30 +28,32 @@ short description must be separated by _  and remove the < >
 ```
 #
 # using git
-### 1: Configuring Git to Automatically Set Upstream Branches
-git config --global push.default current
+```
+    1: Configuring Git to Automatically Set Upstream Branches
+        git config --global push.default current
 
-### 2: Create and switch to a new branch
-git checkout -b <your_new_branch_name>
-#### or delete
-#### git branch -d <branch_name>
+    2: Create and switch to a new branch
+        git checkout -b <your_new_branch_name>
+    or delete
+         git branch -d <branch_name>
 
-### 3: Make changes, stage, and commit them with a message
-git add . or git add <file_name>
-git commit -m "Descriptive commit message about what you changed"
+    3: Make changes, stage, and commit them with a message
+        git add . or git add <file_name>
+        git commit -m "Descriptive commit message about 
+            what you changed"
 
-### 4: Push the new branch to the remote repository
-git push origin <your_new_branch_name>
+    4: Push the new branch to the remote repository
+        git push origin <your_new_branch_name>
 
-### preferably use
-### pushes from the current branch
-git push
+    5. preferably use -> pushes from the current branch
+        git push
 
-### stash changes. hide changes
-git stash
+    stash changes. hide changes
+    git stash
 
-###restore stashed (hidden) changes
-git stash apply
+    restore stashed (hidden) changes
+    git stash apply
+```
 
 ## Authors
 
