@@ -57,6 +57,6 @@ short description must be separated by _  and remove the < >
 
 ## Authors
 
-- [@Fernando](https://github.com/Fern135)
-- [@Paolo](https://github.com/lmaopaolo)
+- [Fernando](https://github.com/Fern135)
+- [Paolo](https://github.com/lmaopaolo)
 
