@@ -6,7 +6,7 @@ import (
 	"net"
 )
 
-func serverStart() {
+func ServerStart() {
 	// Load DNS server configuration from JSON file
 	conf, err := util.LoadConfiguration("../..//bin/conf/sconfig.json")
 	if err != nil {
@@ -35,7 +35,7 @@ func startDNSServer(conf util.Configuration) error {
 
 	// Handle incoming DNS requests
 	for {
-		handleDNSRequest(conn, conf)
+		go handleDNSRequest(conn, conf)
 	}
 }
 
@@ -54,7 +54,7 @@ func handleDNSRequest(conn *net.UDPConn, conf util.Configuration) {
 
 	// Parse the incoming DNS request and formulate a response
 	// For simplicity, we'll just print the received data and respond with a dummy message
-	domain := "example.com"
+	domain := "localhost.com" // placeholder
 	for _, d := range conf.Domains {
 		if d.Domain == string(buffer[:n]) {
 			domain = d.Domain
