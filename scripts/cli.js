@@ -71,35 +71,6 @@ function deploy(){
   }
 }
 
-function update(){
-  try{
-    let command;
-    switch (process.platform) {
-      case 'win32':
-        command = 'python ./update/update.py';
-        break;
-    case 'darwin':
-    case 'linux':
-        command = 'python3 ./update/update.py';
-        break;
-    default:
-      console.error(`Unsupported platform: ${process.platform}`);
-      process.exit(1);
-    }
-            
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        console.error(`exec error: ${error}`);
-        return;
-      }
-      console.log(stdout);
-      if (stderr) console.error(`stderr: ${stderr}`);
-    });
-  }catch(error){
-    console.log(`error in setting up env\nerror: ${error.toString()}`);
-  }
-}
-
 const args = process.argv.slice(2);
 if (args.includes('-env')) {
   setUpEnv();
@@ -107,9 +78,6 @@ if (args.includes('-env')) {
 else if (args.includes('-d')) {
   deploy();
 } 
-else if(args.includes('-upgrade')){
-  update();
-}
 
 else {
   console.log(help);
