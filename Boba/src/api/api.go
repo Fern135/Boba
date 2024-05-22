@@ -37,7 +37,7 @@ func SetUpApi() {
 	defer setUp()
 }
 
-func Start() {
+func ApiStart() {
 	fmt.Println("Server starting at :8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		fmt.Println(err)

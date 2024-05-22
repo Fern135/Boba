@@ -8,7 +8,7 @@ import (
 
 func ServerStart() {
 	// Load DNS server configuration from JSON file
-	conf, err := util.LoadConfiguration("../..//bin/conf/sconfig.json")
+	conf, err := util.LoadConfiguration("../../bin/conf/sconfig.json")
 	if err != nil {
 		fmt.Println("Error loading configuration:", err)
 		return
@@ -21,7 +21,6 @@ func ServerStart() {
 }
 
 func startDNSServer(conf util.Configuration) error {
-	// Create a UDP address for the server
 	serverAddr := &net.UDPAddr{IP: net.ParseIP("127.0.0.1"), Port: conf.DNSPort}
 
 	// Create a UDP connection for the server

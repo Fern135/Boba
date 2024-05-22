@@ -33,6 +33,7 @@ func main() {
 
 	if ENV["debugging"] == true {
 		loadMessages()
+		defer runApp()
 	} else {
 		runApp()
 	}
@@ -52,9 +53,7 @@ func runApp() {
 	}()
 }
 
-func loadMessages() {
-
-	fmt.Println("App version 	 \t", config.SoftwareVersion)
+func goVersions() {
 	switch util.GetPcDevOs() {
 	case "Linux":
 		fmt.Println("Go Version\t\t", config.LanguageVersions.GoVersion[0])
@@ -63,6 +62,11 @@ func loadMessages() {
 	case "Windows":
 		fmt.Println("Go Version\t\t", config.LanguageVersions.GoVersion[2])
 	}
+}
+
+func loadMessages() {
+	fmt.Println("App version 	 \t", config.SoftwareVersion)
+	goVersions()
 	fmt.Println("Php Version 	 \t", config.LanguageVersions.PHPVersion)
 	fmt.Println("Python Version  \t", config.LanguageVersions.PythonVersion)
 	fmt.Println("Node.js Version \t", config.LanguageVersions.NodeVersion)
