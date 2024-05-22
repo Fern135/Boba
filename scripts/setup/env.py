@@ -32,6 +32,7 @@ def write_env_file():
         # for key, value in env_data.items():
         env_file.write(env_data)
 
+    env_file.close()
     print(f".env file written successfully at {file_path}")
 
 if __name__ == "__main__":
