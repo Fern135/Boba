@@ -21,6 +21,8 @@ function setUpEnv(){
         command = 'python ./setup/env.py';
         break;
     case 'darwin':
+      command = 'python3 ./setup/env.py';
+      break;
     case 'linux':
         command = 'python3 ./setup/env.py';
         break;
@@ -71,14 +73,19 @@ function deploy(){
   }
 }
 
-const args = process.argv.slice(2);
-if (args.includes('-env')) {
-  setUpEnv();
-} 
-else if (args.includes('-d')) {
-  deploy();
-} 
+try{
 
-else {
-  console.log(help);
+  const args = process.argv.slice(2);
+  if (args.includes('-env')) {
+    setUpEnv();
+  } 
+  else if (args.includes('-d')) {
+    deploy();
+  } 
+  
+  else {
+    console.log(help);
+  }
+}catch(err){
+  console.error(`error: ${err.toString()}`);
 }
