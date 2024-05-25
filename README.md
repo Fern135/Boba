@@ -32,7 +32,7 @@ short description must be separated by _  and remove the < >
         file_change/month/day/yyyy/<short_description_of_change>
 ```
 #
-# using git
+# setting up github
 ```
     generate ssh key 
         ssh-keygen -t rsa -b 4096
@@ -45,6 +45,9 @@ short description must be separated by _  and remove the < >
 
     clone repo
         git clone git@github.com:Fern135/Boba.git
+```
+# using git
+```
 
     1: Configuring Git to Automatically Set Upstream Branches
         git config --global push.default current
