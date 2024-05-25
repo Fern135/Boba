@@ -14,6 +14,11 @@ source venv/bin/activate
 
 pip install -r requirements.txt
 
+| Requirements    | Version Number |
+| --------------- | -------------- |
+| Node Version    | v18.16.0 ^     |
+| go Version      | 1.21.4 ^       |
+
 #### branch rulling
 short description must be separated by _  and remove the < >
 ```
@@ -29,6 +34,18 @@ short description must be separated by _  and remove the < >
 #
 # using git
 ```
+    generate ssh key 
+        ssh-keygen -t rsa -b 4096
+
+    get key
+        cat ~/.ssh/id_rsa.pub
+
+    copy key and go to 
+        https://github.com/settings/keys
+
+    clone repo
+        git clone git@github.com:Fern135/Boba.git
+
     1: Configuring Git to Automatically Set Upstream Branches
         git config --global push.default current
 
@@ -45,7 +62,7 @@ short description must be separated by _  and remove the < >
     4: Push the new branch to the remote repository
         git push origin <your_new_branch_name>
 
-    5. preferably use -> pushes from the current branch
+    1. preferably use -> pushes from the current branch
         git push
 
     stash changes. hide changes
