@@ -44,7 +44,7 @@ short description must be separated by _  and remove the < >
         https://github.com/settings/keys
 
     clone repo
-        git clone git@github.com:Fern135/Boba.git
+        git clone <repo_name>
 ```
 # using git
 ```
