@@ -33,20 +33,28 @@ short description must be separated by _  and remove the < >
 ```
 #
 # setting up github
+#
+##  generate ssh key 
 ```
-    generate ssh key 
-        ssh-keygen -t rsa -b 4096
-
-    get key
-        cat ~/.ssh/id_rsa.pub
-
-    copy key and go to 
-        https://github.com/settings/keys
-
-    clone repo
-        git clone <repo_name>
+    ssh-keygen -t rsa -b 4096
 ```
+## get key
+```
+    cat ~/.ssh/id_rsa.pub
+```
+
+## copy key and go to 
+```
+    https://github.com/settings/keys
+```
+
+## clone repo
+```
+    git clone <repo_name>
+```
+#
 # using git
+#
 
 ## 1: Configuring Git to Automatically Set Upstream Branches
 ```
