@@ -8,7 +8,7 @@ import (
 
 func ServerStart() {
 	// Load DNS server configuration from JSON file
-	conf, err := util.LoadConfiguration("../../bin/conf/sconfig.json")
+	conf, err := util.LoadConfiguration()
 	if err != nil {
 		fmt.Println("Error loading configuration:", err)
 		return

@@ -14,7 +14,7 @@ const (
 
 var (
 	ENV                 = util.GetEnv(env)
-	config, configError = util.LoadConfiguration(conf)
+	config, configError = util.LoadConfiguration()
 )
 
 // Access configuration values using nested keys
@@ -41,16 +41,19 @@ func main() {
 
 // installing languages and more.
 func runApp() {
-	go func() {
-		//#region install packages and databases needed
-		util.InstallPackages()
-		util.ProgressBar(util.InstallPackages()) // loading bar based on how long packages take
+	// go func() {  }()
 
-		util.InstallDatabases()
-		util.ProgressBar(util.InstallDatabases()) // loading bar based on how long database take
-		//#endregion
+	//#region install packages and databases needed
+	util.InstallPackages()
+	// util.ProgressBar(util.InstallPackages()) // loading bar based on how long packages take
 
-	}()
+	util.InstallDatabases()
+	// util.ProgressBar(util.InstallDatabases()) // loading bar based on how long database take
+	//#endregion
+
+	// setting up api
+	// api.SetUpApi()
+	// api.ApiStart()
 }
 
 func goVersions() {

@@ -46,7 +46,7 @@ func servePHPFiles(w http.ResponseWriter, r *http.Request) {
 }
 
 func Server() {
-	config, err := util.LoadConfiguration("../bin/conf/conf.json")
+	config, err := util.LoadConfiguration()
 	if err != nil {
 		log.Fatalf("Error loading configuration: %v", err)
 		// util.LoggerErr("Error in config", err.Error())

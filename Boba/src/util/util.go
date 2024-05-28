@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net"
+	"net/smtp"
 	"os"
 	"os/exec"
 	"regexp"
@@ -14,11 +16,12 @@ import (
 )
 
 const (
-	config       = "../bin/conf/conf.json"
 	TimeFormat   = "01/02/2006 - 03:04 PM"
 	UrgentDir    = "../../../bin/log/urgent"
 	NonUrgentDir = "../../../bin/log/Non_urgent"
 )
+
+var config = "../bin/conf/conf.json"
 
 type Configuration struct {
 	SoftwareVersion  string `json:"software-version"`
@@ -42,11 +45,12 @@ type Configuration struct {
 }
 
 // ==================== loadingConfiguration from conf.json ====================
-func LoadConfiguration(filename string) (Configuration, error) {
+func LoadConfiguration() (Configuration, error) {
 	var conf Configuration
+	// filename string
 
 	// Read JSON file
-	data, err := os.ReadFile(filename)
+	data, err := os.ReadFile(config)
 	if err != nil {
 		return Configuration{}, err
 	}
@@ -251,7 +255,7 @@ func MeasureTime(f func()) int {
 
 // ==================== loading bar ====================
 // func printProgressBar(iteration, total int, fill string) {
-func ProgressBar(total int) {
+func ProgressBar(total int) { // todo: delete function
 	prefix := "%"        // prefix string
 	suffix := "Complete" // suffix string
 	length := total - 5  // length
@@ -297,6 +301,8 @@ func GetPcDevOs() string {
 	}
 }
 
+// #region installing needed packages
+
 // ==================== mysql and mongoDB windows ====================
 func InstallPackages() int {
 	start := time.Now()
@@ -331,35 +337,35 @@ func InstallDatabases() int {
 
 // ==================== mysql and mongoDB unix ====================
 func unixDbInstall() {
-	if !isInstalled("mysql") || !isInstalled("mongodb-community") {
-		if !isInstalled("mysql") && !isInstalled("mongodb-community") {
-			// installing databases concurrently
-			// brewTap("mongodb/brew")
-			go installCmdUnix("mysql")
-			go installCmdUnix("mongodb-community")
-		}
-
+	if !isInstalled("mysql") || !isInstalled("mongodb-community") || !isInstalled("mysql") && !isInstalled("mongodb-community") {
+		// if ) {
 		// installing databases concurrently
 		// brewTap("mongodb/brew")
 		go installCmdUnix("mysql")
 		go installCmdUnix("mongodb-community")
+		// }
+
+		// installing databases concurrently
+		// brewTap("mongodb/brew")
+		// go installCmdUnix("mysql")
+		// go installCmdUnix("mongodb-community")
 	}
 }
 
 // ==================== mysql and mongoDB mac ====================
 func macDbInstall() {
-	if !isInstalled("mysql") || !isInstalled("mongodb/brew") || !isInstalled("mongodb-community") {
-		if !isInstalled("mysql") && !isInstalled("mongodb/brew") && !isInstalled("mongodb-community") {
-			// installing databases concurrently
-			go installCmdBrew("mysql")
-			go brewTap("mongodb/brew")
-			go installCmdBrew("mongodb-community")
-		}
-
+	if !isInstalled("mysql") || !isInstalled("mongodb/brew") || !isInstalled("mongodb-community") || !isInstalled("mysql") && !isInstalled("mongodb/brew") && !isInstalled("mongodb-community") {
+		// if !isInstalled("mysql") && !isInstalled("mongodb/brew") && !isInstalled("mongodb-community") {
 		// installing databases concurrently
 		go installCmdBrew("mysql")
-		go brewTap("mongodb/brew")
+		// go brewTap("mongodb/brew")
 		go installCmdBrew("mongodb-community")
+		// }
+
+		// installing databases concurrently
+		// go installCmdBrew("mysql")
+		// go brewTap("mongodb/brew")
+		// go installCmdBrew("mongodb-community")
 
 	}
 }
@@ -526,7 +532,7 @@ func installCmdBrew(packageName string) {
 }
 
 // ==================== adding to homebrew installation ====================
-func brewTap(packageName string) {
+func brewTap(packageName string) { // todo: function pending deletion
 	// var installCmd *exec.Cmd //todo: delete
 	installCmd := exec.Command("brew", "tap", packageName)
 	output, err := installCmd.CombinedOutput()
@@ -568,4 +574,75 @@ func installChocolatey() error {
 	}
 	fmt.Println("Chocolatey installed successfully:\n", string(output))
 	return nil
+}
+
+//#endregion
+
+type EmailValidator struct {
+	regex  *regexp.Regexp
+	errMsg string
+}
+
+// NewEmailValidator creates a new EmailValidator instance
+func NewEmailValidator() *EmailValidator {
+	return &EmailValidator{
+		regex:  regexp.MustCompile(`^[a-zA-Z0-9.!#$%&'*+/=?^_` + `~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$`),
+		errMsg: "Invalid email format",
+	}
+}
+
+// Validate checks if the email string adheres to the validation regex
+func (v *EmailValidator) Validate(email string) bool {
+	return v.regex.MatchString(email)
+}
+
+// Exists performs a basic existence check by attempting an SMTP connection to the MX record
+func EmailExists(email string) (bool, error) {
+	// Extract domain name from email address
+	domain := string([]byte(email)[strings.LastIndex(email, "@")+1:])
+
+	// Use MX record lookup to find mail server (replace with your preferred MX record lookup library)
+	mx, err := net.LookupMX(domain)
+	if err != nil {
+		return false, fmt.Errorf("Error looking up MX record for %s: %w", domain, err)
+	}
+
+	// Attempt an SMTP connection on port 25 to the mail server (basic check)
+	for _, mxRecord := range mx {
+		host := mxRecord.Host
+		// Assign both return values from smtp.Dial
+		client, err := smtp.Dial(fmt.Sprintf("%s:25", host))
+		if err == nil {
+			// Successful connection, close it and return true
+			defer client.Close()
+			return true, nil
+		}
+	}
+
+	// No successful connections, likely non-existent email server
+	return false, nil
+}
+
+func exampleUsage() {
+	validator := NewEmailValidator()
+
+	// Test email formats
+	emails := []string{"valid@email.com", "invalid@email", "no.domain@"}
+
+	for _, email := range emails {
+		if validator.Validate(email) {
+			fmt.Printf("%s: Valid format\n", email)
+			// For more advanced existence check, uncomment the following line
+			exists, err := EmailExists(email)
+			if err != nil {
+				fmt.Printf("%s: Error checking existence: %v\n", email, err)
+			} else if exists {
+				fmt.Printf("%s: Likely exists\n", email)
+			} else {
+				fmt.Printf("%s: Likely doesn't exist\n", email)
+			}
+		} else {
+			fmt.Printf("%s: Invalid format (%s)\n", email, validator.errMsg)
+		}
+	}
 }
