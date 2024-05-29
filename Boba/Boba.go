@@ -3,7 +3,6 @@ package main
 import (
 	"boba/src/util"
 	"fmt"
-	"log"
 )
 
 const (
@@ -27,8 +26,8 @@ var (
 
 func main() {
 	if configError != nil {
-		log.Fatalf("Error loading configuration: %v", configError)
-		// util.LoggerErr("Error in config", err.Error())
+		// log.Fatalf("Error loading configuration: %v", configError)
+		util.LoggerErr("Error in config", configError.Error())
 	}
 
 	if ENV["debugging"] == true {
