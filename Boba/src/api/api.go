@@ -18,9 +18,11 @@ func setUp() {
 
 	if err != nil {
 		fmt.Println(err)
+
 	} else if !exists {
 		fmt.Println("File does not exist, creating it now.")
 		err = util.WriteToFile(filePath, data)
+
 		if err != nil {
 			fmt.Println("Error writing to file:", err)
 		} else {
