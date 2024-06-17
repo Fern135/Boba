@@ -1,3 +1,12 @@
+@import "bootstrap/scss/bootstrap"; //* use this
+@import '@fortawesome/fontawesome-free/css/all.css'; 
+
+
+body {
+  background-color: #282c34;
+  color: whitesmoke;
+}
+
 .App {
   text-align: center;
 }
