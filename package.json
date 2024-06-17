@@ -7,8 +7,7 @@
     "compile"   : "cd ./Boba/ && go build Boba.go && go run Boba.go && cd ../",
     "start"     : "cd ./Boba/ && go run Boba.go && cd ../",
 
-    "set-up" : "cd ./scripts && node cli.js -env && cd ../",
-    "deploy" : "cd ./scripts && node cli.js -d && cd ../"
+    "set-up" : "cd ./scripts && node cli.js && cd ../"
   },
   "keywords": [],
   "author": "Fernando Camblor",

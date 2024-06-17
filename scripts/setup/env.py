@@ -21,10 +21,10 @@ debugging=true
 """
 
     # Use the absolute path to ensure the file is written in the correct location
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    file_path = os.path.join(script_dir, ".env")
+    # script_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join("../../", ".env")
 
-    # print(f"Attempting to write to {file_path}")
+    print(f"Attempting to write to {file_path}")
 
     try:
         with open(file_path, "w") as env_file:
