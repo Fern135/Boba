@@ -1,6 +1,7 @@
 package main
 
 import (
+	"boba/src/api"
 	"boba/src/util"
 	"fmt"
 )
@@ -43,15 +44,12 @@ func runApp() {
 	// go func() {  }()
 
 	//#region install packages and databases needed
-	util.InstallPackages()
-	// util.ProgressBar(util.InstallPackages()) // loading bar based on how long packages take
-
-	util.InstallDatabases()
-	// util.ProgressBar(util.InstallDatabases()) // loading bar based on how long database take
+	go util.InstallPackages()
+	go util.InstallDatabases()
 	//#endregion
 
 	// setting up api
-	// api.SetUpApi()
+	api.SetUpApi() // inits db
 	// api.ApiStart()
 }
 
