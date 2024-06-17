@@ -41,7 +41,7 @@ function ToggleButton({ title }){
   return (
     <button 
       onClick={handleToggle} 
-      className={`btn ${isOn ? 'btn-success' : 'btn-danger'} btn-lg`}
+      className={`btn ${isOn ? 'btn-outline-success' : 'btn-outline-danger'} btn-lg`}
     >
       {isOn ? `${title}` : `${title}`}
     </button>
