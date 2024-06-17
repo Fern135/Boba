@@ -98,5 +98,5 @@ or delete
 ## Authors
 
 - [Fernando](https://github.com/Fern135)
-- [Paolo](https://github.com/lmaopaolo)
+<!---- - [Paolo](https://github.com/lmaopaolo) --->
 
