@@ -22,18 +22,23 @@ debugging=true
 
     # Use the absolute path to ensure the file is written in the correct location
     # script_dir = os.path.dirname(os.path.abspath(__file__))
+    # file_path = os.path.join("../../", ".env")
     file_path = os.path.join("../../", ".env")
 
     print(f"Attempting to write to {file_path}")
 
-    try:
-        with open(file_path, "w") as env_file:
-            env_file.write(env_data)
-            print("Data written to file successfully")
+    try:    
+        if not os.path.exists(file_path):
+            with open(file_path, "w") as env_file:
+                env_file.write(env_data)
+                print("Data written to file successfully")
+
+        else:
+            print(f"file {file_path} exists already")
 
     except Exception as e:
         print(f"Error: {str(e)}")
-        return  # Exit the function if an error occurs
+        # return  # Exit the function if an error occurs
 
     # print(f".env file written successfully at {file_path}")
 
