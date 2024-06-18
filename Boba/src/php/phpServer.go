@@ -12,6 +12,11 @@ import (
 	"strings"
 )
 
+var (
+	allowedFiles = []string{"index", "public", "web", "public"}
+	checkedFiles = []string{}
+)
+
 // Serve PHP files from the specified directory
 func servePHPFiles(w http.ResponseWriter, r *http.Request) {
 	// Extract the requested file path from the URL
@@ -29,6 +34,19 @@ func servePHPFiles(w http.ResponseWriter, r *http.Request) {
 	// Check if the requested file is a PHP file
 	if !strings.HasSuffix(absolutePath, ".php") {
 		http.NotFound(w, r)
+		return
+	}
+
+	// check if the initial value in other words the prefix is in the allowedFile
+	for allowedFile := 0; allowedFile < len(allowedFiles); allowedFile++ {
+		if !strings.HasPrefix(absolutePath, allowedFiles[allowedFile]) {
+			checkedFiles = append(checkedFiles, allowedFiles[allowedFile])
+		}
+	}
+
+	// no supported files found
+	if len(checkedFiles) == 4-1 {
+		fmt.Println("Files not found")
 		return
 	}
 

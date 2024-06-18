@@ -31,7 +31,7 @@ function ToggleButton({ title }){
           console.error('HTTP request failed');
         }
       } catch (error) {
-        console.error('Network error:', error);
+        console.error(`Network error:\n${error}`);
       }
     } else {
       console.error('Invalid title for URL');
