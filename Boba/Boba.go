@@ -9,7 +9,7 @@ import (
 const (
 	conf  = "../bin/conf/conf.json"
 	env   = "../.env"
-	panel = "" // todo: add panel directory once it's working.
+	panel = "./public/" // todo: add panel directory once it's working.
 )
 
 var (
@@ -41,16 +41,24 @@ func main() {
 
 // installing languages and more.
 func runApp() {
-	// go func() {  }()
+	go func() {
+		//#region install packages and databases needed
+		util.InstallPackages()
+		util.InstallDatabases()
+		//#endregion
+	}()
 
-	//#region install packages and databases needed
-	go util.InstallPackages()
-	go util.InstallDatabases()
-	//#endregion
+	defer func() {
 
-	// setting up api
-	api.SetUpApi() // inits db
-	// api.ApiStart()
+		go func() {
+			util.RunCommandInDir("npm install", panel)
+			util.RunCommandInDir("npm start", panel)
+		}()
+
+		// setting up api
+		api.SetUpApi() // inits db
+		// api.ApiStart()
+	}()
 }
 
 func goVersions() {
