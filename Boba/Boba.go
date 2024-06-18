@@ -49,18 +49,24 @@ func runApp() {
 	}()
 
 	defer func() {
-
+		// installing and running the panel. should be fairly quick. in theory
 		go func() {
-			util.RunCommandInDir("npm install", panel)
-			util.RunCommandInDir("npm start", panel)
+			if err := util.RunCommandInDir("npm install", panel); err != nil {
+				fmt.Println("Error:", err)
+			}
+
+			if err := util.RunCommandInDir("npm start", panel); err != nil {
+				fmt.Println("Error: ", err)
+			}
 		}()
 
 		// setting up api
-		api.SetUpApi() // inits db
+		go api.SetUpApi() // inits db. or at least it should :-/
 		// api.ApiStart()
 	}()
 }
 
+// #region simple message
 func goVersions() {
 	switch util.GetPcDevOs() {
 	case "Linux":
@@ -80,3 +86,5 @@ func loadMessages() {
 	fmt.Println("Node.js Version \t", config.LanguageVersions.NodeVersion)
 	fmt.Println("NPM Version 	 \t", config.LanguageVersions.NPMVersion)
 }
+
+//#endregion

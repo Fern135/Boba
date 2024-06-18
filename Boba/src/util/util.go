@@ -221,6 +221,7 @@ func GetEnv(filePath string) map[string]interface{} {
 			// Check if the key is "debugging" or "debug"
 			key := strings.TrimSpace(parts[0])
 			value := strings.TrimSpace(parts[1])
+
 			if key == "debugging" || key == "debug" {
 				// Check if the value is "true" or "false"
 				if value == "true" {
@@ -230,6 +231,7 @@ func GetEnv(filePath string) map[string]interface{} {
 				} else {
 					env[key] = value
 				}
+
 			} else {
 				env[key] = value
 			}
