@@ -447,6 +447,7 @@ func macInstall() {
 		fmt.Println("Error installing HomeBrew:\t", err)
 		return
 	}
+
 	// PHP
 	if !isInstalled("php") {
 		fmt.Println("Installing PHP...")
