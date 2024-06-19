@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-var urls = []string{
+var phpConfigUrls = []string{
 	"/",                // 0 [√]
 	"/create-project/", // 1 [√] -> connecting domain and db config,
 	"/read-project",    // 2 []
@@ -17,8 +17,8 @@ var urls = []string{
 // todo: CRUD (create, read, update and delete)
 func PhpRoutes() {
 	go func() {
-		http.HandleFunc(urls[0], php.Home)
-		http.HandleFunc(urls[1], php.CreateProject)
+		http.HandleFunc(phpConfigUrls[0], php.Home)
+		http.HandleFunc(phpConfigUrls[1], php.CreateProject)
 
 	}()
 }
