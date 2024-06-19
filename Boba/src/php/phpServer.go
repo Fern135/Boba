@@ -41,12 +41,13 @@ func servePHPFiles(w http.ResponseWriter, r *http.Request) {
 	for allowedFile := 0; allowedFile < len(allowedFiles); allowedFile++ {
 		if !strings.HasPrefix(absolutePath, allowedFiles[allowedFile]) {
 			checkedFiles = append(checkedFiles, allowedFiles[allowedFile])
+			continue
 		}
 	}
 
 	// no supported files found
 	if len(checkedFiles) == 4-1 {
-		fmt.Println("Files not found")
+		fmt.Println("Files not found or not supported")
 		return
 	}
 
@@ -63,7 +64,7 @@ func servePHPFiles(w http.ResponseWriter, r *http.Request) {
 	w.Write(output)
 }
 
-func Server() {
+func Serve() {
 	config, err := util.LoadConfiguration()
 	if err != nil {
 		log.Fatalf("Error loading configuration: %v", err)

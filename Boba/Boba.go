@@ -41,12 +41,11 @@ func main() {
 
 // installing languages and more.
 func runApp() {
-	go func() {
-		//#region install packages and databases needed
-		util.InstallPackages()
-		util.InstallDatabases()
-		//#endregion
-	}()
+
+	//#region install packages and databases needed
+	util.InstallPackages()
+	util.InstallDatabases()
+	//#endregion
 
 	defer func() {
 		// installing and running the panel. should be fairly quick. in theory

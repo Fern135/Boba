@@ -2,9 +2,12 @@ package util
 
 import (
 	"bufio"
+	"crypto/rand"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
+	"math/big"
 	"net"
 	"net/smtp"
 	"os"
@@ -64,6 +67,73 @@ func LoadConfiguration() (Configuration, error) {
 	return conf, nil
 }
 
+func UpdateJsonField(fieldName string, newValue interface{}) error {
+	filePath := config
+
+	file, err := os.Open(filePath)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	// Read file content
+	content, err := io.ReadAll(file)
+	if err != nil {
+		return err
+	}
+
+	// Unmarshal the JSON data into the struct
+	var config Configuration
+	err = json.Unmarshal(content, &config)
+	if err != nil {
+		return err
+	}
+
+	// Update the specific field based on fieldName
+	switch fieldName {
+	case "software-version":
+		config.SoftwareVersion = newValue.(string)
+	case "default-database":
+		config.DefaultDatabase = newValue.(string)
+	case "Is-Installed":
+		config.LanguageVersions.IsInstalled = newValue.(bool)
+	case "go-version":
+		config.LanguageVersions.GoVersion = newValue.([]string)
+	case "php-version":
+		config.LanguageVersions.PHPVersion = newValue.([]string)
+	case "python-version":
+		config.LanguageVersions.PythonVersion = newValue.([]string)
+	case "node-version":
+		config.LanguageVersions.NodeVersion = newValue.([]string)
+	case "npm-version":
+		config.LanguageVersions.NPMVersion = newValue.([]string)
+	case "time-format":
+		config.TimeFormat = newValue.([]string)
+	case "projects-path":
+		config.ProjectsPath = newValue.(string)
+	case "dns-port":
+		config.DNSPort = int(newValue.(float64)) // dns port
+	case "php-server-domain":
+		config.PHPPort = int(newValue.(float64)) // php port
+	default:
+		return fmt.Errorf("field name '%s' not recognized", fieldName)
+	}
+
+	// Marshal the updated struct back to JSON
+	updatedContent, err := json.MarshalIndent(config, "", "  ")
+	if err != nil {
+		return err
+	}
+
+	// Write the updated JSON data back to the file
+	err = os.WriteFile(filePath, updatedContent, 0644)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // ==================== write data to specific file directory ====================
 func WriteToFile(filepath string, data []byte) error {
 	// Open the file for writing with create and truncate permissions
@@ -76,6 +146,35 @@ func WriteToFile(filepath string, data []byte) error {
 	// Write the data to the file
 	_, err = f.Write(data)
 	return err
+}
+
+// ==================== return the characters which are supported ====================
+func getCharSet() string {
+	return "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{}|;:,.<>?/`~"
+}
+
+// ==================== generate alpha numeric string with len size ====================
+func GenerateRandomString(length int) (string, error) {
+	charset := getCharSet()
+
+	result := make([]byte, length) // turn into bytes
+	for i := range result {
+		num, err := rand.Int(rand.Reader, big.NewInt(int64(len(charset))))
+		if err != nil {
+			return "", err
+		}
+		result[i] = charset[num.Int64()]
+	}
+
+	return string(result), nil
+
+	// example: usage
+	// length := 16
+	// randomString, err := GenerateRandomString(length)
+	// if err != nil {
+	//     fmt.Println("Error:", err)
+	//     return
+	// }
 }
 
 /*
