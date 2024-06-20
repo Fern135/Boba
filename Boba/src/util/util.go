@@ -27,8 +27,27 @@ const (
 var config = "../bin/conf/conf.json"
 
 type Configuration struct {
-	SoftwareVersion  string `json:"software-version"`
-	DefaultDatabase  string `json:"default-database"`
+	SoftwareVersion string `json:"software-version"`
+	DefaultDatabase string `json:"default-database"`
+	DatabaseConfig  struct {
+		MySql struct {
+			host     string `json:"host"`
+			port     int    `json:"port"`
+			userName string `json:"username"`
+			password string `json:"password"`
+			dbName   string `json:"database-name"`
+		}
+		MariaDb struct {
+			host     string `json:"host"`
+			port     int    `json:"port"`
+			userName string `json:"username"`
+			password string `json:"password"`
+			dbName   string `json:"database-name"`
+		}
+		SqlLite3 struct {
+			dbName string `json:"database-name"`
+		}
+	}
 	LanguageVersions struct {
 		IsInstalled   bool     `json:"Is-Installed"`
 		GoVersion     []string `json:"go-version"`

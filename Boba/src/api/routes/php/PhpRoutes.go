@@ -6,11 +6,12 @@ import (
 )
 
 var phpConfigUrls = []string{
-	"/",                // 0 [√]
-	"/create-project/", // 1 [√] -> connecting domain and db config,
-	"/read-project",    // 2 []
-	"/read-projects",   // 3 []
-	"/update-projects", // 4 [] updating db, php config files,
+	"/",                             // 0 [√]
+	"/create-project/",              // 1 [√] -> connecting domain and db config,
+	"/projects/PHP/read-project/",   // 2 [] -> projectID at the end
+	"/projects/PHP/read-projects/",  // 3 []
+	"/projects/PHP/update-project/", // 4 [] -> db, php config files, projectID at the end
+	"/projects/PHP/delete-project/", // 5 [] -> projectID at the end
 }
 
 // todo: figure out how to make this work in terms of controller.

@@ -1,6 +1,25 @@
 {
     "software-version"  : "0.10.1",
-    "default-database" : "MySQL",
+    "default-database"  : "MySQL",
+    "database-conf"     : {
+        "MySQL" : { 
+            "host"          : "localhost",
+            "port"          : 3306,
+            "username"      : "root",
+            "password"      : "password",
+            "database-name" : "test"
+        },
+        "mariaDB" : { 
+            "host"          : "localhost",
+            "port"          : 3306,
+            "username"      : "root",
+            "password"      : "password",
+            "database-name" : "test"
+        },
+        "sqllite3" : {
+            "database-name" : "test.db"
+        }
+    },
     "language-versions" : {
         "Is-Installed"  : false,
         "go-version"        : [
