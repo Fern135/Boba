@@ -59,9 +59,10 @@ type Configuration struct {
 	TimeFormat   []string `json:"time-format"`
 	ProjectsPath string   `json:"projects-path"`
 	DNSPort      int      `json:"dns-port"`
-	PHPPort      int      `json:"php-server-domain"`
-	Domains      []struct {
+	// PHPPort      int      `json:"php-server-domain"` //"php-server-domain" : 8080,
+	Domains []struct {
 		Domain string `json:"domain"`
+		Port   int    `json:"port"`
 		Route  string `json:"route"`
 	} `json:"domains"`
 }
@@ -112,28 +113,41 @@ func UpdateJsonField(fieldName string, newValue interface{}) error {
 	switch fieldName {
 	case "software-version":
 		config.SoftwareVersion = newValue.(string)
+
 	case "default-database":
 		config.DefaultDatabase = newValue.(string)
+
 	case "Is-Installed":
 		config.LanguageVersions.IsInstalled = newValue.(bool)
+
 	case "go-version":
 		config.LanguageVersions.GoVersion = newValue.([]string)
+
 	case "php-version":
 		config.LanguageVersions.PHPVersion = newValue.([]string)
+
 	case "python-version":
 		config.LanguageVersions.PythonVersion = newValue.([]string)
+
 	case "node-version":
 		config.LanguageVersions.NodeVersion = newValue.([]string)
+
 	case "npm-version":
 		config.LanguageVersions.NPMVersion = newValue.([]string)
+
 	case "time-format":
 		config.TimeFormat = newValue.([]string)
+
 	case "projects-path":
 		config.ProjectsPath = newValue.(string)
+
 	case "dns-port":
-		config.DNSPort = int(newValue.(float64)) // dns port
-	case "php-server-domain":
-		config.PHPPort = int(newValue.(float64)) // php port
+		config.DNSPort = int(newValue.(float64)) // dns port. todo: may remove
+
+	// todo: make so domain, port and route can be changed via json.
+
+	// case "php-server-domain":
+	// 	config.PHPPort = int(newValue.(float64)) // php port
 	default:
 		return fmt.Errorf("field name '%s' not recognized", fieldName)
 	}
@@ -151,6 +165,16 @@ func UpdateJsonField(fieldName string, newValue interface{}) error {
 	}
 
 	return nil
+}
+
+// ==================== loads the domain per project  ====================
+func LoadDomainPerProject() {
+	// todo:
+}
+
+// ==================== loads the project Directory  ====================
+func LoadDomainProjectDir() {
+	// todo:
 }
 
 // ==================== write data to specific file directory ====================

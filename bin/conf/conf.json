@@ -46,18 +46,21 @@
     ],
     "projects-path"     : "../http_serve/",
     "dns-port"          : 56,
-    "php-server-domain" : 8080,
+    
     "domains"           : [
         {
             "domain": "boba.local",
+            "port" : 3000,
             "route" : "../../src/panel/frontend/panel/"
         },
         {
             "domain" : "api.boba.local",
+            "port" : 3001,
             "route" : "../../src/panel/server/"
         },
         {
             "domain": "https://www.google.com/",
+            "port" : "N/A",
             "route": "8.8.8.8"
         }
     ]

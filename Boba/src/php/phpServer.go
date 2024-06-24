@@ -5,6 +5,11 @@ import (
 	"fmt"
 )
 
+// var (
+// 	allowedFiles = []string{"index", "public", "web", "public"}
+// 	checkedFiles = []string{}
+// )
+
 func Server() {
 	conf, err := util.LoadConfiguration()
 	if err != nil {
@@ -15,16 +20,19 @@ func Server() {
 	util.GenerateRandomString(255)
 	fmt.Println(conf.SoftwareVersion)
 
+	// read file in http_server directory
+	// check if the name of the entry point == to allowedFiles
+	// if not append it ot checkedFiles,
+	// if files > len(allowedFiles) { fmt.Println("File not allowed") return false }
+	// else { return true }
+	// 		-> means it'll server the file from conf.json
+	// 		->  via php -S <hostname>:conf.PHPPort
+
 	// run commands to run the php server which runs
-	// 1 project in a "thread"
-	// php -S <nameOd>:<conf.PHPPort>
+	// 1 project in a "thread" or co routine aka "concurent"
+	// php -S <HostName>:<conf.PHPPort>
 
 }
-
-// var (
-// 	allowedFiles = []string{"index", "public", "web", "public"}
-// 	checkedFiles = []string{}
-// )
 
 // // Serve PHP files from the specified directory
 // func servePHPFiles(w http.ResponseWriter, r *http.Request) {
