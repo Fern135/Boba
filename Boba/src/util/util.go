@@ -219,6 +219,7 @@ func GenerateRandomString(length int) (string, error) {
 	fmt.Println("File already exists, not writing data.")
 	}
 */
+
 // ==================== checks if specific file in directory exists ====================
 func Exists(filepath string) (bool, error) {
 	_, err := os.Stat(filepath)
