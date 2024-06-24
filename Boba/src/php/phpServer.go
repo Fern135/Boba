@@ -10,12 +10,18 @@ var (
 	checkedFiles = []string{}
 )
 
+func setUp() {
+	fmt.Println("Setting up PHP Server...")
+}
+
 func StartServer() {
 	conf, err := util.LoadConfiguration()
 	if err != nil {
 		fmt.Println("Error loading configuration:", err)
 		return
 	}
+
+	go setUp()
 
 	util.GenerateRandomString(255)
 	fmt.Println(conf.SoftwareVersion)
