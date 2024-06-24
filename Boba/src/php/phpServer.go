@@ -5,12 +5,12 @@ import (
 	"fmt"
 )
 
-// var (
-// 	allowedFiles = []string{"index", "public", "web", "public"}
-// 	checkedFiles = []string{}
-// )
+var (
+	allowedFiles = []string{"index", "public", "web", "public"}
+	checkedFiles = []string{}
+)
 
-func Server() {
+func StartServer() {
 	conf, err := util.LoadConfiguration()
 	if err != nil {
 		fmt.Println("Error loading configuration:", err)
