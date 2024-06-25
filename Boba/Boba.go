@@ -49,15 +49,14 @@ func runApp() {
 
 	defer func() {
 		// installing and running the panel. should be fairly quick. in theory
-		go func() {
-			if err := util.RunCommandInDir("npm install", panel); err != nil {
-				fmt.Println("Error:", err)
-			}
+		// go func() {}()
+		if err := util.RunCommandInDir("npm install", panel); err != nil {
+			fmt.Println("Error:", err)
+		}
 
-			if err := util.RunCommandInDir("npm start", panel); err != nil {
-				fmt.Println("Error: ", err)
-			}
-		}()
+		if err := util.RunCommandInDir("npm start", panel); err != nil {
+			fmt.Println("Error: ", err)
+		}
 
 		// setting up api
 		go api.SetUpApi() // inits db. or at least it should :-/
