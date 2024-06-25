@@ -12,6 +12,7 @@ import (
 	"net/smtp"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"regexp"
 	"runtime"
 	"strings"
@@ -175,6 +176,39 @@ func LoadDomainPerProject() {
 // ==================== loads the project Directory  ====================
 func LoadDomainProjectDir() {
 	// todo:
+}
+
+// ==================== finds file type in dir  ====================
+func FindFileByType(dir, fileType string) (string, error) {
+	var foundFile string
+	err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		// Check if the current file matches the specified file type.
+		if !info.IsDir() && strings.HasSuffix(info.Name(), fileType) {
+			foundFile = path
+			return filepath.SkipDir // Stop walking once a file is found
+		}
+		return nil
+	})
+	if err != nil {
+		return "", err
+	}
+	if foundFile == "" {
+		return "", fmt.Errorf("no file with type %s found in directory %s", fileType, dir)
+	}
+	return foundFile, nil
+
+	// dir := "./path/to/directory" // Replace with the path to your directory
+	// fileType := ".txt"           // Replace with the desired file extension
+
+	// file, err := findFileByType(dir, fileType)
+	// if err != nil {
+	// 	fmt.Println("Error:", err)
+	// } else {
+	// 	fmt.Println("Found file:", file)
+	// }
 }
 
 // ==================== write data to specific file directory ====================
