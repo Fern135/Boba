@@ -58,9 +58,10 @@ func runApp() {
 			fmt.Println("Error: ", err)
 		}
 
-		// setting up api
+		//******************** setting up api ********************
 		go api.SetUpApi() // inits db. or at least it should :-/
 		// api.ApiStart()
+		//******************** setting up api ********************
 	}()
 }
 
