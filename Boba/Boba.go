@@ -4,6 +4,7 @@ import (
 	"boba/src/api"
 	"boba/src/util"
 	"fmt"
+	"sync"
 )
 
 const (
@@ -15,15 +16,8 @@ const (
 var (
 	ENV                 = util.GetEnv(env)
 	config, configError = util.LoadConfiguration()
+	wg                  sync.WaitGroup
 )
-
-// Access configuration values using nested keys
-// phpVersion := conf.LanguageVersions.PHPVersion[0]
-// fmt.Println("PHP Version:", phpVersion)
-
-// Accessing nested arrays or objects
-// firstDomain := conf.Domains[0]
-// fmt.Println("First Domain:", firstDomain.Domain)
 
 func main() {
 	if configError != nil {
@@ -33,10 +27,13 @@ func main() {
 
 	if ENV["debugging"] == true {
 		loadMessages()
-		defer runApp()
+		go runApp()
 	} else {
 		runApp()
 	}
+
+	// Wait for all goroutines to finish
+	wg.Wait()
 }
 
 // installing languages and more.
@@ -47,9 +44,12 @@ func runApp() {
 	util.InstallDatabases()
 	//#endregion
 
-	defer func() {
+	// Add to the WaitGroup before launching a goroutine
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+
 		// installing and running the panel. should be fairly quick. in theory
-		// go func() {}()
 		if err := util.RunCommandInDir("npm install", panel); err != nil {
 			fmt.Println("Error:", err)
 		}
@@ -59,7 +59,7 @@ func runApp() {
 		}
 
 		//******************** setting up api ********************
-		go api.SetUpApi() // inits db. or at least it should :-/
+		api.SetUpApi() // inits db. or at least it should :-/
 		// api.ApiStart()
 		//******************** setting up api ********************
 	}()
@@ -87,3 +87,11 @@ func loadMessages() {
 }
 
 //#endregion
+
+// Access configuration values using nested keys
+// phpVersion := conf.LanguageVersions.PHPVersion[0]
+// fmt.Println("PHP Version:", phpVersion)
+
+// Accessing nested arrays or objects
+// firstDomain := conf.Domains[0]
+// fmt.Println("First Domain:", firstDomain.Domain)
