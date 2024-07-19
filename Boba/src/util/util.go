@@ -344,6 +344,55 @@ func Logger(title, data string) bool {
 	return true
 }
 
+// ==================== running scripts to update host file when switching projects ====================
+func UpdateHostFile() error {
+	// hostname will change
+	// 127.0.0.1 <hostname>
+	localHost := ""
+	pcOs := GetPcDevOs()
+
+	// set the localhost depending on the os
+	switch pcOs {
+	case "Linux", "Mac":
+		localHost = "127.0.0.1"
+	case "Windows":
+		localHost = "localhost"
+	}
+
+	// change directory to the python script
+	if err := os.Chdir(""); err != nil {
+		return err
+	}
+
+	// check to know which python to run
+	switch pcOs {
+	case "Linux", "Mac":
+		fmt.Println("")
+
+	case "Windows":
+		fmt.Println("")
+	}
+
+	return nil
+
+	// 1 [√] get pc os to know which command to run
+	// 2 [] run specific python command depending on os
+	// 3 [] use RunCommandDir to call a python script to change the host name, using cli style
+}
+
+// ==================== running terminal command ====================
+func RunTerminalCommand(command string) error {
+	cmd := exec.Command("bash", "-c", command)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	if err := cmd.Run(); err != nil {
+		return err
+	}
+
+	return nil
+
+}
+
 // ==================== run specific command in directory ====================
 func RunCommandInDir(command, directory string) error {
 	if err := os.Chdir(directory); err != nil {

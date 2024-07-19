@@ -40,8 +40,8 @@ func main() {
 func runApp() {
 
 	//#region install packages and databases needed
-	util.InstallPackages()
-	util.InstallDatabases()
+	// util.InstallPackages()
+	// util.InstallDatabases()
 	//#endregion
 
 	// Add to the WaitGroup before launching a goroutine
