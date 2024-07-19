@@ -350,6 +350,7 @@ func UpdateHostFile() error {
 	// 127.0.0.1 <hostname>
 	localHost := ""
 	pcOs := GetPcDevOs()
+	hs := "../../../../scripts/hs"
 
 	// set the localhost depending on the os
 	switch pcOs {
@@ -360,7 +361,7 @@ func UpdateHostFile() error {
 	}
 
 	// change directory to the python script
-	if err := os.Chdir(""); err != nil {
+	if err := os.Chdir(hs); err != nil {
 		return err
 	}
 
@@ -371,6 +372,11 @@ func UpdateHostFile() error {
 
 	case "Windows":
 		fmt.Println("")
+	}
+
+	// changing directory back to where this file is in
+	if err := os.Chdir("../../Boba/src/util"); err != nil {
+		return err
 	}
 
 	return nil
